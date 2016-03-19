@@ -32,8 +32,9 @@ int main(int argc, char **argv) {
 	// GLUT initialization
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	//glutInitWindowSize();
+	glutInitWindowSize(400, 600);
 	glutCreateWindow("PACMAN");
+	glewInit();
 
 	// Initialization
 	Initialize();
