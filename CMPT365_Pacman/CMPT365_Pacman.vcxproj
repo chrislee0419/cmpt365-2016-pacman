@@ -67,9 +67,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu\Box.cpp" />
+    <ClCompile Include="menu\Button.cpp" />
     <ClCompile Include="shaders\ShaderLoader.cpp" />
+    <ClCompile Include="test\test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="menu\Box.h" />
+    <ClInclude Include="menu\Button.h" />
     <ClInclude Include="shaders\ShaderLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

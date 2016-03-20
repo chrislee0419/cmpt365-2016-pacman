@@ -1,9 +1,14 @@
+/*
+//	for CMPT 365 Term Project
+//	by Chris Lee - cla235
+*/
+
 #pragma once
 
 #include <iostream>
-#include "..\depend\freeglut\freeglut.h"
-#include "..\depend\glew\glew.h"
-#include "..\depend\glm\vec4.hpp"
+#include "..\..\depend\freeglut\freeglut.h"
+#include "..\..\depend\glew\glew.h"
+#include "..\..\depend\glm\vec4.hpp"
 
 class Box
 {
@@ -13,16 +18,16 @@ private:
 	GLuint vao;
 	GLuint position_vbo, colour_vbo;
 	static GLuint _vertex_position, _vertex_colour;
-	glm::vec4 vertices[30];
 
 	void _Init();
 	void _Assert();
 	void _SetValues(int xsize, int ysize, int xpos, int ypos);
 	void _SetColours(glm::vec4 outer_colour, glm::vec4 inner_colour);
-	void _CreateVerticesArray(glm::vec4 &vertices);
+	glm::vec4* _CreateVerticesArray();
 	void _CreateGLObjects();
 	void _PushVerticesToBuffer();
-	void _PushColourToBuffer();
+	void _PushColoursToBuffer();
+	void _Draw();
 
 public:
 	Box();
