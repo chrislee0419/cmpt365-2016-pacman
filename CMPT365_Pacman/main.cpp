@@ -3,6 +3,9 @@
 #include "depend\freeglut\freeglut.h"
 #include <iostream>
 #include "shaders\ShaderLoader.h"
+#include "depend\glm\vec3.hpp"
+#include "depend\glm\vec4.hpp"
+#include "depend\glm\mat4x4.hpp"
 
 // GLOBAL VARIABLES
 
