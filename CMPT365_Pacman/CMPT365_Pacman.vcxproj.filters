@@ -21,13 +21,13 @@
     <ClCompile Include="shaders\ShaderLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="menu\Button.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="test\test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="menu\Box.cpp">
+    <ClCompile Include="objects\menu\Box.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="objects\menu\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,10 +35,16 @@
     <ClInclude Include="shaders\ShaderLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="menu\Button.h">
+    <ClInclude Include="objects\menu\Box.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="menu\Box.h">
+    <ClInclude Include="objects\menu\Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\_colours.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

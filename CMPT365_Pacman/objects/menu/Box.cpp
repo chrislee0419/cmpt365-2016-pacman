@@ -6,6 +6,10 @@
 #include "Box.h"
 #include "..\_colours.h"
 
+// Globals
+GLuint Box::_vertex_position;
+GLuint Box::_vertex_colour;
+
 // Constructors
 Box::Box()
 {
@@ -33,7 +37,16 @@ Box::Box(int xsize, int ysize, int xpos, int ypos, glm::vec4 outer_colour, glm::
 	_CreateGLObjects();
 }
 
-// Deconstructor
+Box::Box(const Box &old_box)
+{
+	_Init();
+	_SetValues(old_box._xsize, old_box._ysize, old_box._xpos, old_box._ypos);
+	_Assert();
+	_SetColours(old_box._outer_colour, old_box._inner_colour);
+	_CreateGLObjects();
+}
+
+// Destructor
 Box::~Box()
 {
 	if ( glIsBuffer(position_vbo) == GL_TRUE )
@@ -87,6 +100,12 @@ void Box::SetXPosition(int x)
 void Box::SetYPosition(int y)
 {
 	_ypos = y;
+	_Assert();
+}
+
+void Box::Translate(int x, int y)
+{
+	_SetValues(_xsize, _ysize, _xpos + x, _xpos + y);
 	_Assert();
 }
 
@@ -203,6 +222,8 @@ glm::vec4* Box::_CreateVerticesArray()
 	vertices[27] = glm::vec4(_xpos + _xsize - 2, _ypos, 0.0, 1.0);
 	vertices[28] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.0, 1.0);
 	vertices[29] = glm::vec4(_xpos + _xsize - 2, _ypos + _ysize, 0.0, 1.0);
+
+	return vertices;
 }
 
 void Box::_CreateGLObjects()

@@ -6,8 +6,8 @@
 #pragma once
 
 #include <iostream>
-#include "..\..\depend\freeglut\freeglut.h"
 #include "..\..\depend\glew\glew.h"
+#include "..\..\depend\freeglut\freeglut.h"
 #include "..\..\depend\glm\vec4.hpp"
 
 class Box
@@ -33,6 +33,7 @@ public:
 	Box();
 	Box(int xsize, int ysize, int xpos, int ypos);
 	Box(int xsize, int ysize, int xpos, int ypos, glm::vec4 outer_colour, glm::vec4 inner_colour);
+	Box(const Box &old_box);
 	~Box();
 
 	int GetXSize();
@@ -44,6 +45,7 @@ public:
 	void SetYSize(int y);
 	void SetXPosition(int x);
 	void SetYPosition(int y);
+	void Translate(int x, int y);
 	void SetOuterColour(glm::vec4 colour);
 	void SetInnerColour(glm::vec4 colour);
 	static void SetVertexAttributes(GLuint vertex_position, GLuint vertex_colour);

@@ -2,7 +2,7 @@
 
 in vec4 vPosition;
 in vec4 vColour;
-out vec4 colour
+out vec4 colour;
 
 uniform int xsize;
 uniform int ysize;
@@ -16,7 +16,7 @@ void main(void) {
 		0.0,		0.0,		0.0,	0.0
 	);
 
-	vec4 position = vPosition + vec4(0, 0, 0, 0);
+	vec4 position = vPosition + vec4(-400, -400, 0, 0);
 	gl_Position = scale * position;
 
 	colour = vColour;
