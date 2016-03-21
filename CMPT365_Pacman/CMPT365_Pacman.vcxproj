@@ -70,14 +70,12 @@
     <ClCompile Include="objects\menu\Box.cpp" />
     <ClCompile Include="objects\menu\Button.cpp" />
     <ClCompile Include="shaders\ShaderLoader.cpp" />
-    <ClCompile Include="test\test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="objects\menu\Box.h" />
     <ClInclude Include="objects\menu\Button.h" />
     <ClInclude Include="objects\_colours.h" />
     <ClInclude Include="shaders\ShaderLoader.h" />
-    <ClInclude Include="test\test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

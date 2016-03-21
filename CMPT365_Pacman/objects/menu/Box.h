@@ -51,5 +51,8 @@ public:
 	static void SetVertexAttributes(GLuint vertex_position, GLuint vertex_colour);
 
 	void Draw(int x_translate, int y_translate);
+
+	static Box* CreateTestBox(GLuint vertex_position, GLuint vertex_colour);
+	static void DisplayTestBox(Box* box_objects);
 };
 

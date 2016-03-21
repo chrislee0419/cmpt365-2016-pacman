@@ -283,3 +283,36 @@ void Box::_Draw()
 	glDrawArrays(GL_TRIANGLES, 0, 30);
 	glBindVertexArray(0);
 }
+
+// Testing methods
+Box* Box::CreateTestBox(GLuint vertex_position, GLuint vertex_colour)
+{
+	Box::SetVertexAttributes(vertex_position, vertex_colour);
+	Box* box_objects = new Box[10];
+	box_objects[0] = Box();
+	box_objects[1] = Box(100, 200, 0, 600);
+	box_objects[2] = Box(100, 100, 100, 700, CYAN, RED);
+	box_objects[3] = Box(box_objects[2]);
+	box_objects[3].SetXPosition(200);
+	box_objects[4] = Box(box_objects[2]);
+	box_objects[4].SetYPosition(600);
+	box_objects[5] = Box(10, 10, 700, 0, LIGHTBLUE, WHITE);
+	box_objects[5].SetXSize(100);
+	box_objects[6] = Box(box_objects[5]);
+	box_objects[6].SetYSize(100);
+	box_objects[7] = Box(150, 150, 400, 400, PINK, YELLOW);
+	box_objects[7].Translate(250, 250);
+	box_objects[8] = Box(150, 150, 300, 300);
+	box_objects[8].SetInnerColour(ORANGE);
+	box_objects[8].SetOuterColour(GOLD);
+	box_objects[9] = Box();
+
+	return box_objects;
+}
+
+void Box::DisplayTestBox(Box* box_objects)
+{
+	for (int i = 0; i < 9; i++)
+		box_objects[i].Draw(0, 0);
+	box_objects[9].Draw(20, 20);
+}

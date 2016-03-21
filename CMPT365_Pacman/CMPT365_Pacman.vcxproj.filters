@@ -15,19 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="shaders\ShaderLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="test\test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="objects\menu\Box.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="objects\menu\Button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -42,9 +39,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="objects\_colours.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="test\test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

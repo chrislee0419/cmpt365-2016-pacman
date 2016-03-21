@@ -9,7 +9,7 @@
 #include "depend\glm\vec4.hpp"
 #include "depend\glm\mat4x4.hpp"
 
-#include "test\Test.h"
+using namespace std;
 
 // GLOBAL VARIABLES
 int window_x = 800;
@@ -19,7 +19,8 @@ GLuint loc_x, loc_y;		// used for scaling after resizing windows
 GLuint program;				// used to store shader program
 GLuint vertex_position, vertex_colour;	// used to store vertex attributes
 
-void Initialize() {
+void Initialize()
+{
 	// Prepare shaders
 	Core::ShaderLoader shader_loader;
 	program = shader_loader.CreateProgram("shaders\\vshader.glsl", "shaders\\fshader.glsl");
@@ -38,29 +39,38 @@ void Initialize() {
 	glDepthFunc(GL_LESS);
 }
 
-void Display() {
-
+void Display()
+{
 
 	glutSwapBuffers();
+}
+
+void Keyboard(unsigned char key, int x, int y)
+{
+
 }
 
 int main(int argc, char **argv) {
 
 	// GLUT initialization
 	glutInit(&argc, argv);
+	glutInitContextVersion(3, 3);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(800, 800);
 	glutCreateWindow("Pacman");
-	glewInit();
+	glewExperimental = GL_TRUE;
+	if (glewInit() != GLEW_OK)
+	{
+		printf("GLEW failed to init");
+		return 1;
+	}
 
 	// Initialization
 	Initialize();
 
-	// Test
-
-
 	// Callback registration
 	glutDisplayFunc(Display);
+	glutKeyboardFunc(Keyboard);
 
 	glutMainLoop();
 
