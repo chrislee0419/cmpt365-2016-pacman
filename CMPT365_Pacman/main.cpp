@@ -9,9 +9,14 @@
 #include "depend\glm\vec4.hpp"
 #include "depend\glm\mat4x4.hpp"
 
+#include "test\test.h"
+
 using namespace std;
 
 // GLOBAL VARIABLES
+bool enable_test = true;
+Test tester_object;
+
 int window_x = 800;
 int window_y = 800;
 
@@ -39,15 +44,27 @@ void Initialize()
 	glDepthFunc(GL_LESS);
 }
 
+void Cleanup()
+{
+
+}
+
 void Display()
 {
+	if (enable_test)
+		tester_object.DisplayTest();
 
 	glutSwapBuffers();
 }
 
 void Keyboard(unsigned char key, int x, int y)
 {
-
+	switch (key)
+	{
+	case 'q':
+		Cleanup();
+		exit(EXIT_SUCCESS);
+	}
 }
 
 int main(int argc, char **argv) {
@@ -67,6 +84,13 @@ int main(int argc, char **argv) {
 
 	// Initialization
 	Initialize();
+
+	// Testing
+	if (enable_test)
+	{
+		Test::SetVertexAttributes(vertex_position, vertex_colour);
+		tester_object.SetupTest();
+	}
 
 	// Callback registration
 	glutDisplayFunc(Display);

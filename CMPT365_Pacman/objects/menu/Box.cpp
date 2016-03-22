@@ -4,7 +4,7 @@
 */
 
 #include "Box.h"
-#include "..\_colours.h"
+#include "..\..\test\test.h"
 
 // Globals
 GLuint Box::_vertex_position;
@@ -16,7 +16,6 @@ Box::Box()
 	_Init();
 	_SetValues(40, 20, 0, 0);
 	_SetColours(WHITE, BLACK);
-	_CreateGLObjects();
 }
 
 Box::Box(int xsize, int ysize, int xpos, int ypos)
@@ -25,7 +24,6 @@ Box::Box(int xsize, int ysize, int xpos, int ypos)
 	_SetValues(xsize, ysize, xpos, ypos);
 	_Assert();
 	_SetColours(WHITE, BLACK);
-	_CreateGLObjects();
 }
 
 Box::Box(int xsize, int ysize, int xpos, int ypos, glm::vec4 outer_colour, glm::vec4 inner_colour)
@@ -34,7 +32,6 @@ Box::Box(int xsize, int ysize, int xpos, int ypos, glm::vec4 outer_colour, glm::
 	_SetValues(xsize, ysize, xpos, ypos);
 	_Assert();
 	_SetColours(outer_colour, inner_colour);
-	_CreateGLObjects();
 }
 
 Box::Box(const Box &old_box)
@@ -131,6 +128,9 @@ void Box::SetVertexAttributes(GLuint vertex_position, GLuint vertex_colour)
 // Rendering method
 void Box::Draw(int x_translate, int y_translate)
 {
+	if (!_ready)
+		_CreateGLObjects();
+
 	int old_xpos, old_ypos;
 	if (x_translate != 0 || y_translate != 0)
 	{
@@ -157,14 +157,28 @@ void Box::_Init()
 	colour_vbo = 0;
 	_vertex_position = 0;
 	_vertex_colour = 0;
+	_ready = false;
 }
 
-void Box::_Assert()
+bool Box::_Assert()
 {
-	assert(_xsize > 4 && "Box has invalid xsize");
-	assert(_ysize > 4 && "Box has invalid ysize");
-	assert(_xpos >= 0 && _xpos <= 800 && "Box has invalid xpos");
-	assert(_ypos >= 0 && _ypos <= 800 && "Box has invalid ypos");
+	if (_xsize < 5)
+	{
+		printf("Box (_Assert): invalid _xsize (%d).\n", _xsize);
+		return false;
+	}
+	if (_ysize < 5)
+	{
+		printf("Box (_Assert): invalid _ysize (%d).\n", _ysize);
+		return false;
+	}
+
+	return true;
+		
+	// assert(_xsize > 4 && "Box has invalid xsize");
+	// assert(_ysize > 4 && "Box has invalid ysize");
+	// assert(_xpos >= 0 && _xpos <= 800 && "Box has invalid xpos");
+	// assert(_ypos >= 0 && _ypos <= 800 && "Box has invalid ypos");
 }
 
 void Box::_SetValues(int xsize, int ysize, int xpos, int ypos)
@@ -183,6 +197,7 @@ void Box::_SetColours(glm::vec4 outer_colour, glm::vec4 inner_colour)
 
 glm::vec4* Box::_CreateVerticesArray()
 {
+	// object origin at bottom left corner
 	// 6 vertices for box background
 	// 4*6 = 24 vertices for box border
 	glm::vec4 *vertices = new glm::vec4[30];
@@ -228,6 +243,12 @@ glm::vec4* Box::_CreateVerticesArray()
 
 void Box::_CreateGLObjects()
 {
+	if (!_Assert())
+	{
+		printf("Box (_CreateGLObjects): failed _Assert, did not create objects.\n");
+		return;
+	}
+
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	glGenBuffers(1, &position_vbo);
@@ -254,6 +275,8 @@ void Box::_CreateGLObjects()
 	// Unbinding
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+
+	_ready = true;
 }
 
 void Box::_PushVerticesToBuffer()
@@ -285,10 +308,10 @@ void Box::_Draw()
 }
 
 // Testing methods
-Box* Box::CreateTestBox(GLuint vertex_position, GLuint vertex_colour)
+void Test::_CreateBoxTest()
 {
-	Box::SetVertexAttributes(vertex_position, vertex_colour);
-	Box* box_objects = new Box[10];
+	Box::SetVertexAttributes(_vertex_position, _vertex_colour);
+	box_objects = new Box[10];
 	box_objects[0] = Box();
 	box_objects[1] = Box(100, 200, 0, 600);
 	box_objects[2] = Box(100, 100, 100, 700, CYAN, RED);
@@ -306,11 +329,9 @@ Box* Box::CreateTestBox(GLuint vertex_position, GLuint vertex_colour)
 	box_objects[8].SetInnerColour(ORANGE);
 	box_objects[8].SetOuterColour(GOLD);
 	box_objects[9] = Box();
-
-	return box_objects;
 }
 
-void Box::DisplayTestBox(Box* box_objects)
+void Test::_DisplayBoxTest()
 {
 	for (int i = 0; i < 9; i++)
 		box_objects[i].Draw(0, 0);

@@ -9,6 +9,7 @@
 #include "..\..\depend\glew\glew.h"
 #include "..\..\depend\freeglut\freeglut.h"
 #include "..\..\depend\glm\vec4.hpp"
+#include "..\_colours.h"
 
 class Box
 {
@@ -18,9 +19,10 @@ private:
 	GLuint vao;
 	GLuint position_vbo, colour_vbo;
 	static GLuint _vertex_position, _vertex_colour;
+	bool _ready;
 
 	void _Init();
-	void _Assert();
+	bool _Assert();
 	void _SetValues(int xsize, int ysize, int xpos, int ypos);
 	void _SetColours(glm::vec4 outer_colour, glm::vec4 inner_colour);
 	glm::vec4* _CreateVerticesArray();
