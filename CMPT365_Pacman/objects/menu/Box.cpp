@@ -16,7 +16,6 @@ Box::Box()
 	_Init();
 	_SetValues(40, 20, 0, 0);
 	_SetColours(WHITE, BLACK);
-	_CreateGLObjects();
 }
 
 Box::Box(int xsize, int ysize, int xpos, int ypos)
@@ -25,7 +24,6 @@ Box::Box(int xsize, int ysize, int xpos, int ypos)
 	_SetValues(xsize, ysize, xpos, ypos);
 	_Assert();
 	_SetColours(WHITE, BLACK);
-	_CreateGLObjects();
 }
 
 Box::Box(int xsize, int ysize, int xpos, int ypos, glm::vec4 outer_colour, glm::vec4 inner_colour)
@@ -34,7 +32,6 @@ Box::Box(int xsize, int ysize, int xpos, int ypos, glm::vec4 outer_colour, glm::
 	_SetValues(xsize, ysize, xpos, ypos);
 	_Assert();
 	_SetColours(outer_colour, inner_colour);
-	_CreateGLObjects();
 }
 
 Box::Box(const Box &old_box)
@@ -43,7 +40,6 @@ Box::Box(const Box &old_box)
 	_SetValues(old_box._xsize, old_box._ysize, old_box._xpos, old_box._ypos);
 	_Assert();
 	_SetColours(old_box._outer_colour, old_box._inner_colour);
-	_CreateGLObjects();
 }
 
 // Destructor
@@ -140,6 +136,7 @@ void Box::Draw(int x_translate, int y_translate)
 		_SetValues(_xsize, _ysize, _xpos + x_translate, _ypos + y_translate);
 		_Assert();
 	}
+	if (!_ready) _CreateGLObjects();
 
 	_Draw();
 	
@@ -155,16 +152,17 @@ void Box::_Init()
 	vao = 0;
 	position_vbo = 0;
 	colour_vbo = 0;
+	_ready = false;
 }
 
 bool Box::_Assert()
 {
-	if (_xsize < 5)
+	if (_xsize < 11)
 	{
 		printf("Box (_Assert): invalid _xsize (%d).\n", _xsize);
 		return false;
 	}
-	if (_ysize < 5)
+	if (_ysize < 11)
 	{
 		printf("Box (_Assert): invalid _ysize (%d).\n", _ysize);
 		return false;
@@ -200,40 +198,40 @@ glm::vec4* Box::_CreateVerticesArray()
 	glm::vec4 *vertices = new glm::vec4[30];
 
 	// Background
-	vertices[0] = glm::vec4(_xpos, _ypos, 0.0, 1.0);
-	vertices[1] = glm::vec4(_xpos + _xsize, _ypos, 0.0, 1.0);
-	vertices[2] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.0, 1.0);
-	vertices[3] = glm::vec4(_xpos, _ypos, 0.0, 1.0);
-	vertices[4] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.0, 1.0);
-	vertices[5] = glm::vec4(_xpos, _ypos + _ysize, 0.0, 1.0);
+	vertices[0] = glm::vec4(_xpos, _ypos, 0.01, 1.0);
+	vertices[1] = glm::vec4(_xpos + _xsize, _ypos, 0.01, 1.0);
+	vertices[2] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.01, 1.0);
+	vertices[3] = glm::vec4(_xpos, _ypos, 0.01, 1.0);
+	vertices[4] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.01, 1.0);
+	vertices[5] = glm::vec4(_xpos, _ypos + _ysize, 0.01, 1.0);
 	// Bottom border
 	vertices[6] = glm::vec4(_xpos, _ypos, 0.0, 1.0);
 	vertices[7] = glm::vec4(_xpos + _xsize, _ypos, 0.0, 1.0);
-	vertices[8] = glm::vec4(_xpos + _xsize, _ypos + 2, 0.0, 1.0);
+	vertices[8] = glm::vec4(_xpos + _xsize, _ypos + 5, 0.0, 1.0);
 	vertices[9] = glm::vec4(_xpos, _ypos, 0.0, 1.0);
-	vertices[10] = glm::vec4(_xpos + _xsize, _ypos + 2, 0.0, 1.0);
-	vertices[11] = glm::vec4(_xpos, _ypos + 2, 0.0, 1.0);
+	vertices[10] = glm::vec4(_xpos + _xsize, _ypos + 5, 0.0, 1.0);
+	vertices[11] = glm::vec4(_xpos, _ypos + 5, 0.0, 1.0);
 	// Top border
-	vertices[12] = glm::vec4(_xpos, _ypos + _ysize - 2, 0.0, 1.0);
-	vertices[13] = glm::vec4(_xpos + _xsize, _ypos + _ysize - 2, 0.0, 1.0);
+	vertices[12] = glm::vec4(_xpos, _ypos + _ysize - 5, 0.0, 1.0);
+	vertices[13] = glm::vec4(_xpos + _xsize, _ypos + _ysize - 5, 0.0, 1.0);
 	vertices[14] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.0, 1.0);
-	vertices[15] = glm::vec4(_xpos, _ypos + _ysize - 2, 0.0, 1.0);
+	vertices[15] = glm::vec4(_xpos, _ypos + _ysize - 5, 0.0, 1.0);
 	vertices[16] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.0, 1.0);
 	vertices[17] = glm::vec4(_xpos, _ypos + _ysize, 0.0, 1.0);
 	// Left border
 	vertices[18] = glm::vec4(_xpos, _ypos, 0.0, 1.0);
-	vertices[19] = glm::vec4(_xpos + 2, _ypos, 0.0, 1.0);
-	vertices[20] = glm::vec4(_xpos + 2, _ypos + _ysize, 0.0, 1.0);
+	vertices[19] = glm::vec4(_xpos + 5, _ypos, 0.0, 1.0);
+	vertices[20] = glm::vec4(_xpos + 5, _ypos + _ysize, 0.0, 1.0);
 	vertices[21] = glm::vec4(_xpos, _ypos, 0.0, 1.0);
-	vertices[22] = glm::vec4(_xpos + 2, _ypos + _ysize, 0.0, 1.0);
+	vertices[22] = glm::vec4(_xpos + 5, _ypos + _ysize, 0.0, 1.0);
 	vertices[23] = glm::vec4(_xpos, _ypos + _ysize, 0.0, 1.0);
 	// Right border
-	vertices[24] = glm::vec4(_xpos + _xsize - 2, _ypos, 0.0, 1.0);
+	vertices[24] = glm::vec4(_xpos + _xsize - 5, _ypos, 0.0, 1.0);
 	vertices[25] = glm::vec4(_xpos + _xsize, _ypos, 0.0, 1.0);
 	vertices[26] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.0, 1.0);
-	vertices[27] = glm::vec4(_xpos + _xsize - 2, _ypos, 0.0, 1.0);
+	vertices[27] = glm::vec4(_xpos + _xsize - 5, _ypos, 0.0, 1.0);
 	vertices[28] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.0, 1.0);
-	vertices[29] = glm::vec4(_xpos + _xsize - 2, _ypos + _ysize, 0.0, 1.0);
+	vertices[29] = glm::vec4(_xpos + _xsize - 5, _ypos + _ysize, 0.0, 1.0);
 
 	return vertices;
 }
@@ -247,14 +245,14 @@ void Box::_CreateGLObjects()
 
 	glm::vec4 *vertices = _CreateVerticesArray();
 
-	// Store vertices in buffer
+	// Store vertex positions in buffer
 	glBindBuffer(GL_ARRAY_BUFFER, position_vbo);
 	glBufferData(GL_ARRAY_BUFFER, 30*sizeof(glm::vec4), vertices, GL_STATIC_DRAW);
 	glVertexAttribPointer(_vertex_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(_vertex_position);
 	delete[] vertices;
 
-	// Store colours in buffer
+	// Store vertex colours in buffer
 	glm::vec4 colours[30];
 	for (int i = 0; i < 6; i++) colours[i] = _inner_colour;
 	for (int i = 6; i < 30; i++) colours[i] = _outer_colour;
@@ -266,6 +264,9 @@ void Box::_CreateGLObjects()
 	// Unbinding
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+
+	_ready = true;
+	printf("vao: %d, pos: %d, col: %d\n", vao, position_vbo, colour_vbo);
 }
 
 void Box::_PushVerticesToBuffer()
@@ -300,23 +301,35 @@ void Box::_Draw()
 void Test::_CreateBoxTest()
 {
 	Box::SetVertexAttributes(_vertex_position, _vertex_colour);
-	box_objects = new Box[10];
+	printf("suh\n");
+	box_objects = (Box*) malloc(sizeof(Box) * 10);
+	printf("dude\n");
+	printf("1: ");
 	box_objects[0] = Box();
+	printf("2: ");
 	box_objects[1] = Box(100, 200, 0, 600);
+	printf("3: ");
 	box_objects[2] = Box(100, 100, 100, 700, CYAN, RED);
+	printf("4: ");
 	box_objects[3] = Box(box_objects[2]);
 	box_objects[3].SetXPosition(200);
+	printf("5: ");
 	box_objects[4] = Box(box_objects[2]);
 	box_objects[4].SetYPosition(600);
+	printf("6: ");
 	box_objects[5] = Box(10, 10, 700, 0, LIGHTBLUE, WHITE);
 	box_objects[5].SetXSize(100);
+	printf("7: ");
 	box_objects[6] = Box(box_objects[5]);
 	box_objects[6].SetYSize(100);
+	printf("8: ");
 	box_objects[7] = Box(150, 150, 400, 400, PINK, YELLOW);
 	box_objects[7].Translate(250, 250);
+	printf("9: ");
 	box_objects[8] = Box(150, 150, 300, 300);
 	box_objects[8].SetInnerColour(ORANGE);
 	box_objects[8].SetOuterColour(GOLD);
+	printf("10: ");
 	box_objects[9] = Box();
 }
 

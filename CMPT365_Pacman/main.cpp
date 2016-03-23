@@ -37,8 +37,6 @@ void Initialize()
 	vertex_position = glGetAttribLocation(program, "vPosition");
 	vertex_colour = glGetAttribLocation(program, "vColour");
 
-	printf("%d, %d\n", vertex_position, vertex_colour);
-
 	loc_x = glGetUniformLocation(program, "xsize");
 	loc_y = glGetUniformLocation(program, "ysize");
 
@@ -100,7 +98,7 @@ void test()
 	glBindVertexArray(vao);
 	glGenBuffers(1, &pos_vbo);
 	glGenBuffers(1, &col_vbo);
-	glm::vec4 vertices[3] = { glm::vec4(0, 0, 0, 1), glm::vec4(200, 0, 0, 1), glm::vec4(0, 200, 0, 1) };
+	glm::vec4 vertices[3] = { glm::vec4(0, 0, 0, 1), glm::vec4(800, 0, 0, 1), glm::vec4(0, 800, 0, 1) };
 	glBindBuffer(GL_ARRAY_BUFFER, pos_vbo);
 	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(glm::vec4), vertices, GL_STATIC_DRAW);
 	glVertexAttribPointer(vertex_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
@@ -135,7 +133,7 @@ int main(int argc, char **argv) {
 	// Testing
 	if (enable_test)
 	{
-		test();
+		//test();
 		Test::SetVertexAttributes(vertex_position, vertex_colour);
 		tester_object = new Test();
 		tester_object->SetupTest();

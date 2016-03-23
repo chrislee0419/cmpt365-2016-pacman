@@ -11,7 +11,8 @@ Test::Test() {}
 // Destructor
 Test::~Test()
 {
-	delete[] box_objects;
+	//delete[] box_objects;
+	free(box_objects);
 }
 
 void Test::SetupTest()

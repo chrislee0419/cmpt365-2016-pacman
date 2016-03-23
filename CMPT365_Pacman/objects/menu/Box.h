@@ -19,6 +19,7 @@ private:
 	GLuint vao;
 	GLuint position_vbo, colour_vbo;
 	static GLuint _vertex_position, _vertex_colour;
+	bool _ready;
 
 	void _Init();
 	bool _Assert();
