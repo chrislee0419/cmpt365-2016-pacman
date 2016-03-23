@@ -15,7 +15,10 @@ using namespace std;
 
 // GLOBAL VARIABLES
 bool enable_test = true;
-Test tester_object;
+Test *tester_object;
+
+GLuint vao;
+GLuint pos_vbo, col_vbo;
 
 int window_x = 800;
 int window_y = 800;
@@ -34,8 +37,10 @@ void Initialize()
 	vertex_position = glGetAttribLocation(program, "vPosition");
 	vertex_colour = glGetAttribLocation(program, "vColour");
 
-	loc_x = glGetAttribLocation(program, "xsize");
-	loc_y = glGetAttribLocation(program, "ysize");
+	printf("%d, %d\n", vertex_position, vertex_colour);
+
+	loc_x = glGetUniformLocation(program, "xsize");
+	loc_y = glGetUniformLocation(program, "ysize");
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -46,13 +51,28 @@ void Initialize()
 
 void Cleanup()
 {
+	delete tester_object;
+}
 
+void testdisp()
+{
+	glBindVertexArray(vao);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glBindVertexArray(0);
 }
 
 void Display()
 {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glUniform1i(loc_x, window_x);
+	glUniform1i(loc_y, window_y);
+
 	if (enable_test)
-		tester_object.DisplayTest();
+	{
+		//testdisp();
+		tester_object->DisplayTest();
+	}
 
 	glutSwapBuffers();
 }
@@ -67,13 +87,40 @@ void Keyboard(unsigned char key, int x, int y)
 	}
 }
 
+void Reshape(GLsizei w, GLsizei h)
+{
+	window_x = w;
+	window_y = h;
+	glViewport(0, 0, w, h);
+}
+
+void test()
+{
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+	glGenBuffers(1, &pos_vbo);
+	glGenBuffers(1, &col_vbo);
+	glm::vec4 vertices[3] = { glm::vec4(0, 0, 0, 1), glm::vec4(200, 0, 0, 1), glm::vec4(0, 200, 0, 1) };
+	glBindBuffer(GL_ARRAY_BUFFER, pos_vbo);
+	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(glm::vec4), vertices, GL_STATIC_DRAW);
+	glVertexAttribPointer(vertex_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(vertex_position);
+	glm::vec4 colours[3] = { glm::vec4(1, 0, 0, 1), glm::vec4(0, 1, 0, 1), glm::vec4(0, 0, 1, 1) };
+	glBindBuffer(GL_ARRAY_BUFFER, col_vbo);
+	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(glm::vec4), colours, GL_STATIC_DRAW);
+	glVertexAttribPointer(vertex_colour, 4, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(vertex_colour);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
+
 int main(int argc, char **argv) {
 
 	// GLUT initialization
 	glutInit(&argc, argv);
 	glutInitContextVersion(3, 3);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	glutInitWindowSize(800, 800);
+	glutInitWindowSize(window_x, window_y);
 	glutCreateWindow("Pacman");
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
@@ -88,13 +135,16 @@ int main(int argc, char **argv) {
 	// Testing
 	if (enable_test)
 	{
+		test();
 		Test::SetVertexAttributes(vertex_position, vertex_colour);
-		tester_object.SetupTest();
+		tester_object = new Test();
+		tester_object->SetupTest();
 	}
 
 	// Callback registration
 	glutDisplayFunc(Display);
 	glutKeyboardFunc(Keyboard);
+	glutReshapeFunc(Reshape);
 
 	glutMainLoop();
 

@@ -21,7 +21,6 @@ void Test::SetupTest()
 
 void Test::DisplayTest()
 {
-	printf("testing\n");
 	_DisplayBoxTest();
 }
 
