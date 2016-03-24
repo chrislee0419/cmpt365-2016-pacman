@@ -5,6 +5,7 @@
 
 #include "Box.h"
 #include "..\..\test\test.h"
+#include "..\..\test\_util.h"
 
 // Globals
 GLuint Box::_vertex_position;
@@ -128,15 +129,17 @@ void Box::SetVertexAttributes(GLuint vertex_position, GLuint vertex_colour)
 void Box::Draw(int x_translate, int y_translate)
 {
 	int old_xpos, old_ypos;
+
+	if ( !_Assert() )
+		return;
+
 	if (x_translate != 0 || y_translate != 0)
 	{
 		old_xpos = _xpos;
 		old_ypos = _ypos;
 
 		_SetValues(_xsize, _ysize, _xpos + x_translate, _ypos + y_translate);
-		_Assert();
 	}
-	if (!_ready) _CreateGLObjects();
 
 	_Draw();
 	
@@ -238,35 +241,48 @@ glm::vec4* Box::_CreateVerticesArray()
 
 void Box::_CreateGLObjects()
 {
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	glGenBuffers(1, &position_vbo);
-	glGenBuffers(1, &colour_vbo);
-
-	glm::vec4 *vertices = _CreateVerticesArray();
+	// Prepare VAO and VBOs
+	if ( !glIsVertexArray(vao) )
+	{
+		glGenVertexArrays(1, &vao);
+		if (!glIsVertexArray(vao))
+		{
+			printf("[unsuccessful (%d)], ", vao);
+		}
+		glBindVertexArray(vao);
+		glGenBuffers(1, &position_vbo);
+		glGenBuffers(1, &colour_vbo);
+	}
 
 	// Store vertex positions in buffer
-	glBindBuffer(GL_ARRAY_BUFFER, position_vbo);
-	glBufferData(GL_ARRAY_BUFFER, 30*sizeof(glm::vec4), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(_vertex_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(_vertex_position);
-	delete[] vertices;
+	if ( !glIsBuffer(position_vbo) )
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, position_vbo);
+		glm::vec4 *vertices = _CreateVerticesArray();
+		glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(glm::vec4), vertices, GL_STATIC_DRAW);
+		glVertexAttribPointer(_vertex_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(_vertex_position);
+		delete[] vertices;
+	}
 
 	// Store vertex colours in buffer
-	glm::vec4 colours[30];
-	for (int i = 0; i < 6; i++) colours[i] = _inner_colour;
-	for (int i = 6; i < 30; i++) colours[i] = _outer_colour;
-	glBindBuffer(GL_ARRAY_BUFFER, colour_vbo);
-	glBufferData(GL_ARRAY_BUFFER, 30*sizeof(glm::vec4), colours, GL_STATIC_DRAW);
-	glVertexAttribPointer(_vertex_colour, 4, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(_vertex_colour);
+	if (!glIsBuffer(colour_vbo))
+	{
+		glm::vec4 colours[30];
+		for (int i = 0; i < 6; i++) colours[i] = _inner_colour;
+		for (int i = 6; i < 30; i++) colours[i] = _outer_colour;
+		glBindBuffer(GL_ARRAY_BUFFER, colour_vbo);
+		glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(glm::vec4), colours, GL_STATIC_DRAW);
+		glVertexAttribPointer(_vertex_colour, 4, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(_vertex_colour);
+	}
 
 	// Unbinding
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
 	_ready = true;
-	printf("vao: %d, pos: %d, col: %d\n", vao, position_vbo, colour_vbo);
+	printf("(VAO: %d, pos: %d, col: %d)\n", vao, position_vbo, colour_vbo);
 }
 
 void Box::_PushVerticesToBuffer()
@@ -291,6 +307,8 @@ void Box::_PushColoursToBuffer()
 
 void Box::_Draw()
 {
+	if (!_ready)
+		_CreateGLObjects();
 	_PushVerticesToBuffer();
 	glBindVertexArray(vao);
 	glDrawArrays(GL_TRIANGLES, 0, 30);
@@ -301,35 +319,23 @@ void Box::_Draw()
 void Test::_CreateBoxTest()
 {
 	Box::SetVertexAttributes(_vertex_position, _vertex_colour);
-	printf("suh\n");
 	box_objects = (Box*) malloc(sizeof(Box) * 10);
-	printf("dude\n");
-	printf("1: ");
 	box_objects[0] = Box();
-	printf("2: ");
 	box_objects[1] = Box(100, 200, 0, 600);
-	printf("3: ");
 	box_objects[2] = Box(100, 100, 100, 700, CYAN, RED);
-	printf("4: ");
 	box_objects[3] = Box(box_objects[2]);
 	box_objects[3].SetXPosition(200);
-	printf("5: ");
 	box_objects[4] = Box(box_objects[2]);
 	box_objects[4].SetYPosition(600);
-	printf("6: ");
-	box_objects[5] = Box(10, 10, 700, 0, LIGHTBLUE, WHITE);
+	box_objects[5] = Box(20, 20, 700, 0, LIGHTBLUE, WHITE);
 	box_objects[5].SetXSize(100);
-	printf("7: ");
 	box_objects[6] = Box(box_objects[5]);
 	box_objects[6].SetYSize(100);
-	printf("8: ");
 	box_objects[7] = Box(150, 150, 400, 400, PINK, YELLOW);
 	box_objects[7].Translate(250, 250);
-	printf("9: ");
 	box_objects[8] = Box(150, 150, 300, 300);
 	box_objects[8].SetInnerColour(ORANGE);
 	box_objects[8].SetOuterColour(GOLD);
-	printf("10: ");
 	box_objects[9] = Box();
 }
 
