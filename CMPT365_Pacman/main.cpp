@@ -18,8 +18,6 @@ using namespace std;
 bool enable_test = true;
 Test *tester_object;
 
-GLuint vao;
-GLuint pos_vbo, col_vbo;
 
 int window_x = 800;
 int window_y = 800;
@@ -55,9 +53,7 @@ void Cleanup()
 
 void testdisp()
 {
-	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glBindVertexArray(0);
+	
 }
 
 void Display()
@@ -69,7 +65,7 @@ void Display()
 
 	if (enable_test)
 	{
-		//testdisp();
+		//Test::StaticTestDisplay();
 		tester_object->DisplayTest();
 	}
 
@@ -93,26 +89,6 @@ void Reshape(GLsizei w, GLsizei h)
 	glViewport(0, 0, w, h);
 }
 
-void test()
-{
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	glGenBuffers(1, &pos_vbo);
-	glGenBuffers(1, &col_vbo);
-	glm::vec4 vertices[3] = { glm::vec4(0, 0, 0, 1), glm::vec4(800, 0, 0, 1), glm::vec4(0, 800, 0, 1) };
-	glBindBuffer(GL_ARRAY_BUFFER, pos_vbo);
-	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(glm::vec4), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(vertex_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(vertex_position);
-	glm::vec4 colours[3] = { glm::vec4(1, 0, 0, 1), glm::vec4(0, 1, 0, 1), glm::vec4(0, 0, 1, 1) };
-	glBindBuffer(GL_ARRAY_BUFFER, col_vbo);
-	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(glm::vec4), colours, GL_STATIC_DRAW);
-	glVertexAttribPointer(vertex_colour, 4, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(vertex_colour);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-}
-
 int main(int argc, char **argv) {
 
 	// GLUT initialization
@@ -133,10 +109,10 @@ int main(int argc, char **argv) {
 	// Testing
 	if (enable_test)
 	{
-		//test();
 		Test::SetVertexAttributes(vertex_position, vertex_colour);
 		tester_object = new Test();
 		tester_object->SetupTest();
+		//Test::StaticTest();
 	}
 
 	// Callback registration

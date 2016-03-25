@@ -109,6 +109,12 @@ void Box::Translate(int x, int y)
 	_Assert();
 }
 
+void Box::SetColour(glm::vec4 outer_colour, glm::vec4 inner_colour)
+{
+	_SetColours(outer_colour, inner_colour);
+	_PushColoursToBuffer();
+}
+
 void Box::SetOuterColour(glm::vec4 colour)
 {
 	_outer_colour = colour;
@@ -248,10 +254,6 @@ void Box::_CreateGLObjects()
 	if ( !glIsVertexArray(vao) )
 	{
 		glGenVertexArrays(1, &vao);
-		if (!glIsVertexArray(vao))
-		{
-			printf("[unsuccessful (%d)], ", vao);
-		}
 		glBindVertexArray(vao);
 		glGenBuffers(1, &position_vbo);
 		glGenBuffers(1, &colour_vbo);
@@ -285,7 +287,8 @@ void Box::_CreateGLObjects()
 	glBindVertexArray(0);
 
 	_ready = true;
-	printf("(VAO: %d, pos: %d, col: %d)\n", vao, position_vbo, colour_vbo);
+	printf("First time drawing for Box object: VAO = %d, pos = %d, col = %d\n",
+			vao, position_vbo, colour_vbo);
 }
 
 void Box::_PushVerticesToBuffer()
@@ -322,7 +325,7 @@ void Box::_Draw()
 void Test::_CreateBoxTest()
 {
 	Box::SetVertexAttributes(_vertex_position, _vertex_colour);
-	box_objects = (Box*) malloc(sizeof(Box) * 10);
+	/*box_objects = (Box*) malloc(sizeof(Box) * 10);
 	box_objects[0] = Box();
 	box_objects[1] = Box(100, 200, 0, 600);
 	box_objects[2] = Box(100, 100, 100, 700, CYAN, RED);
@@ -339,12 +342,29 @@ void Test::_CreateBoxTest()
 	box_objects[8] = Box(150, 150, 300, 300);
 	box_objects[8].SetInnerColour(ORANGE);
 	box_objects[8].SetOuterColour(GOLD);
-	box_objects[9] = Box();
+	box_objects[9] = Box();*/
+
+	box_objects = (Box*)malloc(sizeof(Box)* 64);
+	box_objects[0] = Box(100, 100, 0, 0, DARKBLUE, LIGHTBLUE);
+	for (int i = 1; i < 64; i++)
+	{
+		box_objects[i] = Box(box_objects[0]);
+		box_objects[i].Translate(100 * (i % 8), 100 * (i / 8));
+		if (i % 2 == 1 && (i/8) % 2 == 0)
+			box_objects[i].SetColour(RED, PINK);
+		else if (i % 2 == 0 && (i/8) % 2 == 1)
+			box_objects[i].SetColour(DARKGREEN, LIGHTGREEN);
+		else if (i % 2 == 1 && (i / 8) % 2 == 1)
+			box_objects[i].SetColour(GOLD, YELLOW);
+	}
 }
 
 void Test::_DisplayBoxTest()
 {
-	for (int i = 0; i < 9; i++)
+	/*for (int i = 0; i < 9; i++)
 		box_objects[i].Draw(0, 0);
-	box_objects[9].Draw(20, 20);
+	box_objects[9].Draw(20, 20);*/
+
+	for (int i = 0; i < 64; i++)
+		box_objects[i].Draw(0, 0);
 }

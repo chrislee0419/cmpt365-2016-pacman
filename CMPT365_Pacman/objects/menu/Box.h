@@ -50,6 +50,7 @@ public:
 	void SetXPosition(int x);
 	void SetYPosition(int y);
 	void Translate(int x, int y);
+	void SetColour(glm::vec4 outer_colour, glm::vec4 inner_colour);
 	void SetOuterColour(glm::vec4 colour);
 	void SetInnerColour(glm::vec4 colour);
 	static void SetVertexAttributes(GLuint vertex_position, GLuint vertex_colour);
