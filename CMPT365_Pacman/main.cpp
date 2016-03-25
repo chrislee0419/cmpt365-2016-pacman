@@ -10,6 +10,7 @@
 #include "depend\glm\mat4x4.hpp"
 
 #include "test\test.h"
+#include "test\_util.h"
 
 using namespace std;
 
@@ -116,7 +117,6 @@ int main(int argc, char **argv) {
 
 	// GLUT initialization
 	glutInit(&argc, argv);
-	glutInitContextVersion(3, 3);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(window_x, window_y);
 	glutCreateWindow("Pacman");

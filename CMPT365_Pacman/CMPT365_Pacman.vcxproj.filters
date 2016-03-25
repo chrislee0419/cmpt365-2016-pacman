@@ -47,5 +47,8 @@
     <ClInclude Include="test\test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="test\_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

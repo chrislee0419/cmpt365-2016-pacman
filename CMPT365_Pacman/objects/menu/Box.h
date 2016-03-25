@@ -6,6 +6,8 @@
 #pragma once
 
 #include <iostream>
+#include <stdexcept>
+
 #include "..\..\depend\glew\glew.h"
 #include "..\..\depend\freeglut\freeglut.h"
 #include "..\..\depend\glm\vec4.hpp"

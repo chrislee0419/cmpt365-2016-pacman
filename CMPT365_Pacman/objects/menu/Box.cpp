@@ -23,7 +23,8 @@ Box::Box(int xsize, int ysize, int xpos, int ypos)
 {
 	_Init();
 	_SetValues(xsize, ysize, xpos, ypos);
-	_Assert();
+	if (!_Assert())
+		throw std::invalid_argument("WARNING: Box constructor recieved an invalid input.");
 	_SetColours(WHITE, BLACK);
 }
 
@@ -31,7 +32,8 @@ Box::Box(int xsize, int ysize, int xpos, int ypos, glm::vec4 outer_colour, glm::
 {
 	_Init();
 	_SetValues(xsize, ysize, xpos, ypos);
-	_Assert();
+	if (!_Assert())
+		throw std::invalid_argument("WARNING: Box constructor recieved an invalid input.");
 	_SetColours(outer_colour, inner_colour);
 }
 
@@ -39,7 +41,8 @@ Box::Box(const Box &old_box)
 {
 	_Init();
 	_SetValues(old_box._xsize, old_box._ysize, old_box._xpos, old_box._ypos);
-	_Assert();
+	if (!_Assert())
+		throw std::invalid_argument("WARNING: Box constructor recieved an invalid input.");
 	_SetColours(old_box._outer_colour, old_box._inner_colour);
 }
 

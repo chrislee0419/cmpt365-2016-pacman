@@ -78,6 +78,7 @@
     <ClInclude Include="objects\_colours.h" />
     <ClInclude Include="shaders\ShaderLoader.h" />
     <ClInclude Include="test\test.h" />
+    <ClInclude Include="test\_util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
