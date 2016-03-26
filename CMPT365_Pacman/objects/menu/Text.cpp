@@ -6,7 +6,7 @@
 using std::string;
 
 // Globals
-FT_Library ft;
+FT_Library Text::ft;
 
 // Constructors
 Text::Text() {}
@@ -41,3 +41,7 @@ void Text::Draw(int x_translate, int y_translate)
 
 // Private helper methods
 
+void Text::_SetFont(int font)
+{
+
+}
