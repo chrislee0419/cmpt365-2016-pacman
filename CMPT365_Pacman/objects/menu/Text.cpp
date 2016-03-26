@@ -6,9 +6,38 @@
 using std::string;
 
 // Globals
-string _text;
-int _xpos;
-int _ypos;
+FT_Library ft;
 
 // Constructors
 Text::Text() {}
+
+// Destructor
+Text::~Text() {}
+
+// Setter methods
+void Text::SetFont(int font)
+{
+	_SetFont(font);
+}
+
+void Text::SetText(string text)
+{
+
+}
+
+// Prepare Freetype library
+bool Text::PrepareLibrary()
+{
+	if ( FT_Init_FreeType(&ft) )
+		return false;
+	return true;
+}
+
+// Rendering method
+void Text::Draw(int x_translate, int y_translate)
+{
+
+}
+
+// Private helper methods
+
