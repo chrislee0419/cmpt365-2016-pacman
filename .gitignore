@@ -29,7 +29,8 @@ build/
 *.meta
 *.obj
 *.pch
-*.pdb
+[Dd]ebug/*.pdb
+CMPT365_Pacman/[Dd]ebug/*.pdb
 *.pgc
 *.pgd
 *.rsp
