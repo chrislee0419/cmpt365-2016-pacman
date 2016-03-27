@@ -37,7 +37,6 @@ void Test::BasicTest()
 {
 	_shader.UseShader();
 	GLuint program = _shader.GetProgram();
-	printf("test shader program = %d\n", program);
 	GLuint vertex_position = glGetAttribLocation(program, "vPosition");
 	GLuint vertex_colour = glGetAttribLocation(program, "vColour");
 

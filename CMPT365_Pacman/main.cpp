@@ -33,11 +33,8 @@ void Initialize()
 	default_shader = Shader("shaders\\vshader.glsl", "shaders\\fshader.glsl");
 	texture_shader = Shader("shaders\\vtexshader.glsl", "shaders\\ftexshader.glsl");
 
+	// Set up window size uniforms
 	GLuint program = default_shader.GetProgram();
-
-	printf("default_shader program = %d\n", program);
-	printf("texture_shader program = %d\n", texture_shader.GetProgram());
-
 	loc_x = glGetUniformLocation(program, "xsize");
 	loc_y = glGetUniformLocation(program, "ysize");
 
@@ -55,11 +52,6 @@ void Initialize()
 void Cleanup()
 {
 	delete tester_object;
-}
-
-void testdisp()
-{
-	
 }
 
 void Display()

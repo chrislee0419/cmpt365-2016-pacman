@@ -69,6 +69,8 @@ void Text::SetPosition(int xpos, int ypos)
 void Text::SetShader(Shader shader)
 {
 	_shader = shader;
+
+	_shader.UseShader();
 }
 
 // Rendering method
