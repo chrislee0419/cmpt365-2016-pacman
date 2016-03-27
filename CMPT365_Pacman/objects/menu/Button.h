@@ -13,9 +13,17 @@
 class Button
 {
 private:
+	glm::vec4 _outer_colour, _inner_colour, _outer_colour_hover, _inner_colour_hover;
+
 	Box box;
 	// Text text;
 	// callback function missing
+	void _Draw();
+	void _SetDefaultColours();
+	void _SetColours();
+	void _SetColours(glm::vec4 outer_colour, glm::vec4 inner_colour);
+	void _SetHoverColours();
+	void _SetHoverColours(glm::vec4 outer_colour_hover, glm::vec4 inner_colour_hover);
 
 public:
 	Button();
@@ -32,8 +40,11 @@ public:
 	void SetYSize(int y);
 	void SetXPosition(int x);
 	void SetYPosition(int y);
+	void SetColours(glm::vec4 inner_colour, glm::vec4 outer_colour);
+	void SetHoverColours(glm::vec4 inner_colour_hover, glm::vec4 outer_colour_hover);
+	void Translate(int x, int y);
 
 	void CheckMousePosition(int x, int y);
+	void Draw();
 
 };
-
