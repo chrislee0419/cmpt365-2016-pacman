@@ -10,6 +10,7 @@
 
 #include "..\..\depend\glew\glew.h"
 #include "..\..\depend\freeglut\freeglut.h"
+#include "..\..\shaders\Shader.h"
 #include "..\..\depend\glm\vec4.hpp"
 #include "..\_colours.h"
 
@@ -20,10 +21,11 @@ private:
 	glm::vec4 _outer_colour, _inner_colour;
 	GLuint vao;
 	GLuint position_vbo, colour_vbo;
+	static Shader _shader;
 	static GLuint _vertex_position, _vertex_colour;
 	bool _ready;
 
-	void _Init();
+	void _Init(int xsize, int ysize, int xpos, int ypos, glm::vec4 outer_colour, glm::vec4 inner_colour);
 	bool _Assert();
 	void _SetValues(int xsize, int ysize, int xpos, int ypos);
 	void _SetColours(glm::vec4 outer_colour, glm::vec4 inner_colour);
@@ -53,7 +55,7 @@ public:
 	void SetColour(glm::vec4 outer_colour, glm::vec4 inner_colour);
 	void SetOuterColour(glm::vec4 colour);
 	void SetInnerColour(glm::vec4 colour);
-	static void SetVertexAttributes(GLuint vertex_position, GLuint vertex_colour);
+	static void SetShader(Shader shader);
 
 	void Draw(int x_translate, int y_translate);
 

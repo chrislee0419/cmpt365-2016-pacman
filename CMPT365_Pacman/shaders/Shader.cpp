@@ -2,21 +2,30 @@
 //	for CMPT 365 Term Project
 //	by Chris Lee - cla235
 //	code adapted from: http://in2gpu.com/2014/10/29/shaders-basics/
+//	and from: http://learnopengl.com/#!In-Practice/Text-Rendering
 */
 
-#include "ShaderLoader.h"
+#include "Shader.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
 
-using namespace Core;
-
 // Constructor and destructor
-ShaderLoader::ShaderLoader() {}
-ShaderLoader::~ShaderLoader() {}
+Shader::Shader()
+{
+	_program = 0;
+	_ready = false;
+}
+
+Shader::Shader(char* vertexShaderFilename, char* fragmentShaderFilename)
+{
+	CreateProgram(vertexShaderFilename, fragmentShaderFilename);
+}
+
+Shader::~Shader() {}
 
 // Extracts shader code into a string
-std::string ShaderLoader::ReadShader(char *filename) {
+std::string Shader::_ReadShader(char *filename) {
 	std::string shader_code;
 	std::ifstream file(filename, std::ios::in);
 
@@ -33,7 +42,7 @@ std::string ShaderLoader::ReadShader(char *filename) {
 }
 
 // Compiles shader from shader code
-GLuint ShaderLoader::CreateShader(GLenum shaderType, std::string source, char* shaderName) {
+GLuint Shader::_CreateShader(GLenum shaderType, std::string source, char* shaderName) {
 	int compile_result = 0;
 
 	GLuint shader = glCreateShader(shaderType);
@@ -55,13 +64,24 @@ GLuint ShaderLoader::CreateShader(GLenum shaderType, std::string source, char* s
 	return shader;
 }
 
-// Creates shader program
-GLuint ShaderLoader::CreateProgram(char* vertexShaderFilename, char* fragmentShaderFilename) {
-	std::string vertex_shader_code = ReadShader(vertexShaderFilename);
-	std::string fragment_shader_code = ReadShader(fragmentShaderFilename);
+// Public methods
+GLuint Shader::GetProgram()
+{
+	if (!_ready)
+	{
+		printf("Shader [WARNING]: GetProgram called on a non-ready shader program, returning -1.\n");
+		return -1;
+	}
+	return _program;
+}
 
-	GLuint vertex_shader = CreateShader(GL_VERTEX_SHADER, vertex_shader_code, "vertex shader");
-	GLuint fragment_shader = CreateShader(GL_FRAGMENT_SHADER, fragment_shader_code, "fragment shader");
+// Creates shader program
+void Shader::CreateProgram(char* vertexShaderFilename, char* fragmentShaderFilename) {
+	std::string vertex_shader_code = _ReadShader(vertexShaderFilename);
+	std::string fragment_shader_code = _ReadShader(fragmentShaderFilename);
+
+	GLuint vertex_shader = _CreateShader(GL_VERTEX_SHADER, vertex_shader_code, "vertex shader");
+	GLuint fragment_shader = _CreateShader(GL_FRAGMENT_SHADER, fragment_shader_code, "fragment shader");
 
 	int link_result = 0;
 
@@ -78,7 +98,23 @@ GLuint ShaderLoader::CreateProgram(char* vertexShaderFilename, char* fragmentSha
 		std::vector<char> program_log(info_log_length);
 		glGetProgramInfoLog(program, info_log_length, NULL, &program_log[0]);
 		std::cout << "Error encountered when linking shaders with program" << std::endl << &program_log[0] << std::endl;
-		return 0;
+		_ready = false;
+		return;
 	}
-	return program;
+	glDeleteShader(vertex_shader);
+	glDeleteShader(fragment_shader);
+
+	_ready = true;
+	_program = program;
+}
+
+// Sets as active shader program
+void Shader::UseShader()
+{
+	if (!_ready)
+	{
+		printf("Shader [ERROR]: UseShader called on a non-ready shader program.\n");
+		return;
+	}
+	glUseProgram(_program);
 }
