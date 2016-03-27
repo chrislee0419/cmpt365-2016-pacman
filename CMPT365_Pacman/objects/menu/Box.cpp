@@ -10,40 +10,34 @@
 // Globals
 GLuint Box::_vertex_position;
 GLuint Box::_vertex_colour;
+Shader Box::_shader;
 
 // Constructors
 Box::Box()
 {
-	_Init();
-	_SetValues(40, 20, 0, 0);
-	_SetColours(WHITE, BLACK);
+	_Init(40, 20, 0, 0, WHITE, BLACK);
 }
 
 Box::Box(int xsize, int ysize, int xpos, int ypos)
 {
-	_Init();
-	_SetValues(xsize, ysize, xpos, ypos);
+	_Init(xsize, ysize, xpos, ypos, WHITE, BLACK);
 	if (!_Assert())
-		throw std::invalid_argument("WARNING: Box constructor recieved an invalid input.");
-	_SetColours(WHITE, BLACK);
+		throw std::invalid_argument("Box [WARNING]: constructor recieved an invalid input.");
 }
 
 Box::Box(int xsize, int ysize, int xpos, int ypos, glm::vec4 outer_colour, glm::vec4 inner_colour)
 {
-	_Init();
-	_SetValues(xsize, ysize, xpos, ypos);
+	_Init(xsize, ysize, xpos, ypos, outer_colour, inner_colour);
 	if (!_Assert())
-		throw std::invalid_argument("WARNING: Box constructor recieved an invalid input.");
-	_SetColours(outer_colour, inner_colour);
+		throw std::invalid_argument("Box [WARNING]: constructor recieved an invalid input.");
 }
 
 Box::Box(const Box &old_box)
 {
-	_Init();
-	_SetValues(old_box._xsize, old_box._ysize, old_box._xpos, old_box._ypos);
+	_Init(old_box._xsize, old_box._ysize, old_box._xpos, old_box._ypos,
+		old_box._outer_colour, old_box._inner_colour);
 	if (!_Assert())
-		throw std::invalid_argument("WARNING: Box constructor recieved an invalid input.");
-	_SetColours(old_box._outer_colour, old_box._inner_colour);
+		throw std::invalid_argument("Box [WARNING]: constructor recieved an invalid input.");
 }
 
 // Destructor
@@ -128,10 +122,15 @@ void Box::SetInnerColour(glm::vec4 colour)
 }
 
 // static - should only be set once
-void Box::SetVertexAttributes(GLuint vertex_position, GLuint vertex_colour)
+void Box::SetShader(Shader shader)
 {
-	_vertex_position = vertex_position;
-	_vertex_colour = vertex_colour;
+	_shader = shader;
+	_shader.UseShader();
+
+	GLuint program = _shader.GetProgram();
+
+	_vertex_position = glGetAttribLocation(program, "vPosition");
+	_vertex_colour = glGetAttribLocation(program, "vColour");
 }
 
 // Rendering method
@@ -159,24 +158,26 @@ void Box::Draw(int x_translate, int y_translate)
 }
 
 // Private helper methods
-void Box::_Init()
+void Box::_Init(int xsize, int ysize, int xpos, int ypos, glm::vec4 outer_colour, glm::vec4 inner_colour)
 {
 	vao = 0;
 	position_vbo = 0;
 	colour_vbo = 0;
 	_ready = false;
+	_SetValues(xsize, ysize, xpos, ypos);
+	_SetColours(outer_colour, inner_colour);
 }
 
 bool Box::_Assert()
 {
 	if (_xsize < 11)
 	{
-		printf("Box (_Assert): invalid _xsize (%d).\n", _xsize);
+		printf("Box [WARNING]: _Assert found invalid _xsize (%d).\n", _xsize);
 		return false;
 	}
 	if (_ysize < 11)
 	{
-		printf("Box (_Assert): invalid _ysize (%d).\n", _ysize);
+		printf("Box [WARNING]: _Assert found invalid _ysize (%d).\n", _ysize);
 		return false;
 	}
 
@@ -250,6 +251,8 @@ glm::vec4* Box::_CreateVerticesArray()
 
 void Box::_CreateGLObjects()
 {
+	_shader.UseShader();
+
 	// Prepare VAO and VBOs
 	if ( !glIsVertexArray(vao) )
 	{
@@ -315,6 +318,7 @@ void Box::_Draw()
 {
 	if (!_ready)
 		_CreateGLObjects();
+	_shader.UseShader();
 	_PushVerticesToBuffer();
 	glBindVertexArray(vao);
 	glDrawArrays(GL_TRIANGLES, 0, 30);
@@ -324,7 +328,6 @@ void Box::_Draw()
 // Testing methods
 void Test::_CreateBoxTest()
 {
-	Box::SetVertexAttributes(_vertex_position, _vertex_colour);
 	/*box_objects = (Box*) malloc(sizeof(Box) * 10);
 	box_objects[0] = Box();
 	box_objects[1] = Box(100, 200, 0, 600);

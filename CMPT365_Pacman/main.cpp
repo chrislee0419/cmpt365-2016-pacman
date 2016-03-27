@@ -3,11 +3,14 @@
 
 #include "depend\glew\glew.h"
 #include "depend\freeglut\freeglut.h"
-#include "shaders\ShaderLoader.h"
+#include "shaders\Shader.h"
 
 #include "depend\glm\vec3.hpp"
 #include "depend\glm\vec4.hpp"
 #include "depend\glm\mat4x4.hpp"
+
+#include "objects\menu\Box.h"
+#include "objects\menu\Text.h"
 
 #include "test\test.h"
 #include "test\_util.h"
@@ -18,26 +21,29 @@ using namespace std;
 bool enable_test = true;
 Test *tester_object;
 
-
 int window_x = 800;
 int window_y = 800;
 
 GLuint loc_x, loc_y;		// used for scaling after resizing windows
-GLuint program;				// used to store shader program
-GLuint vertex_position, vertex_colour;	// used to store vertex attributes
+Shader default_shader, texture_shader;	// stores shader programs
 
 void Initialize()
 {
 	// Prepare shaders
-	Core::ShaderLoader shader_loader;
-	program = shader_loader.CreateProgram("shaders\\vshader.glsl", "shaders\\fshader.glsl");
-	glUseProgram(program);
+	default_shader = Shader("shaders\\vshader.glsl", "shaders\\fshader.glsl");
+	texture_shader = Shader("shaders\\vtexshader.glsl", "shaders\\ftexshader.glsl");
 
-	vertex_position = glGetAttribLocation(program, "vPosition");
-	vertex_colour = glGetAttribLocation(program, "vColour");
+	GLuint program = default_shader.GetProgram();
+
+	printf("default_shader program = %d\n", program);
+	printf("texture_shader program = %d\n", texture_shader.GetProgram());
 
 	loc_x = glGetUniformLocation(program, "xsize");
 	loc_y = glGetUniformLocation(program, "ysize");
+
+	// Provide each class with their respective shader programs
+	Box::SetShader(default_shader);
+	Text::SetShader(texture_shader);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -60,12 +66,13 @@ void Display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	// Send window length and width to default shader program
 	glUniform1i(loc_x, window_x);
 	glUniform1i(loc_y, window_y);
 
 	if (enable_test)
 	{
-		//Test::StaticTestDisplay();
+		tester_object->BasicTestDisplay();
 		tester_object->DisplayTest();
 	}
 
@@ -109,10 +116,10 @@ int main(int argc, char **argv) {
 	// Testing
 	if (enable_test)
 	{
-		Test::SetVertexAttributes(vertex_position, vertex_colour);
+		Test::SetProgram(default_shader);
 		tester_object = new Test();
 		tester_object->SetupTest();
-		//Test::StaticTest();
+		tester_object->BasicTest();
 	}
 
 	// Callback registration

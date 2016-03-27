@@ -26,38 +26,38 @@ int Button::GetXSize()
 
 int Button::GetYSize()
 {
-	return box.GetYSize;
+	return box.GetYSize();
 }
 
 int Button::GetXPosition()
 {
-	return box.GetXPosition;
+	return box.GetXPosition();
 }
 
 int Button::GetYPosition()
 {
-	return box.GetYPosition;
+	return box.GetYPosition();
 }
 
 //Setter methods
 void Button::SetXSize(int x)
 {
-	box.SetXSize = x;
+	box.SetXSize(x);
 }
 
 void Button::SetYSize(int y)
 {
-	box.SetYSize = y;
+	box.SetYSize(y);
 }
 
 void Button::SetXPosition(int x)
 {
-	box.SetXPosition = x;
+	box.SetXPosition(x);
 }
 
 void Button::SetYPosition(int y)
 {
-	box.SetYPosition = y;
+	box.SetYPosition(y);
 }
 
 void Button::SetText(std::string text)

@@ -6,14 +6,16 @@
 #include "..\depend\glm\vec4.hpp"
 
 #include "..\objects\menu\Box.h"
+
+#include "..\shaders\Shader.h"
 #include "..\objects\_colours.h"
 
 class Test
 {
 private:
-	static GLuint _vertex_position, _vertex_colour;
-	static GLuint _vao;
-	static GLuint _pos_vbo, _col_vbo;
+	static Shader _shader;
+	GLuint _vao;
+	GLuint _pos_vbo, _col_vbo;
 	
 	Box *box_objects;
 	void _CreateBoxTest();
@@ -25,7 +27,7 @@ public:
 
 	void SetupTest();
 	void DisplayTest();
-	static void SetVertexAttributes(GLuint vertex_position, GLuint vertex_colour);
-	static void StaticTest();
-	static void StaticTestDisplay();
+	static void SetProgram(const Shader shader);
+	void BasicTest();
+	void BasicTestDisplay();
 };

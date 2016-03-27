@@ -2,19 +2,19 @@
 #include "test.h"
 
 // Globals
-GLuint Test::_vertex_position;
-GLuint Test::_vertex_colour;
-GLuint Test::_vao;
-GLuint Test::_pos_vbo;
-GLuint Test::_col_vbo;
+Shader Test::_shader;
 
 // Constructor
-Test::Test() {}
+Test::Test()
+{
+	_vao = 0;
+	_pos_vbo = 0;
+	_col_vbo = 0;
+}
 
 // Destructor
 Test::~Test()
 {
-	//delete[] box_objects;
 	free(box_objects);
 }
 
@@ -28,14 +28,19 @@ void Test::DisplayTest()
 	_DisplayBoxTest();
 }
 
-void Test::SetVertexAttributes(GLuint vertex_position, GLuint vertex_colour)
+void Test::SetProgram(const Shader shader)
 {
-	_vertex_position = vertex_position;
-	_vertex_colour = vertex_colour;
+	_shader = shader;
 }
 
-void Test::StaticTest()
+void Test::BasicTest()
 {
+	_shader.UseShader();
+	GLuint program = _shader.GetProgram();
+	printf("test shader program = %d\n", program);
+	GLuint vertex_position = glGetAttribLocation(program, "vPosition");
+	GLuint vertex_colour = glGetAttribLocation(program, "vColour");
+
 	glGenVertexArrays(1, &_vao);
 	glBindVertexArray(_vao);
 	glGenBuffers(1, &_pos_vbo);
@@ -43,19 +48,20 @@ void Test::StaticTest()
 	glm::vec4 vertices[3] = { glm::vec4(0, 0, 0, 1), glm::vec4(800, 0, 0, 1), glm::vec4(0, 800, 0, 1) };
 	glBindBuffer(GL_ARRAY_BUFFER, _pos_vbo);
 	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(glm::vec4), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(_vertex_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(_vertex_position);
+	glVertexAttribPointer(vertex_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(vertex_position);
 	glm::vec4 colours[3] = { glm::vec4(1, 0, 0, 1), glm::vec4(0, 1, 0, 1), glm::vec4(0, 0, 1, 1) };
 	glBindBuffer(GL_ARRAY_BUFFER, _col_vbo);
 	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(glm::vec4), colours, GL_STATIC_DRAW);
-	glVertexAttribPointer(_vertex_colour, 4, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(_vertex_colour);
+	glVertexAttribPointer(vertex_colour, 4, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(vertex_colour);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
 
-void Test::StaticTestDisplay()
+void Test::BasicTestDisplay()
 {
+	_shader.UseShader();
 	glBindVertexArray(_vao);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glBindVertexArray(0);
