@@ -42,11 +42,11 @@ void Initialize()
 	Box::SetShader(default_shader);
 	Text::SetShader(texture_shader);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void Cleanup()
@@ -56,7 +56,7 @@ void Cleanup()
 
 void Display()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 
 	// Send window length and width to default shader program
 	glUniform1i(loc_x, window_x);
@@ -64,8 +64,8 @@ void Display()
 
 	if (enable_test)
 	{
-		tester_object->BasicTestDisplay();
 		tester_object->DisplayTest();
+		//tester_object->BasicTestDisplay();
 	}
 
 	glutSwapBuffers();
@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
 
 	// GLUT initialization
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowSize(window_x, window_y);
 	glutCreateWindow("Pacman");
 	glewExperimental = GL_TRUE;

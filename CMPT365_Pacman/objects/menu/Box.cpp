@@ -360,10 +360,15 @@ void Test::_CreateBoxTest()
 		else if (i % 2 == 1 && (i / 8) % 2 == 1)
 			box_objects[i].SetColour(GOLD, YELLOW);
 	}
+
+	_box_test = true;
 }
 
 void Test::_DisplayBoxTest()
 {
+	if (!_box_test)
+		return;
+
 	/*for (int i = 0; i < 9; i++)
 		box_objects[i].Draw(0, 0);
 	box_objects[9].Draw(20, 20);*/

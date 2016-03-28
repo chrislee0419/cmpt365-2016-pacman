@@ -1,3 +1,7 @@
+/*
+//	for CMPT 365 Term Project
+//	by Chris Lee - cla235
+*/
 
 #include "test.h"
 
@@ -10,22 +14,31 @@ Test::Test()
 	_vao = 0;
 	_pos_vbo = 0;
 	_col_vbo = 0;
+
+	_box_test = false;
+	_text_test = false;
 }
 
 // Destructor
 Test::~Test()
 {
-	free(box_objects);
+	if (_box_test)
+		free(box_objects);
+	if (_text_test)
+		free(text_objects);
 }
 
+// Test setup
 void Test::SetupTest()
 {
 	_CreateBoxTest();
+	_CreateTextTest();
 }
 
 void Test::DisplayTest()
 {
 	_DisplayBoxTest();
+	_DisplayTextTest();
 }
 
 void Test::SetProgram(const Shader shader)

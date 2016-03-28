@@ -16,6 +16,7 @@
 
 #include "..\..\shaders\Shader.h"
 #include "..\..\depend\glm\vec2.hpp"
+#include "..\..\depend\glm\vec4.hpp"
 
 struct Character
 {
@@ -29,29 +30,34 @@ class Text
 {
 private:
 	static Shader _shader;
-	FT_Library ft;
-	FT_Face face;
+	GLuint _vao;
+	GLuint _vbo;
 	std::map<char, Character> _characters;
 	std::string _text;
+	glm::vec4 _colour;
 	int _xpos;
 	int _ypos;
 	int _size;
 	int _font;
+	bool _ready;
 
-	void _Init(int font, int size, std::string text, int xpos, int ypos);
+	void _Init(int font, int size, std::string text, int xpos, int ypos, glm::vec4 colour);
 	bool _Assert();
+	void _CreateGLObjects();
 	bool _PrepareFT();
-	void _DestroyFT();
 
 public:
 	Text();
 	Text(std::string text, int xpos, int ypos);
 	Text(int font, int size, std::string text, int xpos, int ypos);
+	Text(std::string text, int xpos, int ypos, glm::vec4 colour);
+	Text(int font, int size, std::string text, int xpos, int ypos, glm::vec4 colour);
 	~Text();
 
 	void SetFont(int font);
 	void SetSize(int size);
 	void SetText(std::string text);
+	void SetColour(glm::vec4 colour);
 	void SetXPosition(int xpos);
 	void SetYPosition(int ypos);
 	void SetPosition(int xpos, int ypos);

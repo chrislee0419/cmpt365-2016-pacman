@@ -1,3 +1,7 @@
+/*
+//	for CMPT 365 Term Project
+//	by Chris Lee - cla235
+*/
 
 #pragma once
 
@@ -6,6 +10,7 @@
 #include "..\depend\glm\vec4.hpp"
 
 #include "..\objects\menu\Box.h"
+#include "..\objects\menu\Text.h"
 
 #include "..\shaders\Shader.h"
 #include "..\objects\_colours.h"
@@ -20,6 +25,12 @@ private:
 	Box *box_objects;
 	void _CreateBoxTest();
 	void _DisplayBoxTest();
+	bool _box_test;
+
+	Text *text_objects;
+	void _CreateTextTest();
+	void _DisplayTextTest();
+	bool _text_test;
 
 public:
 	Test();
@@ -28,6 +39,7 @@ public:
 	void SetupTest();
 	void DisplayTest();
 	static void SetProgram(const Shader shader);
+
 	void BasicTest();
 	void BasicTestDisplay();
 };
