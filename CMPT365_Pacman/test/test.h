@@ -15,6 +15,8 @@
 #include "..\shaders\Shader.h"
 #include "..\objects\_colours.h"
 
+#include "..\depend\SOIL\SOIL.h"
+
 class Test
 {
 private:
@@ -42,4 +44,5 @@ public:
 
 	void BasicTest();
 	void BasicTestDisplay();
+	void SpriteTest();
 };
