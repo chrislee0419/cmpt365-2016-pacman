@@ -104,6 +104,9 @@ void Shader::CreateProgram(char* vertexShaderFilename, char* fragmentShaderFilen
 	glDeleteShader(vertex_shader);
 	glDeleteShader(fragment_shader);
 
+	_loc_x = glGetUniformLocation(program, "xsize");
+	_loc_y = glGetUniformLocation(program, "ysize");
+
 	_ready = true;
 	_program = program;
 }
@@ -117,4 +120,16 @@ void Shader::UseShader()
 		return;
 	}
 	glUseProgram(_program);
+}
+
+// Gets the xsize uniform location
+GLuint Shader::GetX()
+{
+	return _loc_x;
+}
+
+// Gets the ysize uniform location
+GLuint Shader::GetY()
+{
+	return _loc_y;
 }

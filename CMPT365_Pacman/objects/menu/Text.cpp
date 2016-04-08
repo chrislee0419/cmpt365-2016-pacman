@@ -129,13 +129,7 @@ void Text::Draw(int x_translate, int y_translate)
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(_vao);
 
-	map<char, Character> characters;
-	if (_font == 0)
-		characters = _roboto;
-	else if (_font == 1)
-		characters = _ubuntu;
-	else
-		return;
+	
 	float xpos = (float)_xpos;
 	float ypos = (float)_ypos;
 
@@ -143,13 +137,20 @@ void Text::Draw(int x_translate, int y_translate)
 	char c = _text[iter];
 	while (c != NULL)
 	{
-		Character ch = characters[c];
+		Character ch;
+		if (_font == 0)
+			ch = _roboto[c];
+		else if (_font == 1)
+			ch = _ubuntu[c];
+		else
+			return;
+
 		GLfloat x_position = xpos + x_translate + ch.Bearing.x * _size;
 		GLfloat y_position = ypos + y_translate - (ch.Size.y - ch.Bearing.y) * _size;
 		GLfloat w = ch.Size.x * _size;
 		GLfloat h = ch.Size.y * _size;
 
-		printf("x: %f, y: %f, w: %f, h: %f\n", x_position, y_position, w, h);
+		printf("[char: %c] x: %f, y: %f, w: %f, h: %f\n", c, x_position, y_position, w, h);
 
 		GLfloat vertices[6][4] = {
 			{ x_position,		y_position + h, 0.0, 0.0 },

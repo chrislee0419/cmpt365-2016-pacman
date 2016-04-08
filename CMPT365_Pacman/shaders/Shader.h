@@ -8,6 +8,7 @@ class Shader
 {
 private:
 	GLuint _program;
+	GLuint _loc_x, _loc_y;
 	bool _ready;
 
 	std::string _ReadShader(char *filename);
@@ -22,6 +23,8 @@ public:
 
 	void CreateProgram(char* vertexShaderFilename, char* fragmentShaderFilename);
 	void UseShader();
+	GLuint GetX();
+	GLuint GetY();
 };
 	
 
