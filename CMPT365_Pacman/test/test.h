@@ -15,8 +15,6 @@
 #include "..\shaders\Shader.h"
 #include "..\objects\_colours.h"
 
-#include "..\depend\SOIL\SOIL.h"
-
 class Test
 {
 private:
@@ -32,6 +30,10 @@ private:
 	Text *text_objects;
 	void _CreateTextTest();
 	void _DisplayTextTest();
+
+	//Sprite *sprite_objects;
+	//void _CreateSpriteTest();
+	//void _DispalySpriteTest();
 	bool _text_test;
 
 public:
@@ -44,5 +46,4 @@ public:
 
 	void BasicTest();
 	void BasicTestDisplay();
-	void SpriteTest();
 };
