@@ -30,38 +30,40 @@ class Text
 {
 private:
 	static Shader _shader;
+	static std::map<char, Character> _ubuntu;
+	static std::map<char, Character> _roboto;
 	GLuint _vao;
 	GLuint _vbo;
-	std::map<char, Character> _characters;
-	std::string _text;
+	char _text[200];
 	glm::vec4 _colour;
 	int _xpos;
 	int _ypos;
-	int _size;
+	float _size;
 	int _font;
 	bool _ready;
 
-	void _Init(int font, int size, std::string text, int xpos, int ypos, glm::vec4 colour);
+	void _Init(int font, float size, std::string text, int xpos, int ypos, glm::vec4 colour);
 	bool _Assert();
 	void _CreateGLObjects();
-	bool _PrepareFT();
 
 public:
 	Text();
 	Text(std::string text, int xpos, int ypos);
-	Text(int font, int size, std::string text, int xpos, int ypos);
+	Text(int font, float size, std::string text, int xpos, int ypos);
 	Text(std::string text, int xpos, int ypos, glm::vec4 colour);
-	Text(int font, int size, std::string text, int xpos, int ypos, glm::vec4 colour);
+	Text(int font, float size, std::string text, int xpos, int ypos, glm::vec4 colour);
+	Text(const Text &copytext);
 	~Text();
 
 	void SetFont(int font);
-	void SetSize(int size);
+	void SetSize(float size);
 	void SetText(std::string text);
 	void SetColour(glm::vec4 colour);
 	void SetXPosition(int xpos);
 	void SetYPosition(int ypos);
 	void SetPosition(int xpos, int ypos);
 	static void SetShader(const Shader shader);
+	static void PrepareFT();
 
 	void Draw(int x_translate, int y_translate);
 

@@ -42,6 +42,9 @@ void Initialize()
 	Box::SetShader(default_shader);
 	Text::SetShader(texture_shader);
 
+	// Extra preparation
+	Text::PrepareFT();
+
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 
@@ -89,6 +92,7 @@ void Reshape(GLsizei w, GLsizei h)
 }
 
 int main(int argc, char **argv) {
+	printf("Running...\n");
 
 	// GLUT initialization
 	glutInit(&argc, argv);
