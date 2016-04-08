@@ -7,10 +7,12 @@
 #include "..\..\test\test.h"
 #include "..\..\test\_util.h"
 
-using std::string;
+using namespace std;
 
 // Globals
 Shader Text::_shader;
+map<char, Character> Text::_roboto;
+map<char, Character> Text::_ubuntu;
 
 // Constructors
 Text::Text()
@@ -20,56 +22,70 @@ Text::Text()
 
 Text::Text(string text, int xpos, int ypos)
 {
-	_Init(0, 12, text, xpos, ypos, WHITE);
+	_Init(0, 2, text, xpos, ypos, WHITE);
 	if (!_Assert())
-		throw std::invalid_argument("Text [WARNING]: constructor recieved an invalid input.");
+		throw invalid_argument("Text [WARNING]: constructor recieved an invalid input.");
 }
 
-Text::Text(int font, int size, string text, int xpos, int ypos)
+Text::Text(int font, float size, string text, int xpos, int ypos)
 {
 	_Init(font, size, text, xpos, ypos, WHITE);
 	if (!_Assert())
-		throw std::invalid_argument("Text [WARNING]: constructor recieved an invalid input.");
+		throw invalid_argument("Text [WARNING]: constructor recieved an invalid input.");
 }
 
 Text::Text(string text, int xpos, int ypos, glm::vec4 colour)
 {
 	_Init(0, 12, text, xpos, ypos, colour);
 	if (!_Assert())
-		throw std::invalid_argument("Text [WARNING]: constructor recieved an invalid input.");
+		throw invalid_argument("Text [WARNING]: constructor recieved an invalid input.");
 }
 
-Text::Text(int font, int size, string text, int xpos, int ypos, glm::vec4 colour)
+Text::Text(int font, float size, string text, int xpos, int ypos, glm::vec4 colour)
 {
 	_Init(font, size, text, xpos, ypos, colour);
 	if (!_Assert())
-		throw std::invalid_argument("Text [WARNING]: constructor recieved an invalid input.");
+		throw invalid_argument("Text [WARNING]: constructor recieved an invalid input.");
+}
+
+Text::Text(const Text &copytext)
+{
+	_Init(copytext._font, copytext._size, copytext._text, copytext._xpos, copytext._ypos, copytext._colour);
+	if (!_Assert())
+		throw invalid_argument("Text [WARNING]: constructor recieved an invalid input.");
 }
 
 // Destructor
-Text::~Text() {}
+Text::~Text()
+{
+	if (glIsBuffer(_vbo) == GL_TRUE)
+		glDeleteBuffers(1, &_vbo);
+	if (glIsVertexArray(_vao) == GL_TRUE)
+		glDeleteVertexArrays(1, &_vao);
+}
 
 // Setter methods
 void Text::SetFont(int font)
 {
-	if (_font == font)
-		return;
-	else
-	{
+	if (font == 0 || font == 1)
 		_font = font;
-		if (!_PrepareFT())
-			throw std::runtime_error("Text [WARNING]: _PrepareFT encountered an error.");
-	}
+	else
+		printf("Text [WARNING]: SetFont recieved an invalid font");
+	
 }
 
-void Text::SetSize(int size)
+void Text::SetSize(float size)
 {
-	_size = size;
+	if (size > 0)
+		_size = size;
+	else
+		printf("Text [WARNING]: SetSize recieved an invalid font");
 }
 
 void Text::SetText(string text)
 {
-	_text = text;
+	strncpy_s(_text, text.c_str(), 200);
+	_text[200] = '\0';
 }
 
 void Text::SetColour(glm::vec4 colour)
@@ -107,30 +123,42 @@ void Text::Draw(int x_translate, int y_translate)
 	if (!_ready)
 		_CreateGLObjects();
 
-	glUniform3f(glGetUniformLocation(_shader.GetProgram(), "textColour"),
-		_colour.x, _colour.y, _colour.z);
+	glUniform4f(glGetUniformLocation(_shader.GetProgram(), "textColour"),
+		_colour.x, _colour.y, _colour.z, _colour.w);
+	printf("(%f, %f, %f, %f)\n", _colour.x, _colour.y, _colour.z, _colour.w);
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(_vao);
 
-	int original_xpos = _xpos;
+	map<char, Character> characters;
+	if (_font == 0)
+		characters = _roboto;
+	else if (_font == 1)
+		characters = _ubuntu;
+	else
+		return;
+	float xpos = (float)_xpos;
+	float ypos = (float)_ypos;
 
-	std::string::const_iterator c;
-	for (c = _text.begin(); c != _text.end(); c++)
+	int iter = 0;
+	char c = _text[iter];
+	while (c != NULL)
 	{
-		Character ch = _characters[*c];
-		GLfloat x_position = _xpos + x_translate + ch.Bearing.x * _size;
-		GLfloat y_position = _ypos + y_translate - (ch.Size.y - ch.Bearing.y) * _size;
+		Character ch = characters[c];
+		GLfloat x_position = xpos + x_translate + ch.Bearing.x * _size;
+		GLfloat y_position = ypos + y_translate - (ch.Size.y - ch.Bearing.y) * _size;
 		GLfloat w = ch.Size.x * _size;
 		GLfloat h = ch.Size.y * _size;
 
+		printf("x: %f, y: %f, w: %f, h: %f\n", x_position, y_position, w, h);
+
 		GLfloat vertices[6][4] = {
 			{ x_position,		y_position + h, 0.0, 0.0 },
-			{ x_position,		y_position,		0.0, 0.0 },
-			{ x_position + w,	y_position,		0.0, 0.0 },
+			{ x_position,		y_position,		0.0, 1.0 },
+			{ x_position + w,	y_position,		1.0, 1.0 },
 
 			{ x_position,		y_position + h, 0.0, 0.0 },
-			{ x_position + w,	y_position,		0.0, 0.0 },
-			{ x_position + w,	y_position + h, 0.0, 0.0 }
+			{ x_position + w,	y_position,		1.0, 1.0 },
+			{ x_position + w,	y_position + h, 1.0, 0.0 }
 		};
 
 		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
@@ -140,22 +168,21 @@ void Text::Draw(int x_translate, int y_translate)
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
-		_xpos += (ch.Advance >> 6) * _size;
+		xpos += (ch.Advance >> 6) * _size;
+		c = _text[++iter];
 	}
-
-	_xpos = original_xpos;
 
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 // Private helper methods
-void Text::_Init(int font, int size, string text, int xpos, int ypos, glm::vec4 colour)
+void Text::_Init(int font, float size, string text, int xpos, int ypos, glm::vec4 colour)
 {
-	SetFont(font);
+	_font = font;
+	_size = size;
 	SetPosition(xpos, ypos);
 	SetText(text);
-	SetSize(size);
 	SetColour(colour);
 	_ready = false;
 }
@@ -193,79 +220,87 @@ void Text::_CreateGLObjects()
 }
 
 // Prepare Freetype library and faces
-bool Text::_PrepareFT()
+void Text::PrepareFT()
 {
 	FT_Library ft;
-	FT_Face face;
+	FT_Face roboto_face, ubuntu_face;
 
 	if (FT_Init_FreeType(&ft))
-	{
-		printf("Text [ERROR]: could not initialize FT_Library\n");
-		return false;
-	}
+		throw runtime_error("Text [ERROR]: could not initialize FT_Library.");
+
 	// Prepares font faces
-	if (_font == 1)
-	{
-		if (FT_New_Face(ft, "depend/fonts/Ubuntu.ttf", 0, &face))
-		{
-			printf("Text [WARNING]: could not load Ubuntu font\n");
-			FT_Done_FreeType(ft);
-			return false;
-		}
-		
-	}
-	else
-	{
-		if (FT_New_Face(ft, "depend/fonts/Roboto.ttf", 0, &face))
-		{
-			printf("Text [WARNING]: could not load Roboto font\n");
-			FT_Done_FreeType(ft);
-			return false;
-		}
-	}
+	if (FT_New_Face(ft, "depend/fonts/Roboto.ttf", 0, &roboto_face))
+		throw runtime_error("Text [ERROR]: could not load Roboto font.");
+	if (FT_New_Face(ft, "depend/fonts/Ubuntu.ttf", 0, &ubuntu_face))
+		throw runtime_error("Text [ERROR]: could not load Ubuntu font.");
 
 	// Creating character map
-	FT_Set_Char_Size(face, 256, 256, 96, 96);
+	FT_Set_Char_Size(roboto_face, 256, 256, 96, 96);
+	FT_Set_Char_Size(ubuntu_face, 256, 256, 96, 96);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	for (GLubyte c = 0; c < 128; c++)
 	{
-		if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+		// Loading Roboto font
+		if (FT_Load_Char(roboto_face, c, FT_LOAD_RENDER))
 		{
-			printf("Text [WARNING]: FreeType could not load char \"%c\", skipping\n", c);
+			printf("Text [WARNING]: FreeType could not load char \"%c\" for font Roboto, skipping\n", c);
 			continue;
 		}
-		GLuint texture;
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
+		GLuint roboto_texture;
+		glGenTextures(1, &roboto_texture);
+		glBindTexture(GL_TEXTURE_2D, roboto_texture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
-			face->glyph->bitmap.width, face->glyph->bitmap.rows,
-			0, GL_RED, GL_UNSIGNED_BYTE, face->glyph->bitmap.buffer);
+			roboto_face->glyph->bitmap.width, roboto_face->glyph->bitmap.rows,
+			0, GL_RED, GL_UNSIGNED_BYTE, roboto_face->glyph->bitmap.buffer);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		Character character = {
-			texture,
-			glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
-			glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-			face->glyph->advance.x
+		Character roboto_character = {
+			roboto_texture,
+			glm::ivec2(roboto_face->glyph->bitmap.width, roboto_face->glyph->bitmap.rows),
+			glm::ivec2(roboto_face->glyph->bitmap_left, roboto_face->glyph->bitmap_top),
+			roboto_face->glyph->advance.x
 		};
-		_characters.insert(std::pair<GLchar, Character>(c, character));
+		_roboto.insert(pair<GLchar, Character>(c, roboto_character));
+
+		// Loading Ubuntu font
+		if (FT_Load_Char(ubuntu_face, c, FT_LOAD_RENDER))
+		{
+			printf("Text [WARNING]: FreeType could not load char \"%c\" for font Ubuntu, skipping\n", c);
+			continue;
+		}
+		GLuint ubuntu_texture;
+		glGenTextures(1, &ubuntu_texture);
+		glBindTexture(GL_TEXTURE_2D, ubuntu_texture);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+			ubuntu_face->glyph->bitmap.width, ubuntu_face->glyph->bitmap.rows,
+			0, GL_RED, GL_UNSIGNED_BYTE, ubuntu_face->glyph->bitmap.buffer);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		Character ubuntu_character = {
+			ubuntu_texture,
+			glm::ivec2(ubuntu_face->glyph->bitmap.width, ubuntu_face->glyph->bitmap.rows),
+			glm::ivec2(ubuntu_face->glyph->bitmap_left, ubuntu_face->glyph->bitmap_top),
+			ubuntu_face->glyph->advance.x
+		};
+		_ubuntu.insert(pair<GLchar, Character>(c, ubuntu_character));
 	}
 
-	FT_Done_Face(face);
+	FT_Done_Face(roboto_face);
+	FT_Done_Face(ubuntu_face);
 	FT_Done_FreeType(ft);
-
-	return true;
 }
 
 // Testing methods
 void Test::_CreateTextTest()
 {
-	text_objects = new Text[3];
+	text_objects = (Text*)malloc(sizeof(Text) * 3);
 	text_objects[0] = Text("This is a test.", 25, 25);
 	text_objects[1] = Text(0, 2, "Second Test.", 50, 50);
-	text_objects[2] = Text(0, 5, "Third Test.", 100, 100, BLACK);
+	text_objects[2] = Text(0, 5, "Third Test.", 100, 100, RED);
 
 	_text_test = true;
 }

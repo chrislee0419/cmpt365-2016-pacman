@@ -31,7 +31,7 @@ Test::~Test()
 // Test setup
 void Test::SetupTest()
 {
-	_CreateBoxTest();
+	//_CreateBoxTest();
 	_CreateTextTest();
 }
 
