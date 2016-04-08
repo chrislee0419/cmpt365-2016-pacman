@@ -112,6 +112,7 @@ int main(int argc, char **argv) {
 		tester_object = new Test();
 		tester_object->SetupTest();
 		tester_object->BasicTest();
+		tester_object->SpriteTest();
 	}
 
 	// Callback registration
