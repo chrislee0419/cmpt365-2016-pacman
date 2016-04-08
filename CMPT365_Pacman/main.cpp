@@ -24,7 +24,6 @@ Test *tester_object;
 int window_x = 800;
 int window_y = 800;
 
-GLuint loc_x, loc_y;		// used for scaling after resizing windows
 Shader default_shader, texture_shader;	// stores shader programs
 
 void Initialize()
@@ -35,8 +34,6 @@ void Initialize()
 
 	// Set up window size uniforms
 	GLuint program = default_shader.GetProgram();
-	loc_x = glGetUniformLocation(program, "xsize");
-	loc_y = glGetUniformLocation(program, "ysize");
 
 	// Provide each class with their respective shader programs
 	Box::SetShader(default_shader);
@@ -62,8 +59,10 @@ void Display()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// Send window length and width to default shader program
-	glUniform1i(loc_x, window_x);
-	glUniform1i(loc_y, window_y);
+	glUniform1i(default_shader.GetX(), window_x);
+	glUniform1i(default_shader.GetY(), window_y);
+	glUniform1i(texture_shader.GetX(), window_x);
+	glUniform1i(texture_shader.GetY(), window_y);
 
 	if (enable_test)
 	{
