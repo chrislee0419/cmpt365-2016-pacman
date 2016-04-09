@@ -109,9 +109,8 @@ int main(int argc, char **argv) {
 	{
 		Test::SetProgram(default_shader);
 		tester_object = new Test();
-		//tester_object->SetupTest();
-		//tester_object->BasicTest();
-		tester_object->SpriteTest();
+		tester_object->SetupTest();
+		tester_object->BasicTest();
 	}
 
 	// Callback registration

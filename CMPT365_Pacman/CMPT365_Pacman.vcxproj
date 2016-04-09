@@ -75,6 +75,7 @@
     <ClCompile Include="objects\menu\Button.cpp" />
     <ClCompile Include="objects\menu\Text.cpp" />
     <ClCompile Include="shaders\Shader.cpp" />
+    <ClCompile Include="sprites\Sprite.cpp" />
     <ClCompile Include="test\test.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +84,7 @@
     <ClInclude Include="objects\menu\Text.h" />
     <ClInclude Include="objects\_colours.h" />
     <ClInclude Include="shaders\Shader.h" />
+    <ClInclude Include="sprites\Sprite.h" />
     <ClInclude Include="test\test.h" />
     <ClInclude Include="test\_util.h" />
   </ItemGroup>
