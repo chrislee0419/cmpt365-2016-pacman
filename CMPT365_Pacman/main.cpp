@@ -39,6 +39,9 @@ void Initialize()
 	Box::SetShader(default_shader);
 	Text::SetShader(texture_shader);
 
+	// Extra preparation
+	Text::PrepareFT();
+
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 
@@ -110,7 +113,7 @@ int main(int argc, char **argv) {
 		Test::SetProgram(default_shader);
 		tester_object = new Test();
 		tester_object->SetupTest();
-		tester_object->BasicTest();
+		//tester_object->BasicTest();
 	}
 
 	// Callback registration

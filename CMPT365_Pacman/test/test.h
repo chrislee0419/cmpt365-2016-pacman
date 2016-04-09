@@ -30,11 +30,11 @@ private:
 	Text *text_objects;
 	void _CreateTextTest();
 	void _DisplayTextTest();
+	bool _text_test;
 
 	//Sprite *sprite_objects;
 	//void _CreateSpriteTest();
 	//void _DispalySpriteTest();
-	bool _text_test;
 
 public:
 	Test();
