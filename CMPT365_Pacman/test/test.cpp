@@ -29,6 +29,7 @@ Test::~Test()
 }
 
 // Test setup
+// Comment out the tests that do not need to be run
 void Test::SetupTest()
 {
 	//_CreateBoxTest();

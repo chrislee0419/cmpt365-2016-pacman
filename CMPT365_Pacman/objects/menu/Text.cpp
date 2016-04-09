@@ -125,7 +125,6 @@ void Text::Draw(int x_translate, int y_translate)
 
 	glUniform4f(glGetUniformLocation(_shader.GetProgram(), "textColour"),
 		_colour.x, _colour.y, _colour.z, _colour.w);
-	printf("(%f, %f, %f, %f)\n", _colour.x, _colour.y, _colour.z, _colour.w);
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(_vao);
 
@@ -149,8 +148,6 @@ void Text::Draw(int x_translate, int y_translate)
 		GLfloat y_position = ypos + y_translate - (ch.Size.y - ch.Bearing.y) * _size;
 		GLfloat w = ch.Size.x * _size;
 		GLfloat h = ch.Size.y * _size;
-
-		printf("[char: %c] x: %f, y: %f, w: %f, h: %f\n", c, x_position, y_position, w, h);
 
 		GLfloat vertices[6][4] = {
 			{ x_position,		y_position + h, 0.0, 0.0 },
@@ -236,8 +233,10 @@ void Text::PrepareFT()
 		throw runtime_error("Text [ERROR]: could not load Ubuntu font.");
 
 	// Creating character map
-	FT_Set_Char_Size(roboto_face, 256, 256, 96, 96);
-	FT_Set_Char_Size(ubuntu_face, 256, 256, 96, 96);
+	FT_Set_Char_Size(roboto_face, 32, 0, 1024, 0);
+	FT_Set_Char_Size(ubuntu_face, 32, 0, 1024, 0);
+	//FT_Set_Pixel_Sizes(roboto_face, 32, 32);
+	//FT_Set_Pixel_Sizes(ubuntu_face, 32, 32);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	for (GLubyte c = 0; c < 128; c++)
 	{
