@@ -126,19 +126,16 @@ void Box::Translate(int x, int y)
 void Box::SetColour(glm::vec4 outer_colour, glm::vec4 inner_colour)
 {
 	_SetColours(outer_colour, inner_colour);
-	_PushColoursToBuffer();
 }
 
 void Box::SetOuterColour(glm::vec4 colour)
 {
 	_outer_colour = colour;
-	_PushColoursToBuffer();
 }
 
 void Box::SetInnerColour(glm::vec4 colour)
 {
 	_inner_colour = colour;
-	_PushColoursToBuffer();
 }
 
 // static - should only be set once
@@ -240,46 +237,26 @@ void Box::_SetColours(glm::vec4 outer_colour, glm::vec4 inner_colour)
 
 glm::vec4* Box::_CreateVerticesArray()
 {
+	using glm::vec4;
 	// object origin at bottom left corner
-	// 6 vertices for box background
-	// 4*6 = 24 vertices for box border
-	glm::vec4 *vertices = new glm::vec4[30];
+	// 6 vertices for box background/border
+	// 6 vertices for box foreground
 
-	// Background
-	vertices[0] = glm::vec4(_xpos, _ypos, 0.01, 1.0);
-	vertices[1] = glm::vec4(_xpos + _xsize, _ypos, 0.01, 1.0);
-	vertices[2] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.01, 1.0);
-	vertices[3] = glm::vec4(_xpos, _ypos, 0.01, 1.0);
-	vertices[4] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.01, 1.0);
-	vertices[5] = glm::vec4(_xpos, _ypos + _ysize, 0.01, 1.0);
-	// Bottom border
-	vertices[6] = glm::vec4(_xpos, _ypos, 0.0, 1.0);
-	vertices[7] = glm::vec4(_xpos + _xsize, _ypos, 0.0, 1.0);
-	vertices[8] = glm::vec4(_xpos + _xsize, _ypos + _border, 0.0, 1.0);
-	vertices[9] = glm::vec4(_xpos, _ypos, 0.0, 1.0);
-	vertices[10] = glm::vec4(_xpos + _xsize, _ypos + _border, 0.0, 1.0);
-	vertices[11] = glm::vec4(_xpos, _ypos + _border, 0.0, 1.0);
-	// Top border
-	vertices[12] = glm::vec4(_xpos, _ypos + _ysize - _border, 0.0, 1.0);
-	vertices[13] = glm::vec4(_xpos + _xsize, _ypos + _ysize - _border, 0.0, 1.0);
-	vertices[14] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.0, 1.0);
-	vertices[15] = glm::vec4(_xpos, _ypos + _ysize - _border, 0.0, 1.0);
-	vertices[16] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.0, 1.0);
-	vertices[17] = glm::vec4(_xpos, _ypos + _ysize, 0.0, 1.0);
-	// Left border
-	vertices[18] = glm::vec4(_xpos, _ypos, 0.0, 1.0);
-	vertices[19] = glm::vec4(_xpos + _border, _ypos, 0.0, 1.0);
-	vertices[20] = glm::vec4(_xpos + _border, _ypos + _ysize, 0.0, 1.0);
-	vertices[21] = glm::vec4(_xpos, _ypos, 0.0, 1.0);
-	vertices[22] = glm::vec4(_xpos + _border, _ypos + _ysize, 0.0, 1.0);
-	vertices[23] = glm::vec4(_xpos, _ypos + _ysize, 0.0, 1.0);
-	// Right border
-	vertices[24] = glm::vec4(_xpos + _xsize - _border, _ypos, 0.0, 1.0);
-	vertices[25] = glm::vec4(_xpos + _xsize, _ypos, 0.0, 1.0);
-	vertices[26] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.0, 1.0);
-	vertices[27] = glm::vec4(_xpos + _xsize - _border, _ypos, 0.0, 1.0);
-	vertices[28] = glm::vec4(_xpos + _xsize, _ypos + _ysize, 0.0, 1.0);
-	vertices[29] = glm::vec4(_xpos + _xsize - _border, _ypos + _ysize, 0.0, 1.0);
+	vec4 *vertices = new vec4[12];
+	// background/border
+	vertices[0] = vec4(_xpos, _ypos, 0.0, 1.0);
+	vertices[1] = vec4(_xpos + _xsize, _ypos, 0.0, 1.0);
+	vertices[2] = vec4(_xpos, _ypos + _ysize, 0.0, 1.0);
+	vertices[3] = vec4(_xpos, _ypos + _ysize, 0.0, 1.0);
+	vertices[4] = vec4(_xpos + _xsize, _ypos, 0.0, 1.0);
+	vertices[5] = vec4(_xpos + _xsize, _ypos + _ysize, 0.0, 1.0);
+	// foreground
+	vertices[6] = vec4(_xpos + _border, _ypos + _border, 0.0, 1.0);
+	vertices[7] = vec4(_xpos + _xsize - _border, _ypos + _border, 0.0, 1.0);
+	vertices[8] = vec4(_xpos + _border, _ypos + _ysize - _border, 0.0, 1.0);
+	vertices[9] = vec4(_xpos + _border, _ypos + _ysize - _border, 0.0, 1.0);
+	vertices[10] = vec4(_xpos + _xsize - _border, _ypos + _border, 0.0, 1.0);
+	vertices[11] = vec4(_xpos + _xsize - _border, _ypos + _ysize - _border, 0.0, 1.0);
 
 	return vertices;
 }
@@ -301,7 +278,7 @@ void Box::_CreateGLObjects()
 	if ( !glIsBuffer(position_vbo) )
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, position_vbo);
-		glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(glm::vec4), NULL, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(glm::vec4), NULL, GL_DYNAMIC_DRAW);
 		glVertexAttribPointer(_vertex_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
 		glEnableVertexAttribArray(_vertex_position);
 	}
@@ -310,7 +287,7 @@ void Box::_CreateGLObjects()
 	if (!glIsBuffer(colour_vbo))
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, colour_vbo);
-		glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(glm::vec4), NULL, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(glm::vec4), NULL, GL_DYNAMIC_DRAW);
 		glVertexAttribPointer(_vertex_colour, 4, GL_FLOAT, GL_FALSE, 0, 0);
 		glEnableVertexAttribArray(_vertex_colour);
 	}
@@ -329,18 +306,20 @@ void Box::_PushVerticesToBuffer()
 	glm::vec4 *vertices = _CreateVerticesArray();
 
 	glBindBuffer(GL_ARRAY_BUFFER, position_vbo);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, 30 * sizeof(glm::vec4), vertices);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, 12 * sizeof(glm::vec4), vertices);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	free(vertices);
 }
 
 void Box::_PushColoursToBuffer()
 {
-	glm::vec4 colours[30] = {};
-	for (int i = 0; i < 6; i++) colours[i] = _inner_colour;
-	for (int i = 6; i < 30; i++) colours[i] = _outer_colour;
+	glm::vec4 colours[12] = {};
+	for (int i = 0; i < 6; i++) colours[i] = _outer_colour;
+	for (int i = 6; i < 12; i++) colours[i] = _inner_colour;
 
 	glBindBuffer(GL_ARRAY_BUFFER, colour_vbo);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, 30 * sizeof(glm::vec4), colours);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, 12 * sizeof(glm::vec4), colours);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -352,7 +331,7 @@ void Box::_Draw()
 	_PushVerticesToBuffer();
 	_PushColoursToBuffer();
 	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 30);
+	glDrawArrays(GL_TRIANGLES, 0, 12);
 	glBindVertexArray(0);
 }
 
