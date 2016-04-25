@@ -10,12 +10,21 @@ class Sprite
 {
 private:
 	static Shader _shader;
-	GLuint _vao;
-	GLuint _vbo;
+	static GLuint _vao;
+	static GLuint _vbo;
+	int _w, _h;
+	unsigned char* _tex;
+
+	void _PrepareGLObjects();
 
 public:
 	Sprite();
+	Sprite(std::string texture);
 	~Sprite();
 
-	void LoadTexture(std::string sprite);
+	void LoadTexture(std::string texture);
+
+	void Prepare(Shader shader);
+
+	void Draw(int x_translate, int y_translate);
 };

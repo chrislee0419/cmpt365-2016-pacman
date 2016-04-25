@@ -176,15 +176,11 @@ void Text::SetPosition(int xpos, int ypos)
 	_ypos = ypos;
 }
 
-void Text::SetShader(Shader shader)
+// Creates FreeType fonts and GL objects, sets shader program
+void Text::Prepare(Shader shader)
 {
 	_shader = shader;
 	_shader.UseShader();
-}
-
-// Creates FreeType fonts and GL objects
-void Text::Prepare()
-{
 	_PrepareFT();
 	_CreateGLObjects();
 }

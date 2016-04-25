@@ -15,7 +15,6 @@ private:
 	static GLuint position_vbo, colour_vbo;
 	static bool _ready;
 	static Shader _shader;
-	static GLuint _vertex_position, _vertex_colour;
 
 	void _Init(int xsize, int ysize, int xpos, int ypos, int border, glm::vec4 outer_colour, glm::vec4 inner_colour);
 	bool _Assert();
@@ -52,8 +51,7 @@ public:
 	void SetColour(glm::vec4 outer_colour, glm::vec4 inner_colour);
 	void SetOuterColour(glm::vec4 colour);
 	void SetInnerColour(glm::vec4 colour);
-	static void SetShader(Shader shader);
-	static void Prepare();
+	static void Prepare(const Shader shader);
 	static void Cleanup();
 
 	void Draw(int x_translate, int y_translate);

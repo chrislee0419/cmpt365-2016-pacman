@@ -8,6 +8,8 @@
 #include <fstream>
 #include <vector>
 
+#define GLSL(version, A) "#version " #version "\n" #A
+
 // Constructor and destructor
 Shader::Shader()
 {
@@ -15,8 +17,17 @@ Shader::Shader()
 	_ready = false;
 }
 
+Shader::Shader(int type)
+{
+	_program = 0;
+	_ready = false;
+	CreateProgram(type);
+}
+
 Shader::Shader(char* vertexShaderFilename, char* fragmentShaderFilename)
 {
+	_program = 0;
+	_ready = false;
 	CreateProgram(vertexShaderFilename, fragmentShaderFilename);
 }
 
@@ -73,13 +84,152 @@ GLuint Shader::GetProgram()
 	return _program;
 }
 
-// Creates shader program
+// Creates default shader programs
+void Shader::CreateProgram(int type)
+{
+	std::string vertex_shader_code, fragment_shader_code;
+	// default shader
+	if (type == 1)
+	{
+		vertex_shader_code = GLSL(330,
+			in vec4 vPosition;
+			in vec4 vColour;
+			out vec4 colour;
+	
+			uniform int xsize;
+			uniform int ysize;
+	
+			void main(void) {
+				mat4 scale = mat4(
+					2.0 / xsize, 0.0, 0.0, 0.0,
+					0.0, 2.0 / ysize, 0.0, 0.0,
+					0.0, 0.0, 1.0, 0.0,
+					0.0, 0.0, 0.0, 1.0
+					);
+	
+				vec4 position = vPosition + vec4(-400, -400, 0, 0);
+				gl_Position = scale * position;
+
+				colour = vColour;
+			});
+		fragment_shader_code = GLSL(330,
+			in vec4 colour;
+			out vec4 fColour;
+	
+			void main(void) {
+			fColour = colour;
+			});
+	}
+	// text shader
+	else if (type == 2)
+	{
+		vertex_shader_code = GLSL(330,
+			in vec4 vertex;
+			out vec2 TexCoor;
+	
+			uniform int xsize;
+			uniform int ysize;
+	
+			void main(void) {
+	
+				mat4 scale = mat4(
+					2.0 / xsize, 0.0, 0.0, 0.0,
+					0.0, 2.0 / ysize, 0.0, 0.0,
+					0.0, 0.0, 1.0, 0.0,
+					0.0, 0.0, 0.0, 1.0
+					);
+	
+				vec4 position = vec4(vertex.xy, 0, 1) + vec4(-400, -400, 0, 0);
+				gl_Position = scale * position;
+	
+				TexCoor = vertex.zw;
+			});
+		fragment_shader_code = GLSL(330,
+			in vec2 TexCoor;
+			out vec4 fColour;
+
+			uniform sampler2D text;
+			uniform vec4 textColour;
+
+			void main(void) {
+				vec4 sampled = vec4(1.0, 1.0, 1.0, texture(text, TexCoor).r);
+				fColour = textColour * sampled;
+			});
+	}
+	else if (type == 3)
+	{
+		vertex_shader_code = GLSL(330,
+			in vec4 vertex;
+			out vec2 TexCoor;
+	
+			uniform int xsize;
+			uniform int ysize;
+	
+			void main(void) {
+				mat4 scale = mat4(
+					2.0 / xsize, 0.0, 0.0, 0.0,
+					0.0, 2.0 / ysize, 0.0, 0.0,
+					0.0, 0.0, 1.0, 0.0,
+					0.0, 0.0, 0.0, 1.0
+					);
+
+				vec4 position = vec4(vertex.xy, 0, 1) + vec4(-400, -400, 0, 0);
+				gl_Position = scale * position;
+
+				TexCoor = vertex.zw;
+			});
+		fragment_shader_code = GLSL(330,
+			in vec2 TexCoor;
+			out vec4 fColour;
+
+			uniform sampler2D text;
+			uniform vec4 spriteColour;
+
+			void main(void) {
+				fColour = spriteColour * texture(text, TexCoor);
+			});
+	}
+	else return;
+
+	_CreateProgram(vertex_shader_code, fragment_shader_code);
+		
+}
+
+// Creates shader program from separate files
 void Shader::CreateProgram(char* vertexShaderFilename, char* fragmentShaderFilename) {
 	std::string vertex_shader_code = _ReadShader(vertexShaderFilename);
 	std::string fragment_shader_code = _ReadShader(fragmentShaderFilename);
 
-	GLuint vertex_shader = _CreateShader(GL_VERTEX_SHADER, vertex_shader_code, "vertex shader");
-	GLuint fragment_shader = _CreateShader(GL_FRAGMENT_SHADER, fragment_shader_code, "fragment shader");
+	_CreateProgram(vertex_shader_code, fragment_shader_code);
+}
+
+// Sets as active shader program
+void Shader::UseShader()
+{
+	if (!_ready)
+	{
+		printf("Shader [ERROR]: UseShader called on a non-ready shader program.\n");
+		return;
+	}
+	glUseProgram(_program);
+}
+
+// Gets the xsize uniform location
+GLuint Shader::GetX()
+{
+	return _loc_x;
+}
+
+// Gets the ysize uniform location
+GLuint Shader::GetY()
+{
+	return _loc_y;
+}
+
+void Shader::_CreateProgram(std::string v_code, std::string f_code)
+{
+	GLuint vertex_shader = _CreateShader(GL_VERTEX_SHADER, v_code, "vertex shader");
+	GLuint fragment_shader = _CreateShader(GL_FRAGMENT_SHADER, f_code, "fragment shader");
 
 	int link_result = 0;
 
@@ -107,27 +257,4 @@ void Shader::CreateProgram(char* vertexShaderFilename, char* fragmentShaderFilen
 
 	_ready = true;
 	_program = program;
-}
-
-// Sets as active shader program
-void Shader::UseShader()
-{
-	if (!_ready)
-	{
-		printf("Shader [ERROR]: UseShader called on a non-ready shader program.\n");
-		return;
-	}
-	glUseProgram(_program);
-}
-
-// Gets the xsize uniform location
-GLuint Shader::GetX()
-{
-	return _loc_x;
-}
-
-// Gets the ysize uniform location
-GLuint Shader::GetY()
-{
-	return _loc_y;
 }

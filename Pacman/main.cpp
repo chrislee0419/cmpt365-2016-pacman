@@ -24,24 +24,21 @@ Test *tester_object;
 int window_x = 800;
 int window_y = 800;
 
-Shader default_shader, texture_shader;	// stores shader programs
+Shader default_shader, text_shader, sprite_shader;	// stores shader programs
 
 void Initialize()
 {
 	// Prepare shaders
-	default_shader = Shader("shaders\\vshader.glsl", "shaders\\fshader.glsl");
-	texture_shader = Shader("shaders\\vtexshader.glsl", "shaders\\ftexshader.glsl");
+	default_shader = Shader(1);
+	text_shader = Shader(2);
+	sprite_shader = Shader(3);
 
 	// Set up window size uniforms
 	GLuint program = default_shader.GetProgram();
 
-	// Provide each class with their respective shader programs
-	Box::SetShader(default_shader);
-	Text::SetShader(texture_shader);
-
-	// Extra preparation
-	Box::Prepare();
-	Text::Prepare();
+	// Provide each class with their respective shader program and prepare objects
+	Box::Prepare(default_shader);
+	Text::Prepare(text_shader);
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -59,11 +56,13 @@ void Display()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	// Send window length and width to default shader program
+	// Send window length and width to shader programs
 	glUniform1i(default_shader.GetX(), window_x);
 	glUniform1i(default_shader.GetY(), window_y);
-	glUniform1i(texture_shader.GetX(), window_x);
-	glUniform1i(texture_shader.GetY(), window_y);
+	glUniform1i(text_shader.GetX(), window_x);
+	glUniform1i(text_shader.GetY(), window_y);
+	glUniform1i(sprite_shader.GetX(), window_x);
+	glUniform1i(sprite_shader.GetY(), window_y);
 
 	if (enable_test)
 	{

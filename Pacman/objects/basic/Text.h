@@ -63,8 +63,7 @@ public:
 	void SetXPosition(int xpos);
 	void SetYPosition(int ypos);
 	void SetPosition(int xpos, int ypos);
-	static void SetShader(const Shader shader);
-	static void Prepare();
+	static void Prepare(const Shader shader);
 	static void Cleanup();
 
 	void Draw(int x_translate, int y_translate);

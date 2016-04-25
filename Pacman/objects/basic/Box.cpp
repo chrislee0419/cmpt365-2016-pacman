@@ -10,8 +10,6 @@
 GLuint Box::vao = 0;
 GLuint Box::position_vbo = 0;
 GLuint Box::colour_vbo = 0;
-GLuint Box::_vertex_position = 0;
-GLuint Box::_vertex_colour = 0;
 Shader Box::_shader = Shader();
 bool Box::_ready = false;
 
@@ -138,21 +136,12 @@ void Box::SetInnerColour(glm::vec4 colour)
 	_inner_colour = colour;
 }
 
-// static - should only be set once
-void Box::SetShader(Shader shader)
+// Create GL objects before first draw
+void Box::Prepare(Shader shader)
 {
 	_shader = shader;
 	_shader.UseShader();
 
-	GLuint program = _shader.GetProgram();
-
-	_vertex_position = glGetAttribLocation(program, "vPosition");
-	_vertex_colour = glGetAttribLocation(program, "vColour");
-}
-
-// Create GL objects before first draw
-void Box::Prepare()
-{
 	_CreateGLObjects();
 }
 
@@ -265,6 +254,9 @@ void Box::_CreateGLObjects()
 {
 	_shader.UseShader();
 
+	GLuint v_pos = glGetAttribLocation(_shader.GetProgram(), "vPosition");
+	GLuint v_col = glGetAttribLocation(_shader.GetProgram(), "vColour");
+
 	// Prepare VAO and VBOs
 	if ( !glIsVertexArray(vao) )
 	{
@@ -279,8 +271,8 @@ void Box::_CreateGLObjects()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, position_vbo);
 		glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(glm::vec4), NULL, GL_DYNAMIC_DRAW);
-		glVertexAttribPointer(_vertex_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
-		glEnableVertexAttribArray(_vertex_position);
+		glVertexAttribPointer(v_pos, 4, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(v_pos);
 	}
 
 	// Store vertex colours in buffer
@@ -288,8 +280,8 @@ void Box::_CreateGLObjects()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, colour_vbo);
 		glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(glm::vec4), NULL, GL_DYNAMIC_DRAW);
-		glVertexAttribPointer(_vertex_colour, 4, GL_FLOAT, GL_FALSE, 0, 0);
-		glEnableVertexAttribArray(_vertex_colour);
+		glVertexAttribPointer(v_col, 4, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(v_col);
 	}
 
 	// Unbinding
