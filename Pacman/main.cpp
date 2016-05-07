@@ -11,6 +11,8 @@
 
 #include "objects\basic\Box.h"
 #include "objects\basic\Text.h"
+#include "objects\basic\Sprite.h"
+#include "objects\game\ImageManager.h"
 
 #include "objects\test.h"
 #include "objects\_util.h"
@@ -33,12 +35,11 @@ void Initialize()
 	text_shader = Shader(2);
 	sprite_shader = Shader(3);
 
-	// Set up window size uniforms
-	GLuint program = default_shader.GetProgram();
-
 	// Provide each class with their respective shader program and prepare objects
 	Box::Prepare(default_shader);
 	Text::Prepare(text_shader);
+	Sprite::Prepare(sprite_shader);
+	ImageManager::Prepare();
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 0.0, 1.0);

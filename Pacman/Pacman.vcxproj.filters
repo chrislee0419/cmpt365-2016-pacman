@@ -36,6 +36,9 @@
     <ClCompile Include="objects\test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="objects\game\ImageManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="objects\_colours.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="shaders\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\game\ImageManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,6 +7,7 @@
 
 #include "..\objects\basic\Box.h"
 #include "..\objects\basic\Text.h"
+#include "..\objects\basic\Sprite.h"
 
 #include "..\shaders\Shader.h"
 #include "..\objects\_colours.h"
@@ -27,6 +28,11 @@ private:
 	void _CreateTextTest();
 	void _DisplayTextTest();
 	bool _text_test;
+
+	Sprite *sprite_objects;
+	void _CreateSpriteTest();
+	void _DisplaySpriteTest();
+	bool _sprite_test;
 
 public:
 	Test();

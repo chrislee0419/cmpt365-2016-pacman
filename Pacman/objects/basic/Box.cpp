@@ -289,7 +289,7 @@ void Box::_CreateGLObjects()
 	glBindVertexArray(0);
 
 	_ready = true;
-	printf("First time drawing for Box object: VAO = %d, pos = %d, col = %d\n",
+	printf("Prepared OpenGL objects for Box objects: VAO = %d, pos = %d, col = %d\n",
 			vao, position_vbo, colour_vbo);
 }
 

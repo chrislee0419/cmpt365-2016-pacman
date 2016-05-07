@@ -76,6 +76,7 @@
     <ClCompile Include="objects\basic\Button.cpp" />
     <ClCompile Include="objects\basic\Sprite.cpp" />
     <ClCompile Include="objects\basic\Text.cpp" />
+    <ClCompile Include="objects\game\ImageManager.cpp" />
     <ClCompile Include="objects\test.cpp" />
     <ClCompile Include="shaders\Shader.cpp" />
   </ItemGroup>
@@ -84,6 +85,7 @@
     <ClInclude Include="objects\basic\Button.h" />
     <ClInclude Include="objects\basic\Sprite.h" />
     <ClInclude Include="objects\basic\Text.h" />
+    <ClInclude Include="objects\game\ImageManager.h" />
     <ClInclude Include="objects\test.h" />
     <ClInclude Include="objects\_colours.h" />
     <ClInclude Include="objects\_util.h" />

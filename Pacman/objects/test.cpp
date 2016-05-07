@@ -13,6 +13,7 @@ Test::Test()
 
 	_box_test = false;
 	_text_test = false;
+	_sprite_test = false;
 }
 
 // Destructor
@@ -22,6 +23,8 @@ Test::~Test()
 		free(box_objects);
 	if (_text_test)
 		free(text_objects);
+	if (_sprite_test)
+		free(sprite_objects);
 }
 
 // Test setup
@@ -29,13 +32,15 @@ Test::~Test()
 void Test::SetupTest()
 {
 	//_CreateBoxTest();
-	_CreateTextTest();
+	//_CreateTextTest();
+	_CreateSpriteTest();
 }
 
 void Test::DisplayTest()
 {
 	_DisplayBoxTest();
 	_DisplayTextTest();
+	_DisplaySpriteTest();
 }
 
 void Test::SetProgram(const Shader shader)

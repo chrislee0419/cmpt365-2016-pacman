@@ -293,7 +293,7 @@ void Text::_CreateGLObjects()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	_ready = true;
-	printf("First time drawing for Text object: VAO = %d, VBO = %d\n", _vao, _vbo);
+	printf("Prepared OpenGL objects for Text objects: VAO = %d, VBO = %d\n", _vao, _vbo);
 }
 
 // Prepare Freetype library and faces
