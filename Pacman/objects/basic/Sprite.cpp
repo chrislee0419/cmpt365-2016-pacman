@@ -3,9 +3,14 @@
 #include "..\test.h"
 #include "..\_util.h"
 #include "..\_colours.h"
+#include "..\..\depend\glm\vec2.hpp"
+#include "..\..\depend\glm\mat2x2.hpp"
+#include "..\..\depend\glm\gtx\rotate_vector.hpp"
 
 using namespace std;
+using glm::vec2;
 using glm::vec4;
+using glm::mat2;
 
 // Globals
 Shader Sprite::_shader;
@@ -102,7 +107,7 @@ void Sprite::_PrepareGLObjects()
 	printf("Prepared OpenGL objects for Sprite objects: VAO = %d, VBO = %d\n", _vao, _vbo);
 }
 
-glm::vec4* Sprite::_CreateVerticesArray()
+glm::vec4* Sprite::_CreateVerticesArray(float rotation_angle)
 {
 	vec4 *vertices = (vec4*)malloc(sizeof(vec4)* 6);
 
@@ -113,11 +118,31 @@ glm::vec4* Sprite::_CreateVerticesArray()
 	vertices[4] = vec4(_xpos + _xsize,	_ypos,			1.0f, 1.0f);
 	vertices[5] = vec4(_xpos + _xsize,	_ypos + _ysize,	1.0f, 0.0f);
 
+	if (rotation_angle == 0.0f)
+		return vertices;
+
+	// perform rotation
+	printf("\tANGLE: %f\n", rotation_angle);
+	for (int i = 0; i < 6; i++)
+	{
+		printf("rot [%d]: (%f, %f), ", i, vertices[i].x, vertices[i].y);
+		vec2 point = vec2(	vertices[i].x - _xpos - ((float)_xsize / 2.0f),
+							vertices[i].y - _ypos - ((float)_ysize / 2.0f));
+		printf("(%f, %f), ", point.x, point.y);
+		point = glm::rotate(point, (float)(3.14159265359f * rotation_angle / 180));
+		printf("(%f, %f), ", point.x, point.y);
+
+		vertices[i].x = point.x + _xpos + ((float)_xsize / 2.0f);
+		vertices[i].y = point.y + _ypos + ((float)_ysize / 2.0f);
+		printf("(%f, %f)\n", vertices[i].x, vertices[i].y);
+	}
+
 	return vertices;
 }
 
-// Rendering method
-void Sprite::Draw(int x_translate, int y_translate)
+// Rendering methods
+void Sprite::Draw(int x_translate, int y_translate) { Draw(x_translate, y_translate, 0.0); }
+void Sprite::Draw(int x_translate, int y_translate, float rotation_angle)
 {
 	if (glIsTexture(_tex) == GL_FALSE)
 	{
@@ -142,7 +167,7 @@ void Sprite::Draw(int x_translate, int y_translate)
 		_colour.x, _colour.y, _colour.z, _colour.w);
 
 	// push vertices to buffer
-	vec4 *vertices = _CreateVerticesArray();
+	vec4 *vertices = _CreateVerticesArray(rotation_angle);
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, 6 * sizeof(vec4), vertices);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -162,18 +187,15 @@ void Sprite::Draw(int x_translate, int y_translate)
 }
 
 // Testing methods
-
-#define NUM_OF_TESTS 34
-
 void Test::_CreateSpriteTest()
 {
-	sprite_objects = (Sprite*)malloc(sizeof(Sprite)* NUM_OF_TESTS);
+	sprite_objects = (Sprite*)malloc(sizeof(Sprite)* (IMG_LAST_ITEM+1));
 
 	sprite_objects[0] = Sprite();
-	sprite_objects[1] = Sprite(IMG_TEST2, 500, 500, 100, 100);
+	sprite_objects[1] = Sprite(IMG_TEST2, 600, 600, 100, 100);
 	sprite_objects[2] = Sprite(IMG_TEST3, 0, 400, 400, 400, CYAN);
 
-	for (int i = 0; i < 31; i++)
+	for (int i = 0; i < IMG_LAST_ITEM-2; i++)
 		sprite_objects[i+3] = Sprite(i+3, 400 + 40 * (i % 10), 40 * (i / 10), 40, 40);
 
 	_sprite_test = true;
@@ -184,6 +206,9 @@ void Test::_DisplaySpriteTest()
 	if (!_sprite_test)
 		return;
 
-	for (int i = 0; i < NUM_OF_TESTS; i++)
+	for (int i = 0; i < 3; i++)
 		sprite_objects[i].Draw(0, 0);
+
+	for (int i = 3; i < IMG_LAST_ITEM + 1; i++)
+		sprite_objects[i].Draw(0, 0, (float)(((i-3)*90) % 360));
 }

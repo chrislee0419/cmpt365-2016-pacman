@@ -18,7 +18,7 @@ private:
 
 	void _Init(int xpos, int ypos, int xsize, int ysize, glm::vec4 colour);
 	static void _PrepareGLObjects();
-	glm::vec4* _CreateVerticesArray();
+	glm::vec4* _CreateVerticesArray(float rotation_angle);
 
 public:
 	Sprite();
@@ -41,5 +41,5 @@ public:
 	static void Prepare(Shader shader);
 
 	void Draw(int x_translate, int y_translate);
-	void Draw(int x_translate, int y_translate, int rotate);
+	void Draw(int x_translate, int y_translate, float rotation_angle);
 };

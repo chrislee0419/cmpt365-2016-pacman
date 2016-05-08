@@ -84,7 +84,21 @@
 #define IMG_WALL_OUTER_INV_L 33
 #define IMG_WALL_OUTER_INV_L_PATH "images/wall_outer_inv_l.png"
 
-#define IMG_LAST_ITEM 33
+#define IMG_GHOST_EYES_U 34
+#define IMG_GHOST_EYES_U_PATH "images/ghost_eyes_u.png"
+#define IMG_GHOST_EYES_D 35
+#define IMG_GHOST_EYES_D_PATH "images/ghost_eyes_d.png"
+#define IMG_GHOST_EYES_L 36
+#define IMG_GHOST_EYES_L_PATH "images/ghost_eyes_l.png"
+#define IMG_GHOST_EYES_R 37
+#define IMG_GHOST_EYES_R_PATH "images/ghost_eyes_r.png"
+
+#define IMG_SPOOKED1 38
+#define IMG_SPOOKED1_PATH "images/spooked1.png"
+#define IMG_SPOOKED2 39
+#define IMG_SPOOKED2_PATH "images/spooked2.png"
+
+#define IMG_LAST_ITEM 39
 
 class ImageManager
 {

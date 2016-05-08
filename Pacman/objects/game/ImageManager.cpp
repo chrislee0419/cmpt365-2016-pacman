@@ -92,6 +92,14 @@ void ImageManager::Prepare()
 	_textures[IMG_WALL_OUTER] = _Load(IMG_WALL_OUTER_PATH);
 	_textures[IMG_WALL_OUTER_L] = _Load(IMG_WALL_OUTER_L_PATH);
 	_textures[IMG_WALL_OUTER_INV_L] = _Load(IMG_WALL_OUTER_INV_L_PATH);
+
+	_textures[IMG_GHOST_EYES_U] = _Load(IMG_GHOST_EYES_U_PATH);
+	_textures[IMG_GHOST_EYES_D] = _Load(IMG_GHOST_EYES_D_PATH);
+	_textures[IMG_GHOST_EYES_L] = _Load(IMG_GHOST_EYES_L_PATH);
+	_textures[IMG_GHOST_EYES_R] = _Load(IMG_GHOST_EYES_R_PATH);
+
+	_textures[IMG_SPOOKED1] = _Load(IMG_SPOOKED1_PATH);
+	_textures[IMG_SPOOKED2] = _Load(IMG_SPOOKED2_PATH);
 }
 
 GLuint ImageManager::RetrieveTexture(int id)
