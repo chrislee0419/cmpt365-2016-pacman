@@ -158,6 +158,7 @@ void Box::Cleanup()
 }
 
 // Rendering method
+void Box::Draw() { Draw(0, 0); }
 void Box::Draw(int x_translate, int y_translate)
 {
 	int old_xpos, old_ypos;

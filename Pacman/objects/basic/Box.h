@@ -54,6 +54,7 @@ public:
 	static void Prepare(const Shader shader);
 	static void Cleanup();
 
+	void Draw();
 	void Draw(int x_translate, int y_translate);
 
 };

@@ -155,26 +155,15 @@ void Text::SetText(string text)
 	_text[200] = '\0';
 }
 
-void Text::SetColour(glm::vec4 colour)
-{
-	_colour = colour;
-}
+void Text::SetColour(glm::vec4 colour) { _colour = colour; }
 
-void Text::SetXPosition(int xpos)
-{
-	_xpos = xpos;
-}
+void Text::SetXPosition(int xpos) { _xpos = xpos; }
 
-void Text::SetYPosition(int ypos)
-{
-	_ypos = ypos;
-}
+void Text::SetYPosition(int ypos) { _ypos = ypos; }
 
-void Text::SetPosition(int xpos, int ypos)
-{
-	_xpos = xpos;
-	_ypos = ypos;
-}
+void Text::SetPosition(int xpos, int ypos) { _xpos = xpos; _ypos = ypos; }
+
+void Text::Translate(int x, int y) { _xpos += x; _ypos += y; }
 
 // Creates FreeType fonts and GL objects, sets shader program
 void Text::Prepare(Shader shader)
@@ -196,6 +185,7 @@ void Text::Cleanup()
 }
 
 // Rendering method
+void Text::Draw() { Draw(0, 0); }
 void Text::Draw(int x_translate, int y_translate)
 {
 	_shader.UseShader();

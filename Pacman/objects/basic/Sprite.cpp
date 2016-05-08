@@ -7,6 +7,8 @@
 #include "..\..\depend\glm\mat2x2.hpp"
 #include "..\..\depend\glm\gtx\rotate_vector.hpp"
 
+#include <iostream>
+
 using namespace std;
 using glm::vec2;
 using glm::vec4;

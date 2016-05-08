@@ -1,17 +1,20 @@
+
 #include "Button.h"
+
+#include "..\_colours.h"
+
+#include <iostream>
 
 // Constructors
 Button::Button()
 {
-	box = Box();
-	_SetDefaultColours();
+	_box = Box();
 	// text = Text();
 }
 
 Button::Button(int xsize, int ysize, int xpos, int ypos, std::string text)
 {
-	box = Box(xsize, ysize, xpos, ypos);
-	_SetDefaultColours();
+	_box = Box(xsize, ysize, xpos, ypos);
 	// change text when Text class finished
 }
 
@@ -21,116 +24,76 @@ Button::~Button()
 }
 
 // Getter methods
-int Button::GetXSize()
-{
-	return box.GetXSize();
-}
+int Button::GetXSize() { return _box.GetXSize(); }
 
-int Button::GetYSize()
-{
-	return box.GetYSize();
-}
+int Button::GetYSize() { return _box.GetYSize(); }
 
-int Button::GetXPosition()
-{
-	return box.GetXPosition();
-}
+int Button::GetXPosition() { return _box.GetXPosition(); }
 
-int Button::GetYPosition()
-{
-	return box.GetYPosition();
-}
+int Button::GetYPosition() { return _box.GetYPosition(); }
 
 //Setter methods
 void Button::SetXSize(int x)
 {
-	box.SetXSize(x);
+	_box.SetXSize(x);
 }
 
 void Button::SetYSize(int y)
 {
-	box.SetYSize(y);
+	_box.SetYSize(y);
 }
 
 void Button::SetXPosition(int x)
 {
-	box.SetXPosition(x);
+	_box.SetXPosition(x);
 }
 
 void Button::SetYPosition(int y)
 {
-	box.SetYPosition(y);
+	_box.SetYPosition(y);
 }
 
 void Button::SetText(std::string text)
 {
-	// do something with text class
+	_text.SetText(text);
 }
 
-void Button::SetColours(glm::vec4 inner_colour, glm::vec4 outer_colour)
+void Button::SetDefaultColours(glm::vec4 outer_colour, glm::vec4 inner_colour)
 {
-	// to change the non-highlighted colours
-	_SetColours(inner_colour, outer_colour);
-}
-
-void Button::SetHoverColours(glm::vec4 inner_colour_hover, glm::vec4 outer_colour_hover)
-{
-	// to change the highlighted colours
-	_SetHoverColours(inner_colour_hover, outer_colour_hover);
-}
-
-// Private helper methods
-void Button::_SetDefaultColours()
-{
-	// white = highlighted
-	_outer_colour = BLACK;
-	_inner_colour = DARKBLUE;
-	// dark blue = not highlighted
-	_outer_colour_hover = BLACK;
-	_inner_colour_hover = WHITE;
-}
-
-void Button::_SetColours()
-{
-	// changes to the current non-highlighted colours
-	box.SetColour(_outer_colour, _inner_colour);
-}
-
-void Button::_SetColours(glm::vec4 outer_colour, glm::vec4 inner_colour)
-{
-	// helper function to change non-highlighted colours
 	_outer_colour = outer_colour;
 	_inner_colour = inner_colour;
 }
 
-void Button::_SetHoverColours()
+void Button::SetHoverColours(glm::vec4 outer_colour, glm::vec4 inner_colour)
 {
-	// changes to the current highlighted colours
-	box.SetColour(_outer_colour_hover, _inner_colour_hover);
-}
-
-void Button::_SetHoverColours(glm::vec4 outer_colour_hover, glm::vec4 inner_colour_hover)
-{
-	// helper function to change highlighted colours
-	_outer_colour_hover = outer_colour_hover;
-	_inner_colour_hover = inner_colour_hover;
+	_outer_colour_hover = outer_colour;
+	_inner_colour_hover = inner_colour;
 }
 
 void Button::Translate(int x, int y)
 {
-	box.Translate(x, y);
+	_box.Translate(x, y);
+	_text.Translate(x, y);
 }
 
 void Button::CheckMousePosition(int x, int y)
 {
-	if ((x < GetXPosition() + GetXSize() && x > GetXPosition())
-		&& (y < GetYPosition() + GetYSize() && y > GetYPosition()))
-		_SetHoverColours();
+	int xpos = GetXPosition();
+	int xsize = GetXSize();
+	int ypos = GetYPosition();
+	int ysize = GetYSize();
+
+	if ((x < xpos + xsize && x > xpos)
+		&& (y < ypos + ysize && y > ypos))
+		_box.SetColour(_outer_colour_hover, _inner_colour_hover);
 	else
-		_SetColours();
+		_box.SetColour(_outer_colour, _inner_colour);
 }
 
-void Button::Draw()
+// Rendering methods
+void Button::Draw() { Draw(0, 0); }
+void Button::Draw(int x_translate, int y_translate)
 {
-	// call Draw functions from Box and Text?
+	_box.Draw(x_translate, y_translate);
+	_text.Draw(x_translate, y_translate);
 }

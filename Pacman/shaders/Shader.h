@@ -3,7 +3,6 @@
 
 #include "..\depend\glew\glew.h"
 #include "..\depend\freeglut\freeglut.h"
-#include <iostream>
 
 class Shader
 {
