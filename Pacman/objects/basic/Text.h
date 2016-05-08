@@ -46,6 +46,9 @@ private:
 
 public:
 	Text();
+	Text(std::string text);
+	Text(std::string text, glm::vec4 colour);
+	Text(int font, float size, std::string text, glm::vec4 colour);
 	Text(std::string text, int xpos, int ypos);
 	Text(int font, float size, std::string text, int xpos, int ypos);
 	Text(std::string text, int xpos, int ypos, glm::vec4 colour);
@@ -55,6 +58,7 @@ public:
 
 	float GetHeight();
 	float GetWidth();
+	float GetSize();
 
 	void SetFont(int font);
 	void SetSize(float size);

@@ -27,7 +27,24 @@ bool Text::_ready = false;
 // Constructors
 Text::Text()
 {
-	_Init(ROBOTO, 12, "Text", 0, 0, WHITE);
+	_Init(ROBOTO, 2, "Text", 0, 0, WHITE);
+}
+
+Text::Text(string text)
+{
+	_Init(ROBOTO, 2, text, 0, 0, WHITE);
+}
+
+Text::Text(string text, glm::vec4 colour)
+{
+	_Init(ROBOTO, 2, text, 0, 0, colour);
+}
+
+Text::Text(int font, float size, string text, glm::vec4 colour)
+{
+	_Init(font, size, text, 0, 0, colour);
+	if (!_Assert())
+		throw invalid_argument("Text [WARNING]: constructor recieved an invalid input.");
 }
 
 Text::Text(string text, int xpos, int ypos)
@@ -46,7 +63,7 @@ Text::Text(int font, float size, string text, int xpos, int ypos)
 
 Text::Text(string text, int xpos, int ypos, glm::vec4 colour)
 {
-	_Init(ROBOTO, 12, text, xpos, ypos, colour);
+	_Init(ROBOTO, 2, text, xpos, ypos, colour);
 	if (!_Assert())
 		throw invalid_argument("Text [WARNING]: constructor recieved an invalid input.");
 }
@@ -131,6 +148,8 @@ float Text::GetWidth()
 	return width;
 }
 
+float Text::GetSize() { return _size; }
+
 // Setter methods
 void Text::SetFont(int font)
 {
@@ -146,7 +165,7 @@ void Text::SetSize(float size)
 	if (size > 0)
 		_size = size;
 	else
-		printf("Text [WARNING]: SetSize recieved an invalid font.\n");
+		printf("Text [WARNING]: SetSize recieved an invalid size.\n");
 }
 
 void Text::SetText(string text)
