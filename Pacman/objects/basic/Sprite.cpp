@@ -106,12 +106,12 @@ glm::vec4* Sprite::_CreateVerticesArray()
 {
 	vec4 *vertices = (vec4*)malloc(sizeof(vec4)* 6);
 
-	vertices[0] = vec4(_xpos,			_ypos,			0.0f, 0.0f);
-	vertices[1] = vec4(_xpos + _xsize,	_ypos,			1.0f, 0.0f);
-	vertices[2] = vec4(_xpos,			_ypos + _ysize, 0.0f, 1.0f);
-	vertices[3] = vec4(_xpos,			_ypos + _ysize,	0.0f, 1.0f);
-	vertices[4] = vec4(_xpos + _xsize,	_ypos,			1.0f, 0.0f);
-	vertices[5] = vec4(_xpos + _xsize,	_ypos + _ysize,	1.0f, 1.0f);
+	vertices[0] = vec4(_xpos,			_ypos,			0.0f, 1.0f);
+	vertices[1] = vec4(_xpos + _xsize,	_ypos,			1.0f, 1.0f);
+	vertices[2] = vec4(_xpos,			_ypos + _ysize, 0.0f, 0.0f);
+	vertices[3] = vec4(_xpos,			_ypos + _ysize,	0.0f, 0.0f);
+	vertices[4] = vec4(_xpos + _xsize,	_ypos,			1.0f, 1.0f);
+	vertices[5] = vec4(_xpos + _xsize,	_ypos + _ysize,	1.0f, 0.0f);
 
 	return vertices;
 }
@@ -162,13 +162,19 @@ void Sprite::Draw(int x_translate, int y_translate)
 }
 
 // Testing methods
+
+#define NUM_OF_TESTS 34
+
 void Test::_CreateSpriteTest()
 {
-	sprite_objects = (Sprite*)malloc(sizeof(Sprite)* 3);
+	sprite_objects = (Sprite*)malloc(sizeof(Sprite)* NUM_OF_TESTS);
 
 	sprite_objects[0] = Sprite();
-	sprite_objects[1] = Sprite(IMG_TEST2, 400, 400, 100, 100);
-	sprite_objects[2] = Sprite(IMG_TEST3, 0, 400, 400, 400, LIGHTGREY);
+	sprite_objects[1] = Sprite(IMG_TEST2, 500, 500, 100, 100);
+	sprite_objects[2] = Sprite(IMG_TEST3, 0, 400, 400, 400, CYAN);
+
+	for (int i = 0; i < 31; i++)
+		sprite_objects[i+3] = Sprite(i+3, 400 + 40 * (i % 10), 40 * (i / 10), 40, 40);
 
 	_sprite_test = true;
 }
@@ -178,7 +184,6 @@ void Test::_DisplaySpriteTest()
 	if (!_sprite_test)
 		return;
 
-	sprite_objects[0].Draw(0, 0);
-	sprite_objects[1].Draw(100, 100);
-	sprite_objects[2].Draw(0, 0);
+	for (int i = 0; i < NUM_OF_TESTS; i++)
+		sprite_objects[i].Draw(0, 0);
 }
