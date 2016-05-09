@@ -29,9 +29,8 @@ public:
 	Button();
 	Button(int xsize, int ysize, int xpos, int ypos, std::string text);
 	Button(int xsize, int ysize, int xpos, int ypos, std::string text,
-		glm::vec4 outer_colour, glm::vec4 inner_colour,
-		glm::vec4 outer_colour_hover, glm::vec4 inner_colour_hover,
-		glm::vec4 text_colour, glm::vec4 text_colour_hover);
+		glm::vec4 outer_colour, glm::vec4 inner_colour, glm::vec4 text_colour,
+		glm::vec4 outer_colour_hover, glm::vec4 inner_colour_hover,glm::vec4 text_colour_hover);
 	~Button();
 
 	int GetXSize();

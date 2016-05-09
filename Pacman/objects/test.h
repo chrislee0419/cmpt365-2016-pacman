@@ -36,7 +36,7 @@ private:
 	bool _sprite_test;
 
 	Button *button_objects;
-	bool *button_hover;
+	bool *button_select;
 	void _CreateButtonTest();
 	void _DisplayButtonTest();
 	void _PassiveMotionButtonTest(int x, int y);

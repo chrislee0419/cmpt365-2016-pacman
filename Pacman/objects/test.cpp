@@ -29,7 +29,7 @@ Test::~Test()
 	if (_button_test)
 	{
 		free(button_objects);
-		free(button_hover);
+		free(button_select);
 	}
 }
 

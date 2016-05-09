@@ -76,6 +76,9 @@ void Display()
 
 void Keyboard(unsigned char key, int x, int y)
 {
+	if (enable_test)
+		tester_object->KeyboardTest(key, x, y);
+
 	switch (key)
 	{
 	case 'q':
@@ -86,12 +89,18 @@ void Keyboard(unsigned char key, int x, int y)
 
 void PassiveMotion(int x, int y)
 {
+	y = window_y - y;
 
+	if (enable_test)
+		tester_object->PassiveMotionTest(x, y);
 }
 
 void Mouse(int button, int state, int x, int y)
 {
+	y = window_y - y;
 
+	if (enable_test)
+		tester_object->MouseTest(button, state, x, y);
 }
 
 void Reshape(GLsizei w, GLsizei h)

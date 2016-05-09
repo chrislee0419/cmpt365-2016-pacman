@@ -214,29 +214,71 @@ void Button::_CentreText()
 void Test::_CreateButtonTest()
 {
 	button_objects = (Button*)malloc(sizeof(Button)* NUM_OF_TESTS);
-	button_hover = (bool*)malloc(sizeof(bool)* NUM_OF_TESTS);
+	button_select = (bool*)malloc(sizeof(bool)* NUM_OF_TESTS);
 
 	button_objects[0] = Button();
+	button_objects[1] = Button(100, 30, 400, 10, "Button #2");
+	button_objects[2] = Button(	250, 150, 10, 400, "Third button",
+								DARKGREY, DARKGREY, WHITE,
+								WHITE, WHITE, BLACK);
+
+	button_select[0] = true;
+	button_select[1] = false;
+	button_select[2] = false;
 
 	_button_test = true;
 }
 
 void Test::_DisplayButtonTest()
 {
-
+	for (int i = 0; i < NUM_OF_TESTS; i++)
+		button_objects[i].Draw(button_select[i]);
 }
 
 void Test::_PassiveMotionButtonTest(int x, int y)
 {
+	bool hit = false;
+	bool store[NUM_OF_TESTS] = { false };
+	for (int i = 0; i < NUM_OF_TESTS; i++)
+		hit = hit || (store[i] = button_objects[i].CheckMousePosition(x, y));
 
+	if (hit) for (int i = 0; i < NUM_OF_TESTS; i++)
+		button_select[i] = store[i];
 }
 
 void Test::_MouseButtonTest(int button, int state, int x, int y)
 {
+	if (!_button_test)
+		return;
 
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
+	{
+		for (int i = 0; i < NUM_OF_TESTS; i++)
+		{
+			if (button_objects[i].CheckMousePosition(x, y))
+			{
+				printf("MouseButtonTest: pressed button #%d\n", i);
+				return;
+			}
+		}
+	}
 }
 
 void Test::_KeyboardButtonTest(unsigned char key, int x, int y)
 {
+	if (!_button_test)
+		return;
+
+	if (key == '\n' || key == ' ')
+	{
+		for (int i = 0; i < NUM_OF_TESTS; i++)
+		{
+			if (button_select[i])
+			{
+				printf("KeyboardButtonTest: selected button #%d\n", i);
+				return;
+			}
+		}
+	}
 
 }
