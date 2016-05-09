@@ -84,6 +84,16 @@ void Keyboard(unsigned char key, int x, int y)
 	}
 }
 
+void PassiveMotion(int x, int y)
+{
+
+}
+
+void Mouse(int button, int state, int x, int y)
+{
+
+}
+
 void Reshape(GLsizei w, GLsizei h)
 {
 	window_x = w;
@@ -120,6 +130,8 @@ int main(int argc, char **argv) {
 	// Callback registration
 	glutDisplayFunc(Display);
 	glutKeyboardFunc(Keyboard);
+	glutPassiveMotionFunc(PassiveMotion);
+	glutMouseFunc(Mouse);
 	glutReshapeFunc(Reshape);
 
 	glutMainLoop();

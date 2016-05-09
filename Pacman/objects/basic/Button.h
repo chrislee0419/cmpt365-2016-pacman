@@ -19,6 +19,9 @@ private:
 	Box _box;
 	Text _text;
 
+	void _DefaultColours();
+	void _HoverColours();
+
 	void _AdjustTextSize();
 	void _CentreText();
 
@@ -42,13 +45,14 @@ public:
 	void SetYSize(int y);
 	void SetXPosition(int x);
 	void SetYPosition(int y);
+	void Select(bool select);
 	void SetDefaultColours(glm::vec4 outer_colour, glm::vec4 inner_colour, glm::vec4 text_colour);
 	void SetHoverColours(glm::vec4 outer_colour, glm::vec4 inner_colour, glm::vec4 text_colour);
 	void Translate(int x, int y);
 
 	bool CheckMousePosition(int x, int y);
 
-	void Draw(bool hover);
-	void Draw(int x_translate, int y_translate, bool hover);
+	void Draw(bool selected);
+	void Draw(int x_translate, int y_translate, bool selected);
 
 };

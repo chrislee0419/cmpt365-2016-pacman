@@ -14,6 +14,7 @@ Test::Test()
 	_box_test = false;
 	_text_test = false;
 	_sprite_test = false;
+	_button_test = false;
 }
 
 // Destructor
@@ -25,6 +26,11 @@ Test::~Test()
 		free(text_objects);
 	if (_sprite_test)
 		free(sprite_objects);
+	if (_button_test)
+	{
+		free(button_objects);
+		free(button_hover);
+	}
 }
 
 // Test setup
@@ -33,7 +39,8 @@ void Test::SetupTest()
 {
 	//_CreateBoxTest();
 	//_CreateTextTest();
-	_CreateSpriteTest();
+	//_CreateSpriteTest();
+	_CreateButtonTest();
 }
 
 void Test::DisplayTest()
@@ -41,6 +48,22 @@ void Test::DisplayTest()
 	_DisplayBoxTest();
 	_DisplayTextTest();
 	_DisplaySpriteTest();
+	_DisplayButtonTest();
+}
+
+void Test::PassiveMotionTest(int x, int y)
+{
+	_PassiveMotionButtonTest(x, y);
+}
+
+void Test::MouseTest(int button, int state, int x, int y)
+{
+	_MouseButtonTest(button, state, x, y);
+}
+
+void Test::KeyboardTest(unsigned char key, int x, int y)
+{
+	_KeyboardButtonTest(key, x, y);
 }
 
 void Test::SetProgram(const Shader shader)

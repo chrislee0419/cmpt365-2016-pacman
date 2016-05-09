@@ -2,6 +2,7 @@
 #include "Button.h"
 
 #include "..\_colours.h"
+#include "..\test.h"
 
 #include <iostream>
 
@@ -130,33 +131,39 @@ bool Button::CheckMousePosition(int x, int y)
 	int ypos = GetYPosition();
 	int ysize = GetYSize();
 
-	if ((x < xpos + xsize && x > xpos)
-		&& (y < ypos + ysize && y > ypos))
+	if (x < xpos + xsize && x > xpos &&
+		y < ypos + ysize && y > ypos)
 		return true;
 	else
 		return false;
 }
 
 // Rendering methods
-void Button::Draw(bool hover) { Draw(0, 0, hover); }
-void Button::Draw(int x_translate, int y_translate, bool hover)
+void Button::Draw(bool selected) { Draw(0, 0, selected); }
+void Button::Draw(int x_translate, int y_translate, bool selected)
 {
-	if (hover)
-	{
-		_box.SetColour(_outer_colour_hover, _inner_colour_hover);
-		_text.SetColour(_text_colour_hover);
-	}	
+	if (selected)
+		_HoverColours();
 	else
-	{
-		_box.SetColour(_outer_colour, _inner_colour);
-		_text.SetColour(_text_colour);
-	}
+		_DefaultColours();
 
 	_box.Draw(x_translate, y_translate);
 	_text.Draw(x_translate, y_translate);
 }
 
 // private helper methods
+void Button::_DefaultColours()
+{
+	_box.SetColour(_outer_colour, _inner_colour);
+	_text.SetColour(_text_colour);
+}
+
+void Button::_HoverColours()
+{
+	_box.SetColour(_outer_colour_hover, _inner_colour_hover);
+	_text.SetColour(_text_colour_hover);
+}
+
 void Button::_AdjustTextSize()
 {
 	int w = (int)_text.GetWidth();
@@ -198,4 +205,38 @@ void Button::_CentreText()
 	int ypos = _box.GetYPosition();
 
 	_text.SetPosition(xpos + (xsize/2) - (w/2), ypos + (ysize/2) - (h/2));
+}
+
+// Testing methods
+
+#define NUM_OF_TESTS 3
+
+void Test::_CreateButtonTest()
+{
+	button_objects = (Button*)malloc(sizeof(Button)* NUM_OF_TESTS);
+	button_hover = (bool*)malloc(sizeof(bool)* NUM_OF_TESTS);
+
+	button_objects[0] = Button();
+
+	_button_test = true;
+}
+
+void Test::_DisplayButtonTest()
+{
+
+}
+
+void Test::_PassiveMotionButtonTest(int x, int y)
+{
+
+}
+
+void Test::_MouseButtonTest(int button, int state, int x, int y)
+{
+
+}
+
+void Test::_KeyboardButtonTest(unsigned char key, int x, int y)
+{
+
 }
