@@ -18,8 +18,8 @@ Button::Button()
 	_AdjustTextSize();
 	_CentreText();
 
-	SetDefaultColours(BLUE, BLACK, WHITE);
-	SetHoverColours(BLUE, WHITE, BLACK);
+	SetDefaultColours(BLUE, BLUE, WHITE);
+	SetHoverColours(LIGHTBLUE, BLUE, WHITE);
 }
 
 Button::Button(int xsize, int ysize, int xpos, int ypos, string text)
@@ -231,12 +231,18 @@ void Test::_CreateButtonTest()
 
 void Test::_DisplayButtonTest()
 {
+	if (!_button_test)
+		return;
+
 	for (int i = 0; i < NUM_OF_TESTS; i++)
 		button_objects[i].Draw(button_select[i]);
 }
 
 void Test::_PassiveMotionButtonTest(int x, int y)
 {
+	if (!_button_test)
+		return;
+
 	bool hit = false;
 	bool store[NUM_OF_TESTS] = { false };
 	for (int i = 0; i < NUM_OF_TESTS; i++)

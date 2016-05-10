@@ -124,19 +124,14 @@ glm::vec4* Sprite::_CreateVerticesArray(float rotation_angle)
 		return vertices;
 
 	// perform rotation
-	printf("\tANGLE: %f\n", rotation_angle);
 	for (int i = 0; i < 6; i++)
 	{
-		printf("rot [%d]: (%f, %f), ", i, vertices[i].x, vertices[i].y);
 		vec2 point = vec2(	vertices[i].x - _xpos - ((float)_xsize / 2.0f),
 							vertices[i].y - _ypos - ((float)_ysize / 2.0f));
-		printf("(%f, %f), ", point.x, point.y);
 		point = glm::rotate(point, (float)(3.14159265359f * rotation_angle / 180));
-		printf("(%f, %f), ", point.x, point.y);
 
 		vertices[i].x = point.x + _xpos + ((float)_xsize / 2.0f);
 		vertices[i].y = point.y + _ypos + ((float)_ysize / 2.0f);
-		printf("(%f, %f)\n", vertices[i].x, vertices[i].y);
 	}
 
 	return vertices;

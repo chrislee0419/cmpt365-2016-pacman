@@ -37,9 +37,9 @@ Test::~Test()
 // Comment out the tests that do not need to be run
 void Test::SetupTest()
 {
-	//_CreateBoxTest();
-	//_CreateTextTest();
-	//_CreateSpriteTest();
+	_CreateBoxTest();
+	_CreateTextTest();
+	_CreateSpriteTest();
 	_CreateButtonTest();
 }
 

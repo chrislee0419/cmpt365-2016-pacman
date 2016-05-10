@@ -93,6 +93,8 @@ void PassiveMotion(int x, int y)
 
 	if (enable_test)
 		tester_object->PassiveMotionTest(x, y);
+
+	glutPostRedisplay();
 }
 
 void Mouse(int button, int state, int x, int y)
