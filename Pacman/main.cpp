@@ -58,10 +58,13 @@ void Display()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// Send window length and width to shader programs
+	default_shader.UseShader();
 	glUniform1i(default_shader.GetX(), window_x);
 	glUniform1i(default_shader.GetY(), window_y);
+	text_shader.UseShader();
 	glUniform1i(text_shader.GetX(), window_x);
 	glUniform1i(text_shader.GetY(), window_y);
+	sprite_shader.UseShader();
 	glUniform1i(sprite_shader.GetX(), window_x);
 	glUniform1i(sprite_shader.GetY(), window_y);
 
