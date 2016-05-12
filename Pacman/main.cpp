@@ -79,6 +79,8 @@ void Display()
 
 void Keyboard(unsigned char key, int x, int y)
 {
+	y = window_y - y;
+
 	if (enable_test)
 		tester_object->KeyboardTest(key, x, y);
 
@@ -88,6 +90,18 @@ void Keyboard(unsigned char key, int x, int y)
 		Cleanup();
 		exit(EXIT_SUCCESS);
 	}
+
+	glutPostRedisplay();
+}
+
+void Special(int key, int x, int y)
+{
+	y = window_y - y;
+
+	if (enable_test)
+		tester_object->SpecialTest(key, x, y);
+
+	glutPostRedisplay();
 }
 
 void PassiveMotion(int x, int y)
@@ -106,6 +120,8 @@ void Mouse(int button, int state, int x, int y)
 
 	if (enable_test)
 		tester_object->MouseTest(button, state, x, y);
+
+	glutPostRedisplay();
 }
 
 void Reshape(GLsizei w, GLsizei h)
@@ -144,6 +160,7 @@ int main(int argc, char **argv) {
 	// Callback registration
 	glutDisplayFunc(Display);
 	glutKeyboardFunc(Keyboard);
+	glutSpecialFunc(Special);
 	glutPassiveMotionFunc(PassiveMotion);
 	glutMouseFunc(Mouse);
 	glutReshapeFunc(Reshape);

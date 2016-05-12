@@ -37,9 +37,9 @@ Test::~Test()
 // Comment out the tests that do not need to be run
 void Test::SetupTest()
 {
-	_CreateBoxTest();
-	_CreateTextTest();
-	_CreateSpriteTest();
+	//_CreateBoxTest();
+	//_CreateTextTest();
+	//_CreateSpriteTest();
 	_CreateButtonTest();
 }
 
@@ -64,6 +64,11 @@ void Test::MouseTest(int button, int state, int x, int y)
 void Test::KeyboardTest(unsigned char key, int x, int y)
 {
 	_KeyboardButtonTest(key, x, y);
+}
+
+void Test::SpecialTest(int key, int x, int y)
+{
+	_SpecialButtonTest(key, x, y);
 }
 
 void Test::SetProgram(const Shader shader)

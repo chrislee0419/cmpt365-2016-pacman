@@ -288,3 +288,49 @@ void Test::_KeyboardButtonTest(unsigned char key, int x, int y)
 	}
 
 }
+
+void Test::_SpecialButtonTest(int key, int x, int y)
+{
+	if (!_button_test)
+		return;
+
+	for (int i = 0; i < NUM_OF_TESTS; i++)
+	{
+		if (button_objects[i].CheckMousePosition(x, y))
+			return;
+	}
+	
+	switch (key)
+	{
+	case GLUT_KEY_UP:
+		button_select[0] = false;
+		button_select[1] = false;
+		button_select[2] = true;
+		printf("Pressed \"up\"\n");
+		break;
+
+	case GLUT_KEY_DOWN:
+		if (button_select[2])
+		{
+			button_select[0] = true;
+			button_select[2] = false;
+		}
+		printf("Pressed \"down\"\n");
+		break;
+
+	case GLUT_KEY_LEFT:
+		if (button_select[1])
+		{
+			button_select[0] = true;
+			button_select[1] = false;
+		}
+		printf("Pressed \"left\"\n");
+		break;
+
+	case GLUT_KEY_RIGHT:
+		button_select[0] = false;
+		button_select[1] = true;
+		button_select[2] = false;
+		printf("Pressed \"right\"\n");
+	}
+}

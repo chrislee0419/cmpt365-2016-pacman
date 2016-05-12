@@ -42,6 +42,7 @@ private:
 	void _PassiveMotionButtonTest(int x, int y);
 	void _MouseButtonTest(int button, int state, int x, int y);
 	void _KeyboardButtonTest(unsigned char key, int x, int y);
+	void _SpecialButtonTest(int key, int x, int y);
 	bool _button_test;
 
 public:
@@ -53,6 +54,7 @@ public:
 	void PassiveMotionTest(int x, int y);
 	void MouseTest(int button, int state, int x, int y);
 	void KeyboardTest(unsigned char key, int x, int y);
+	void SpecialTest(int key, int x, int y);
 	static void SetProgram(const Shader shader);
 
 	void BasicTest();
