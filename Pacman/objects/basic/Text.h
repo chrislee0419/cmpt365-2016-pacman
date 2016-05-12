@@ -14,6 +14,7 @@
 
 #define ROBOTO 0
 #define UBUNTU 1
+#define EMULOGIC 2
 
 struct Character
 {
@@ -29,6 +30,7 @@ private:
 	static Shader _shader;
 	static std::map<char, Character> _ubuntu;
 	static std::map<char, Character> _roboto;
+	static std::map<char, Character> _emulogic;
 	static GLuint _vao;
 	static GLuint _vbo;
 	static bool _ready;
@@ -43,6 +45,7 @@ private:
 	bool _Assert();
 	static void _CreateGLObjects();
 	static void _PrepareFT();
+	static void _LoadChar(FT_Face face, GLubyte c, int font);
 
 public:
 	Text();

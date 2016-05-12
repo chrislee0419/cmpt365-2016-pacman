@@ -9,9 +9,11 @@
 #if DEBUG
 #define UBUNTU_PATH "depend/fonts/Ubuntu.ttf"
 #define ROBOTO_PATH "depend/fonts/Roboto.ttf"
+#define EMULOGIC_PATH "depend/fonts/emulogic.ttf"
 #else
 #define UBUNTU_PATH "fonts/Ubuntu.ttf"
 #define ROBOTO_PATH "fonts/Roboto.ttf"
+#define EMULOGIC_PATH "fonts/emulogic.ttf"
 #endif
 
 using namespace std;
@@ -20,6 +22,7 @@ using namespace std;
 Shader Text::_shader = Shader();
 map<char, Character> Text::_roboto;
 map<char, Character> Text::_ubuntu;
+map<char, Character> Text::_emulogic;
 GLuint Text::_vao = 0;
 GLuint Text::_vbo = 0;
 bool Text::_ready = false;
@@ -27,17 +30,17 @@ bool Text::_ready = false;
 // Constructors
 Text::Text()
 {
-	_Init(ROBOTO, 2, "Text", 0, 0, WHITE);
+	_Init(EMULOGIC, 2, "Text", 0, 0, WHITE);
 }
 
 Text::Text(string text)
 {
-	_Init(ROBOTO, 2, text, 0, 0, WHITE);
+	_Init(EMULOGIC, 2, text, 0, 0, WHITE);
 }
 
 Text::Text(string text, glm::vec4 colour)
 {
-	_Init(ROBOTO, 2, text, 0, 0, colour);
+	_Init(EMULOGIC, 2, text, 0, 0, colour);
 }
 
 Text::Text(int font, float size, string text, glm::vec4 colour)
@@ -49,7 +52,7 @@ Text::Text(int font, float size, string text, glm::vec4 colour)
 
 Text::Text(string text, int xpos, int ypos)
 {
-	_Init(ROBOTO, 2, text, xpos, ypos, WHITE);
+	_Init(EMULOGIC, 2, text, xpos, ypos, WHITE);
 	if (!_Assert())
 		throw invalid_argument("Text [WARNING]: constructor recieved an invalid input.");
 }
@@ -63,7 +66,7 @@ Text::Text(int font, float size, string text, int xpos, int ypos)
 
 Text::Text(string text, int xpos, int ypos, glm::vec4 colour)
 {
-	_Init(ROBOTO, 2, text, xpos, ypos, colour);
+	_Init(EMULOGIC, 2, text, xpos, ypos, colour);
 	if (!_Assert())
 		throw invalid_argument("Text [WARNING]: constructor recieved an invalid input.");
 }
@@ -99,6 +102,8 @@ float Text::GetHeight()
 			ch = _roboto[c];
 		else if (_font == UBUNTU)
 			ch = _ubuntu[c];
+		else if (_font == EMULOGIC)
+			ch = _emulogic[c];
 		else
 		{
 			max_height = -1.0;
@@ -131,6 +136,8 @@ float Text::GetWidth()
 			ch = _roboto[c];
 		else if (_font == UBUNTU)
 			ch = _ubuntu[c];
+		else if (_font == EMULOGIC)
+			ch = _emulogic[c];
 		else
 		{
 			width = -1.0;
@@ -153,7 +160,7 @@ float Text::GetSize() { return _size; }
 // Setter methods
 void Text::SetFont(int font)
 {
-	if (font == ROBOTO || font == UBUNTU)
+	if (font == ROBOTO || font == UBUNTU || font == EMULOGIC)
 		_font = font;
 	else
 		printf("Text [WARNING]: SetFont recieved an invalid font.\n");
@@ -230,6 +237,8 @@ void Text::Draw(int x_translate, int y_translate)
 			ch = _roboto[c];
 		else if (_font == UBUNTU)
 			ch = _ubuntu[c];
+		else if (_font == EMULOGIC)
+			ch = _emulogic[c];
 		else
 			return;
 
@@ -275,7 +284,7 @@ void Text::_Init(int font, float size, string text, int xpos, int ypos, glm::vec
 
 bool Text::_Assert()
 {
-	if ( !(_font == ROBOTO || _font == UBUNTU) )
+	if ( !(_font == ROBOTO || _font == UBUNTU || _font == EMULOGIC) )
 	{
 		printf("Text [WARNING]: _Assert found invalid _font (%d).\n", _font);
 		return false;
@@ -309,7 +318,7 @@ void Text::_CreateGLObjects()
 void Text::_PrepareFT()
 {
 	FT_Library ft;
-	FT_Face roboto_face, ubuntu_face;
+	FT_Face roboto_face, ubuntu_face, emulogic_face;
 
 	if (FT_Init_FreeType(&ft))
 		throw runtime_error("Text [ERROR]: could not initialize FT_Library.");
@@ -319,73 +328,72 @@ void Text::_PrepareFT()
 		throw runtime_error("Text [ERROR]: could not load Roboto font.");
 	if (FT_New_Face(ft, UBUNTU_PATH, 0, &ubuntu_face))
 		throw runtime_error("Text [ERROR]: could not load Ubuntu font.");
+	if (FT_New_Face(ft, EMULOGIC_PATH, 0, &emulogic_face))
+		throw runtime_error("Text [ERROR]: could not load Emulogic font.");
 
 	// Creating character map
-	FT_Set_Char_Size(roboto_face, 32, 0, 1024, 0);
-	FT_Set_Char_Size(ubuntu_face, 32, 0, 1024, 0);
-	//FT_Set_Pixel_Sizes(roboto_face, 32, 32);
-	//FT_Set_Pixel_Sizes(ubuntu_face, 32, 32);
+	FT_Set_Char_Size(roboto_face, 32, 0, 1536, 0);
+	FT_Set_Char_Size(ubuntu_face, 32, 0, 1536, 0);
+	FT_Set_Char_Size(emulogic_face, 32, 0, 1536, 0);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	for (GLubyte c = 0; c < 128; c++)
 	{
-		// Loading Roboto font
-		if (FT_Load_Char(roboto_face, c, FT_LOAD_RENDER))
-		{
-			printf("Text [WARNING]: FreeType could not load char \"%c\" for font Roboto, skipping.\n", c);
-			continue;
-		}
-		GLuint roboto_texture;
-		glGenTextures(1, &roboto_texture);
-		glBindTexture(GL_TEXTURE_2D, roboto_texture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
-			roboto_face->glyph->bitmap.width, roboto_face->glyph->bitmap.rows,
-			0, GL_RED, GL_UNSIGNED_BYTE, roboto_face->glyph->bitmap.buffer);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		Character roboto_character = {
-			roboto_texture,
-			glm::ivec2(roboto_face->glyph->bitmap.width, roboto_face->glyph->bitmap.rows),
-			glm::ivec2(roboto_face->glyph->bitmap_left, roboto_face->glyph->bitmap_top),
-			roboto_face->glyph->advance.x
-		};
-		_roboto.insert(pair<GLchar, Character>(c, roboto_character));
-
-		// Loading Ubuntu font
-		if (FT_Load_Char(ubuntu_face, c, FT_LOAD_RENDER))
-		{
-			printf("Text [WARNING]: FreeType could not load char \"%c\" for font Ubuntu, skipping.\n", c);
-			continue;
-		}
-		GLuint ubuntu_texture;
-		glGenTextures(1, &ubuntu_texture);
-		glBindTexture(GL_TEXTURE_2D, ubuntu_texture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
-			ubuntu_face->glyph->bitmap.width, ubuntu_face->glyph->bitmap.rows,
-			0, GL_RED, GL_UNSIGNED_BYTE, ubuntu_face->glyph->bitmap.buffer);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		Character ubuntu_character = {
-			ubuntu_texture,
-			glm::ivec2(ubuntu_face->glyph->bitmap.width, ubuntu_face->glyph->bitmap.rows),
-			glm::ivec2(ubuntu_face->glyph->bitmap_left, ubuntu_face->glyph->bitmap_top),
-			ubuntu_face->glyph->advance.x
-		};
-		_ubuntu.insert(pair<GLchar, Character>(c, ubuntu_character));
+		_LoadChar(roboto_face, c, ROBOTO);
+		_LoadChar(ubuntu_face, c, UBUNTU);
+		_LoadChar(emulogic_face, c, EMULOGIC);
 	}
 
 	FT_Done_Face(roboto_face);
 	FT_Done_Face(ubuntu_face);
+	FT_Done_Face(emulogic_face);
 	FT_Done_FreeType(ft);
 }
 
+void Text::_LoadChar(FT_Face face, GLubyte c, int font)
+{
+	if (!(font == ROBOTO || font == UBUNTU || font == EMULOGIC))
+	{
+		printf("Text [WARNING]: _LoadChar recieved an invalid font (%d)\n", font);
+		return;
+	}
+
+	if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+	{
+		printf("Text [WARNING]: FreeType could not load char \"%c\" for font Ubuntu, skipping.\n", c);
+		return;
+	}
+	GLuint texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+		face->glyph->bitmap.width, face->glyph->bitmap.rows,
+		0, GL_RED, GL_UNSIGNED_BYTE, face->glyph->bitmap.buffer);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	Character character = {
+		texture,
+		glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+		glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+		face->glyph->advance.x
+	};
+
+	if (font == ROBOTO)
+		_roboto.insert(pair<GLchar, Character>(c, character));
+	else if (font == UBUNTU)
+		_ubuntu.insert(pair<GLchar, Character>(c, character));
+	else if (font == EMULOGIC)
+		_emulogic.insert(pair<GLchar, Character>(c, character));
+}
+
 // Testing methods
+
+#define NUM_OF_TESTS 27
+
 void Test::_CreateTextTest()
 {
-	text_objects = (Text*)malloc(sizeof(Text) * 18);
+	text_objects = (Text*)malloc(sizeof(Text) * NUM_OF_TESTS);
 
 	//
 	// testing roboto font
@@ -429,39 +437,77 @@ void Test::_CreateTextTest()
 	// testing ubuntu font
 	text_objects[9] = Text(UBUNTU, 5.0f, "A quick brown fox jumped over the lazy dog. (5.0)", 0, 0, RED);
 	height = text_objects[9].GetHeight();
-	text_objects[9].SetYPosition(400 - (int)height);
+	text_objects[9].SetYPosition(533 - (int)height);
 
 	text_objects[10] = Text(UBUNTU, 3.0f, "A quick brown fox jumped over the lazy dog. (3.0)", 0, 0, GREEN);
 	height += text_objects[10].GetHeight();
-	text_objects[10].SetYPosition(400 - (int)height);
+	text_objects[10].SetYPosition(533 - (int)height);
 
 	text_objects[11] = Text(UBUNTU, 2.0f, "A quick brown fox jumped over the lazy dog. (2.0)", 0, 0, BLUE);
 	height += text_objects[11].GetHeight();
-	text_objects[11].SetYPosition(400 - (int)height);
+	text_objects[11].SetYPosition(533 - (int)height);
 
 	text_objects[12] = Text(UBUNTU, 1.0f, "A quick brown fox jumped over the lazy dog. (1.0)", 0, 0, YELLOW);
 	height += text_objects[12].GetHeight();
-	text_objects[12].SetYPosition(400 - (int)height);
+	text_objects[12].SetYPosition(533 - (int)height);
 
 	text_objects[13] = Text(UBUNTU, 0.9f, "A quick brown fox jumped over the lazy dog. (0.9)", 0, 0, MAGENTA);
 	height += text_objects[13].GetHeight();
-	text_objects[13].SetYPosition(400 - (int)height);
+	text_objects[13].SetYPosition(533 - (int)height);
 
 	text_objects[14] = Text(UBUNTU, 0.8f, "A quick brown fox jumped over the lazy dog. (0.8)", 0, 0, CYAN);
 	height += text_objects[14].GetHeight();
-	text_objects[14].SetYPosition(400 - (int)height);
+	text_objects[14].SetYPosition(533 - (int)height);
 
 	text_objects[15] = Text(UBUNTU, 0.7f, "A quick brown fox jumped over the lazy dog. (0.7)", 0, 0, GOLD);
 	height += text_objects[15].GetHeight();
-	text_objects[15].SetYPosition(400 - (int)height);
+	text_objects[15].SetYPosition(533 - (int)height);
 
 	text_objects[16] = Text(UBUNTU, 0.6f, "A quick brown fox jumped over the lazy dog. (0.6)", 0, 0, PINK);
 	height += text_objects[16].GetHeight();
-	text_objects[16].SetYPosition(400 - (int)height);
+	text_objects[16].SetYPosition(533 - (int)height);
 
 	text_objects[17] = Text(UBUNTU, 0.5f, "A quick brown fox jumped over the lazy dog. (0.5)", 0, 0, LIGHTBLUE);
 	height += text_objects[17].GetHeight();
-	text_objects[17].SetYPosition(400 - (int)height);
+	text_objects[17].SetYPosition(533 - (int)height);
+
+	//
+	// testing emulogic font
+	text_objects[18] = Text(EMULOGIC, 5.0f, "A quick brown fox jumped over the lazy dog. (5.0)", 0, 0, RED);
+	height = text_objects[18].GetHeight();
+	text_objects[18].SetYPosition(266 - (int)height);
+
+	text_objects[19] = Text(EMULOGIC, 3.0f, "A quick brown fox jumped over the lazy dog. (3.0)", 0, 0, GREEN);
+	height += text_objects[19].GetHeight();
+	text_objects[19].SetYPosition(266 - (int)height);
+
+	text_objects[20] = Text(EMULOGIC, 2.0f, "A quick brown fox jumped over the lazy dog. (2.0)", 0, 0, BLUE);
+	height += text_objects[20].GetHeight();
+	text_objects[20].SetYPosition(266 - (int)height);
+
+	text_objects[21] = Text(EMULOGIC, 1.0f, "A quick brown fox jumped over the lazy dog. (1.0)", 0, 0, YELLOW);
+	height += text_objects[21].GetHeight();
+	text_objects[21].SetYPosition(266 - (int)height);
+
+	text_objects[22] = Text(EMULOGIC, 0.9f, "A quick brown fox jumped over the lazy dog. (0.9)", 0, 0, MAGENTA);
+	height += text_objects[22].GetHeight();
+	text_objects[22].SetYPosition(266 - (int)height);
+
+	text_objects[23] = Text(EMULOGIC, 0.8f, "A quick brown fox jumped over the lazy dog. (0.8)", 0, 0, CYAN);
+	height += text_objects[23].GetHeight();
+	text_objects[23].SetYPosition(266 - (int)height);
+
+	text_objects[24] = Text(EMULOGIC, 0.7f, "A quick brown fox jumped over the lazy dog. (0.7)", 0, 0, GOLD);
+	height += text_objects[24].GetHeight();
+	text_objects[24].SetYPosition(266 - (int)height);
+
+	text_objects[25] = Text(EMULOGIC, 0.6f, "A quick brown fox jumped over the lazy dog. (0.6)", 0, 0, PINK);
+	height += text_objects[25].GetHeight();
+	text_objects[25].SetYPosition(266 - (int)height);
+
+	text_objects[26] = Text(EMULOGIC, 0.5f, "A quick brown fox jumped over the lazy dog. (0.5)", 0, 0, LIGHTBLUE);
+	height += text_objects[26].GetHeight();
+	text_objects[26].SetYPosition(266 - (int)height);
 
 	//text_objects[0] = Text(0, 1.0f, "Test 1. (Size = 1.0)", 25, 25, WHITE);
 	//text_objects[1] = Text(0, 2.0f, "Test 2. (Size = 2.0)", 50, 50, YELLOW);
@@ -477,7 +523,7 @@ void Test::_DisplayTextTest()
 	if (!_text_test)
 		return;
 
-	for (int i = 0; i < 18; i++)
+	for (int i = 0; i < NUM_OF_TESTS; i++)
 		text_objects[i].Draw(0, 0);
 
 }

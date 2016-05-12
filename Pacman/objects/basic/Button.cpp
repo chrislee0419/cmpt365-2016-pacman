@@ -174,9 +174,9 @@ void Button::_AdjustTextSize()
 	int ysize = _box.GetYSize() - b;
 
 	// enlarge until out-of-bounds
-	while (w < xsize || h < ysize)
+	while (w < xsize && h < ysize)
 	{
-		_text.SetSize(_text.GetSize() + 0.1f);
+		_text.SetSize(_text.GetSize() + 0.05f);
 
 		w = (int)_text.GetWidth();
 		h = (int)_text.GetHeight();
@@ -185,13 +185,20 @@ void Button::_AdjustTextSize()
 	while (w > xsize || h > ysize)
 	{
 		float size = _text.GetSize();
-		if ((size -= 0.1f) < 0.0f)
+		if ((size -= 0.05f) < 0.0f)
 			return;
 		_text.SetSize(size);
 
 		w = (int)_text.GetWidth();
 		h = (int)_text.GetHeight();
 	}
+
+	// shrink again if possible
+	float size = _text.GetSize();
+	if ((size -= 0.1f) > 0.0f)
+		_text.SetSize(size);
+	else
+		_text.SetSize(0.05f);
 }
 
 void Button::_CentreText()
