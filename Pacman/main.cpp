@@ -9,12 +9,12 @@
 #include "depend\glm\vec4.hpp"
 #include "depend\glm\mat4x4.hpp"
 
-#include "objects\basic\Box.h"
-#include "objects\basic\Text.h"
-#include "objects\basic\Sprite.h"
-#include "objects\game\ImageManager.h"
+#include "objects\Box.h"
+#include "objects\Text.h"
+#include "objects\Sprite.h"
+#include "managers\ImageManager.h"
 
-#include "objects\test.h"
+#include "objects\Test.h"
 #include "objects\_util.h"
 
 using namespace std;

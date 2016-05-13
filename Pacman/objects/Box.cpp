@@ -3,8 +3,8 @@
 #include <stdexcept>
 
 #include "Box.h"
-#include "..\test.h"
-#include "..\_util.h"
+#include "Test.h"
+#include "_util.h"
 
 // Globals
 GLuint Box::vao = 0;

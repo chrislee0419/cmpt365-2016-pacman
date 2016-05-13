@@ -5,13 +5,13 @@
 #include "..\depend\freeglut\freeglut.h"
 #include "..\depend\glm\vec4.hpp"
 
-#include "..\objects\basic\Box.h"
-#include "..\objects\basic\Text.h"
-#include "..\objects\basic\Sprite.h"
-#include "..\objects\basic\Button.h"
+#include "Box.h"
+#include "Text.h"
+#include "Sprite.h"
+#include "Button.h"
 
 #include "..\shaders\Shader.h"
-#include "..\objects\_colours.h"
+#include "_colours.h"
 
 class Test
 {

@@ -1,10 +1,10 @@
 
 #pragma once
-#include "..\..\depend\glew\glew.h"
-#include "..\..\depend\freeglut\freeglut.h"
-#include "..\..\shaders\Shader.h"
-#include "..\..\depend\glm\vec4.hpp"
-#include "..\_colours.h"
+#include "..\depend\glew\glew.h"
+#include "..\depend\freeglut\freeglut.h"
+#include "..\shaders\Shader.h"
+#include "..\depend\glm\vec4.hpp"
+#include "_colours.h"
 
 class Box
 {

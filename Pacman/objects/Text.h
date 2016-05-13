@@ -3,14 +3,14 @@
 
 #include <map>
 
-#include "..\..\depend\glew\glew.h"
-#include "..\..\depend\freeglut\freeglut.h"
-#include "..\..\depend\freetype\ft2build.h"
+#include "..\depend\glew\glew.h"
+#include "..\depend\freeglut\freeglut.h"
+#include "..\depend\freetype\ft2build.h"
 #include FT_FREETYPE_H
 
-#include "..\..\shaders\Shader.h"
-#include "..\..\depend\glm\vec2.hpp"
-#include "..\..\depend\glm\vec4.hpp"
+#include "..\shaders\Shader.h"
+#include "..\depend\glm\vec2.hpp"
+#include "..\depend\glm\vec4.hpp"
 
 #define ROBOTO 0
 #define UBUNTU 1

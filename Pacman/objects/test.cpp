@@ -1,5 +1,5 @@
 
-#include "test.h"
+#include "Test.h"
 
 // Globals
 Shader Test::_shader = Shader();

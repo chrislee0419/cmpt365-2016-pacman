@@ -1,8 +1,8 @@
 
 #include "Button.h"
 
-#include "..\_colours.h"
-#include "..\test.h"
+#include "_colours.h"
+#include "Test.h"
 
 #include <iostream>
 

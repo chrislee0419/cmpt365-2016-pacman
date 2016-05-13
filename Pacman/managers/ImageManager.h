@@ -2,8 +2,8 @@
 #pragma once
 
 #include <iostream>
-#include "..\..\depend\glew\glew.h"
-#include "..\..\depend\freeglut\freeglut.h"
+#include "..\depend\glew\glew.h"
+#include "..\depend\freeglut\freeglut.h"
 
 // texture macros
 #define IMG_TEST1 0

@@ -1,11 +1,11 @@
 #include "Sprite.h"
 
-#include "..\test.h"
-#include "..\_util.h"
-#include "..\_colours.h"
-#include "..\..\depend\glm\vec2.hpp"
-#include "..\..\depend\glm\mat2x2.hpp"
-#include "..\..\depend\glm\gtx\rotate_vector.hpp"
+#include "Test.h"
+#include "_util.h"
+#include "_colours.h"
+#include "..\depend\glm\vec2.hpp"
+#include "..\depend\glm\mat2x2.hpp"
+#include "..\depend\glm\gtx\rotate_vector.hpp"
 
 #include <iostream>
 

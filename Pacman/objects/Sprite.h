@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include "..\game\ImageManager.h"
-#include "..\..\shaders\Shader.h"
-#include "..\..\depend\glm\vec4.hpp"
+#include "..\managers\ImageManager.h"
+#include "..\shaders\Shader.h"
+#include "..\depend\glm\vec4.hpp"
 
 class Sprite
 {

@@ -3,8 +3,8 @@
 #include <stdexcept>
 
 #include "Text.h"
-#include "..\test.h"
-#include "..\_util.h"
+#include "Test.h"
+#include "_util.h"
 
 #if DEBUG
 #define UBUNTU_PATH "depend/fonts/Ubuntu.ttf"
