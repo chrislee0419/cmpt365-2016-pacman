@@ -9,10 +9,7 @@
 #include "depend\glm\vec4.hpp"
 #include "depend\glm\mat4x4.hpp"
 
-#include "objects\Box.h"
-#include "objects\Text.h"
-#include "objects\Sprite.h"
-#include "managers\ImageManager.h"
+#include "managers\GameManager.h"
 
 #include "objects\Test.h"
 #include "objects\_util.h"
@@ -20,11 +17,13 @@
 using namespace std;
 
 // GLOBAL VARIABLES
-bool enable_test = true;
+bool enable_test = false;
 Test *tester_object;
 
 int window_x = 800;
 int window_y = 800;
+
+GameManager *manager;
 
 Shader default_shader, text_shader, sprite_shader;	// stores shader programs
 
@@ -35,11 +34,9 @@ void Initialize()
 	text_shader = Shader(2);
 	sprite_shader = Shader(3);
 
-	// Provide each class with their respective shader program and prepare objects
-	Box::Prepare(default_shader);
-	Text::Prepare(text_shader);
-	Sprite::Prepare(sprite_shader);
-	ImageManager::Prepare();
+	GameManager::Prepare(default_shader, text_shader, sprite_shader);
+
+	manager = new GameManager();
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -50,7 +47,9 @@ void Initialize()
 
 void Cleanup()
 {
-	delete tester_object;
+	if (enable_test)
+		delete tester_object;
+	delete manager;
 }
 
 void Display()
@@ -74,6 +73,8 @@ void Display()
 		//tester_object->BasicTestDisplay();
 	}
 
+	manager->Draw();
+
 	glutSwapBuffers();
 }
 
@@ -83,6 +84,8 @@ void Keyboard(unsigned char key, int x, int y)
 
 	if (enable_test)
 		tester_object->KeyboardTest(key, x, y);
+
+	manager->Keyboard(key);
 
 	switch (key)
 	{
@@ -100,6 +103,8 @@ void Special(int key, int x, int y)
 
 	if (enable_test)
 		tester_object->SpecialTest(key, x, y);
+
+	manager->Special(key);
 
 	glutPostRedisplay();
 }

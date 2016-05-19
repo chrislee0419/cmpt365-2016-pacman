@@ -72,27 +72,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="objects\basic\Box.cpp" />
-    <ClCompile Include="objects\basic\Button.cpp" />
-    <ClCompile Include="objects\basic\Sprite.cpp" />
-    <ClCompile Include="objects\basic\Text.cpp" />
-    <ClCompile Include="objects\game\ImageManager.cpp" />
-    <ClCompile Include="objects\test.cpp" />
+    <ClCompile Include="managers\GameManager.cpp" />
+    <ClCompile Include="managers\ImageManager.cpp" />
+    <ClCompile Include="objects\Box.cpp" />
+    <ClCompile Include="objects\Button.cpp" />
+    <ClCompile Include="objects\Scoreboard.cpp" />
+    <ClCompile Include="objects\Sprite.cpp" />
+    <ClCompile Include="objects\Test.cpp" />
+    <ClCompile Include="objects\Text.cpp" />
     <ClCompile Include="shaders\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="objects\basic\Box.h" />
-    <ClInclude Include="objects\basic\Button.h" />
-    <ClInclude Include="objects\basic\Sprite.h" />
-    <ClInclude Include="objects\basic\Text.h" />
-    <ClInclude Include="objects\game\ImageManager.h" />
-    <ClInclude Include="objects\test.h" />
+    <ClInclude Include="managers\GameManager.h" />
+    <ClInclude Include="managers\ImageManager.h" />
+    <ClInclude Include="objects\Box.h" />
+    <ClInclude Include="objects\Button.h" />
+    <ClInclude Include="objects\Scoreboard.h" />
+    <ClInclude Include="objects\Sprite.h" />
+    <ClInclude Include="objects\Test.h" />
+    <ClInclude Include="objects\Text.h" />
     <ClInclude Include="objects\_colours.h" />
     <ClInclude Include="objects\_util.h" />
     <ClInclude Include="shaders\Shader.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

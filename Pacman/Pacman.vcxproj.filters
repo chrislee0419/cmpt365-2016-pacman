@@ -21,55 +21,64 @@
     <ClCompile Include="shaders\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="objects\basic\Box.cpp">
+    <ClCompile Include="objects\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="objects\basic\Button.cpp">
+    <ClCompile Include="objects\Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="objects\basic\Sprite.cpp">
+    <ClCompile Include="objects\Text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="objects\basic\Text.cpp">
+    <ClCompile Include="objects\Box.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="objects\test.cpp">
+    <ClCompile Include="objects\Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="objects\game\ImageManager.cpp">
+    <ClCompile Include="managers\ImageManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="objects\Scoreboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="managers\GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="objects\_colours.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="shaders\Shader.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="objects\basic\Box.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="objects\Text.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="objects\basic\Button.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="objects\Test.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="objects\basic\Sprite.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="objects\Button.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="objects\basic\Text.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="objects\Box.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\Sprite.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="objects\_util.h">
-      <Filter>Header Files</Filter>
+      <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="objects\test.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="objects\_colours.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="shaders\Shader.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="managers\ImageManager.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="objects\game\ImageManager.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="objects\Scoreboard.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <ClInclude Include="managers\GameManager.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
