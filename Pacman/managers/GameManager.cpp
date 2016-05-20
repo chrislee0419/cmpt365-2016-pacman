@@ -42,6 +42,21 @@ void GameManager::Keyboard(int key)
 		break;
 	case 'g':
 		m_score->ResetScore();
+		break;
+	case 'z':
+		m_score->AddLives(1);
+		break;
+	case 'x':
+		m_score->AddLives(3);
+		break;
+	case 'c':
+		m_score->SetLives(10);
+		break;
+	case 'v':
+		m_score->SetLives(0);
+		break;
+	case 'b':
+		m_score->ResetLives();
 	}
 }
 

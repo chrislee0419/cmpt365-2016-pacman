@@ -40,6 +40,7 @@ public:
 
 	static void Prepare(Shader shader);
 
+	void Draw();
 	void Draw(int x_translate, int y_translate);
 	void Draw(int x_translate, int y_translate, float rotation_angle);
 };

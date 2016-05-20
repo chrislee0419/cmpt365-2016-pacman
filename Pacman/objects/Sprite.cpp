@@ -138,9 +138,12 @@ glm::vec4* Sprite::_CreateVerticesArray(float rotation_angle)
 }
 
 // Rendering methods
-void Sprite::Draw(int x_translate, int y_translate) { Draw(x_translate, y_translate, 0.0); }
+void Sprite::Draw() { Draw(0, 0, 0.0f); }
+void Sprite::Draw(int x_translate, int y_translate) { Draw(x_translate, y_translate, 0.0f); }
 void Sprite::Draw(int x_translate, int y_translate, float rotation_angle)
 {
+	_shader.UseShader();
+
 	if (glIsTexture(_tex) == GL_FALSE)
 	{
 		printf("Sprite [WARNING]: attempted to Draw with an invalid texture (%d)\n", _tex);
@@ -171,7 +174,6 @@ void Sprite::Draw(int x_translate, int y_translate, float rotation_angle)
 	free(vertices);
 
 	// draw
-	_shader.UseShader();
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(_vao);
 	glBindTexture(GL_TEXTURE_2D, _tex);
