@@ -9,7 +9,7 @@ class Scoreboard
 {
 private:
 	int m_scorevalue, m_highscorevalue, m_livesvalue;
-	Text m_scoretext, m_highscoretext, m_score, m_highscore, m_livestext;
+	Text m_scoretext, m_highscoretext, m_score, m_highscore, m_livestext, m_livesnum;
 	Sprite m_lives;
 
 	void m_SetScores();

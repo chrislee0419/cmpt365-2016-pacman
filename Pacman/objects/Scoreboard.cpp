@@ -10,20 +10,21 @@ Scoreboard::Scoreboard()
 	m_highscorevalue = 0;
 	m_livesvalue = 0;
 
-	m_scoretext = Text(EMULOGIC, 0.5f, "Score", 250, 780);
-	m_highscoretext = Text(EMULOGIC, 0.5f, "High Score", 400, 780);
-	m_score = Text(EMULOGIC, 0.5f, "00000000", 250, 765);
-	m_highscore = Text(EMULOGIC, 0.5f, "00000000", 400, 765);
+	m_scoretext = Text(EMULOGIC, 0.8f, "Score", 20, 775);
+	m_highscoretext = Text(EMULOGIC, 0.8f, "High Score", 610, 775);
+	m_score = Text(EMULOGIC, 0.8f, "00000000", 20, 755);
+	m_highscore = Text(EMULOGIC, 0.8f, "00000000", 645, 755);
 
-	m_livestext = Text(EMULOGIC, 0.6f, "", 125, 770);
-	m_lives = Sprite(IMG_PLAYER4, 100, 765, 20, 20);
+	m_livestext = Text(EMULOGIC, 0.8f, "Lives", 200, 775);
+	m_livesnum = Text(EMULOGIC, 0.68f, "", 230, 755);
+	m_lives = Sprite(IMG_PLAYER4, 200, 752, 18, 18);
 
-	/*printf("widths: (%f, %f, %f, %f)\n",
+	printf("widths: (%f, %f, %f, %f)\n",
 		m_scoretext.GetWidth(), m_highscoretext.GetWidth(),
 		m_score.GetWidth(), m_highscore.GetWidth());
 	printf("heights: (%f, %f, %f, %f)\n",
 		m_scoretext.GetHeight(), m_highscoretext.GetHeight(),
-		m_score.GetHeight(), m_highscore.GetHeight());*/
+		m_score.GetHeight(), m_highscore.GetHeight());
 }
 
 // destructor
@@ -83,10 +84,12 @@ void Scoreboard::Draw()
 	m_score.Draw();
 	m_highscore.Draw();
 
+	m_livestext.Draw();
+
 	if (m_livesvalue < 4)
 	{
 		for (int i = 0; i < m_livesvalue; i++)
-			m_lives.Draw(22 * i, 0);
+			m_lives.Draw(19 * i, 0);
 	}
 	else
 	{
@@ -95,9 +98,9 @@ void Scoreboard::Draw()
 		char text[5] = { 0 };
 		sprintf_s(text, sizeof(text), "x %d", m_livesvalue % 100);
 		std::string stringified = std::string(text);
-		m_livestext.SetText(stringified);
+		m_livesnum.SetText(stringified);
 
-		m_livestext.Draw();
+		m_livesnum.Draw();
 	}
 
 }
