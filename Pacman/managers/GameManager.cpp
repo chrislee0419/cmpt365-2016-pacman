@@ -15,12 +15,14 @@
 GameManager::GameManager()
 {
 	m_score = new Scoreboard();
+	m_board = new GameBoard();
 }
 
 // destructor
 GameManager::~GameManager()
 {
 	delete m_score;
+	delete m_board;
 }
 
 // input methods
@@ -76,6 +78,7 @@ void GameManager::Special(int key)
 void GameManager::Draw()
 {
 	m_score->Draw();
+	m_board->Draw();
 }
 
 void GameManager::Prepare(Shader default_shader, Shader text_shader, Shader sprite_shader)

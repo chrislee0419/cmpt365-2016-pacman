@@ -2,6 +2,7 @@
 #pragma once
 
 #include "../objects/Scoreboard.h"
+#include "../objects/GameBoard.h"
 #include"../shaders/Shader.h"
 
 class GameManager
@@ -9,6 +10,7 @@ class GameManager
 private:
 	int m_gamestate;
 	Scoreboard *m_score;
+	GameBoard *m_board;
 
 public:
 	GameManager();

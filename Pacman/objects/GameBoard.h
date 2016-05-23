@@ -8,13 +8,15 @@
 	31 tiles tall
 	= 868 max tiles
 
+	(max of 800 x 740)
+
 	tile size of 20
 	= 560 x 620 pixels
 		120 pixels on left and right sides
 		65 pixels on top and bottom sides
 
 	240 tiles for pellets
-	480 tiles for walls
+	482 tiles for walls + doors
 
 	player size of 40
 */
