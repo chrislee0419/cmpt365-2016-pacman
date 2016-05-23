@@ -74,6 +74,10 @@
 #define IMG_WALL_GHOST_PATH "images/wall_ghost.png"
 #define IMG_WALL_GHOST_L 29
 #define IMG_WALL_GHOST_L_PATH "images/wall_ghost_l.png"
+#define IMG_WALL_GHOST_END1 42
+#define IMG_WALL_GHOST_END1_PATH "images/wall_ghost_end1.png"
+#define IMG_WALL_GHOST_END2 43
+#define IMG_WALL_GHOST_END2_PATH "images/wall_ghost_end2.png"
 #define IMG_DOOR 30
 #define IMG_DOOR_PATH "images/door.png"
 
@@ -83,6 +87,10 @@
 #define IMG_WALL_OUTER_L_PATH "images/wall_outer_l.png"
 #define IMG_WALL_OUTER_INV_L 33
 #define IMG_WALL_OUTER_INV_L_PATH "images/wall_outer_inv_l.png"
+#define IMG_WALL_OUTER_JUNC1 40
+#define IMG_WALL_OUTER_JUNC1_PATH "images/wall_outer_junc1.png"
+#define IMG_WALL_OUTER_JUNC2 41
+#define IMG_WALL_OUTER_JUNC2_PATH "images/wall_outer_junc2.png"
 
 #define IMG_GHOST_EYES_U 34
 #define IMG_GHOST_EYES_U_PATH "images/ghost_eyes_u.png"
@@ -98,7 +106,7 @@
 #define IMG_SPOOKED2 39
 #define IMG_SPOOKED2_PATH "images/spooked2.png"
 
-#define IMG_LAST_ITEM 39
+#define IMG_LAST_ITEM 43
 
 class ImageManager
 {

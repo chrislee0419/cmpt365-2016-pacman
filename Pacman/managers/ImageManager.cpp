@@ -87,11 +87,15 @@ void ImageManager::Prepare()
 
 	_textures[IMG_WALL_GHOST] = _Load(IMG_WALL_GHOST_PATH);
 	_textures[IMG_WALL_GHOST_L] = _Load(IMG_WALL_GHOST_L_PATH);
+	_textures[IMG_WALL_GHOST_END1] = _Load(IMG_WALL_GHOST_END1_PATH);
+	_textures[IMG_WALL_GHOST_END2] = _Load(IMG_WALL_GHOST_END2_PATH);
 	_textures[IMG_DOOR] = _Load(IMG_DOOR_PATH);
 
 	_textures[IMG_WALL_OUTER] = _Load(IMG_WALL_OUTER_PATH);
 	_textures[IMG_WALL_OUTER_L] = _Load(IMG_WALL_OUTER_L_PATH);
 	_textures[IMG_WALL_OUTER_INV_L] = _Load(IMG_WALL_OUTER_INV_L_PATH);
+	_textures[IMG_WALL_OUTER_JUNC1] = _Load(IMG_WALL_OUTER_JUNC1_PATH);
+	_textures[IMG_WALL_OUTER_JUNC2] = _Load(IMG_WALL_OUTER_JUNC2_PATH);
 
 	_textures[IMG_GHOST_EYES_U] = _Load(IMG_GHOST_EYES_U_PATH);
 	_textures[IMG_GHOST_EYES_D] = _Load(IMG_GHOST_EYES_D_PATH);

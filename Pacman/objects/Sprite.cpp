@@ -23,37 +23,49 @@ bool Sprite::_ready = false;
 // Constructor
 Sprite::Sprite()
 {
-	_Init(0, 0, 400, 400, WHITE);
+	_Init(0, 0, 400, 400, 0, WHITE);
 	LoadTexture(IMG_TEST1);
 }
 
 Sprite::Sprite(int texture_id)
 {
-	_Init(400, 400, 200, 200, WHITE);
+	_Init(400, 400, 200, 200, 0, WHITE);
 	LoadTexture(texture_id);
 }
 
 Sprite::Sprite(int xpos, int ypos, int xsize, int ysize)
 {
-	_Init(xpos, ypos, xsize, ysize, WHITE);
+	_Init(xpos, ypos, xsize, ysize, 0, WHITE);
 	LoadTexture(IMG_TEST1);
 }
 
 Sprite::Sprite(int texture_id, int xpos, int ypos, int xsize, int ysize)
 {
-	_Init(xpos, ypos, xsize, ysize, WHITE);
+	_Init(xpos, ypos, xsize, ysize, 0, WHITE);
+	LoadTexture(texture_id);
+}
+
+Sprite::Sprite(int texture_id, int xpos, int ypos, int xsize, int ysize, int rotation)
+{
+	_Init(xpos, ypos, xsize, ysize, rotation, WHITE);
 	LoadTexture(texture_id);
 }
 
 Sprite::Sprite(int texture_id, vec4 colour)
 {
-	_Init(400, 400, 200, 200, colour);
+	_Init(400, 400, 200, 200, 0, colour);
 	LoadTexture(texture_id);
 }
 
 Sprite::Sprite(int texture_id, int xpos, int ypos, int xsize, int ysize, vec4 colour)
 {
-	_Init(xpos, ypos, xsize, ysize, colour);
+	_Init(xpos, ypos, xsize, ysize, 0, colour);
+	LoadTexture(texture_id);
+}
+
+Sprite::Sprite(int texture_id, int xpos, int ypos, int xsize, int ysize, int rotation, vec4 colour)
+{
+	_Init(xpos, ypos, xsize, ysize, rotation, colour);
 	LoadTexture(texture_id);
 }
 
@@ -61,6 +73,11 @@ Sprite::Sprite(int texture_id, int xpos, int ypos, int xsize, int ysize, vec4 co
 Sprite::~Sprite() {}
 
 // public methods
+int Sprite::GetXPosition() { return _xpos; }
+int Sprite::GetYPosition() { return _ypos; }
+int Sprite::GetXSize() { return _xsize; }
+int Sprite::GetYSize() { return _ysize; }
+
 void Sprite::SetXPosition(int xpos) { _xpos = xpos; }
 void Sprite::SetYPosition(int ypos) { _ypos = ypos; }
 void Sprite::SetPosition(int xpos, int ypos) { _xpos = xpos; _ypos = ypos; }
@@ -69,6 +86,7 @@ void Sprite::SetXSize(int xsize) { _xsize = xsize; }
 void Sprite::SetYSize(int ysize) { _ysize = ysize; }
 void Sprite::SetSize(int xsize, int ysize) { _xsize = xsize; _ysize = ysize; }
 
+void Sprite::SetRotation(int rotation) { _rotation = rotation % 360; }
 void Sprite::SetColour(vec4 colour) { _colour = colour; }
 
 void Sprite::LoadTexture(int texture_id)
@@ -85,12 +103,13 @@ void Sprite::Prepare(Shader shader)
 }
 
 // private helper methods
-void Sprite::_Init(int xpos, int ypos, int xsize, int ysize, vec4 colour)
+void Sprite::_Init(int xpos, int ypos, int xsize, int ysize, int rotation, vec4 colour)
 {
 	_xpos = xpos;
 	_ypos = ypos;
 	_xsize = xsize;
 	_ysize = ysize;
+	_rotation = rotation % 360;
 	_colour = colour;
 }
 
@@ -109,7 +128,7 @@ void Sprite::_PrepareGLObjects()
 	printf("Prepared OpenGL objects for Sprite objects: VAO = %d, VBO = %d\n", _vao, _vbo);
 }
 
-glm::vec4* Sprite::_CreateVerticesArray(float rotation_angle)
+glm::vec4* Sprite::_CreateVerticesArray()
 {
 	vec4 *vertices = (vec4*)malloc(sizeof(vec4)* 6);
 
@@ -120,27 +139,26 @@ glm::vec4* Sprite::_CreateVerticesArray(float rotation_angle)
 	vertices[4] = vec4(_xpos + _xsize,	_ypos,			1.0f, 1.0f);
 	vertices[5] = vec4(_xpos + _xsize,	_ypos + _ysize,	1.0f, 0.0f);
 
-	if (rotation_angle == 0.0f)
-		return vertices;
-
-	// perform rotation
-	for (int i = 0; i < 6; i++)
+	if (_rotation != 0)
 	{
-		vec2 point = vec2(	vertices[i].x - _xpos - ((float)_xsize / 2.0f),
-							vertices[i].y - _ypos - ((float)_ysize / 2.0f));
-		point = glm::rotate(point, (float)(3.14159265359f * rotation_angle / 180));
+		// perform rotation
+		for (int i = 0; i < 6; i++)
+		{
+			vec2 point = vec2(vertices[i].x - _xpos - ((float)_xsize / 2.0f),
+				vertices[i].y - _ypos - ((float)_ysize / 2.0f));
+			point = glm::rotate(point, (float)(3.14159265359f * (float)_rotation / 180.f));
 
-		vertices[i].x = point.x + _xpos + ((float)_xsize / 2.0f);
-		vertices[i].y = point.y + _ypos + ((float)_ysize / 2.0f);
+			vertices[i].x = point.x + _xpos + ((float)_xsize / 2.0f);
+			vertices[i].y = point.y + _ypos + ((float)_ysize / 2.0f);
+		}
 	}
 
 	return vertices;
 }
 
 // Rendering methods
-void Sprite::Draw() { Draw(0, 0, 0.0f); }
-void Sprite::Draw(int x_translate, int y_translate) { Draw(x_translate, y_translate, 0.0f); }
-void Sprite::Draw(int x_translate, int y_translate, float rotation_angle)
+void Sprite::Draw() { Draw(0, 0); }
+void Sprite::Draw(int x_translate, int y_translate)
 {
 	_shader.UseShader();
 
@@ -167,7 +185,7 @@ void Sprite::Draw(int x_translate, int y_translate, float rotation_angle)
 		_colour.x, _colour.y, _colour.z, _colour.w);
 
 	// push vertices to buffer
-	vec4 *vertices = _CreateVerticesArray(rotation_angle);
+	vec4 *vertices = _CreateVerticesArray();
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, 6 * sizeof(vec4), vertices);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -209,5 +227,5 @@ void Test::_DisplaySpriteTest()
 		sprite_objects[i].Draw(0, 0);
 
 	for (int i = 3; i < IMG_LAST_ITEM + 1; i++)
-		sprite_objects[i].Draw(0, 0, (float)(((i-3)*90) % 360));
+		sprite_objects[i].Draw(0, 0);
 }

@@ -45,6 +45,9 @@
     <ClCompile Include="managers\GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="objects\GameBoard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shaders\Shader.h">
@@ -78,6 +81,9 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="managers\GameManager.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\GameBoard.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,22 +12,29 @@ private:
 	static GLuint _vao;
 	static GLuint _vbo;
 	static bool _ready;
-	int _xpos, _ypos, _xsize, _ysize;
+	int _xpos, _ypos, _xsize, _ysize, _rotation;
 	glm::vec4 _colour;
 	GLuint _tex;
 
-	void _Init(int xpos, int ypos, int xsize, int ysize, glm::vec4 colour);
+	void _Init(int xpos, int ypos, int xsize, int ysize, int rotation, glm::vec4 colour);
 	static void _PrepareGLObjects();
-	glm::vec4* _CreateVerticesArray(float rotation_angle);
+	glm::vec4* _CreateVerticesArray();
 
 public:
 	Sprite();
 	Sprite(int texture_id);
 	Sprite(int xpos, int ypos, int xsize, int ysize);
 	Sprite(int texture_id, int xpos, int ypos, int xsize, int ysize);
+	Sprite(int texture_id, int xpos, int ypos, int xsize, int ysize, int rotation);
 	Sprite(int texture_id, glm::vec4 colour);
 	Sprite(int texture_id, int xpos, int ypos, int xsize, int ysize, glm::vec4 colour);
+	Sprite(int texture_id, int xpos, int ypos, int xsize, int ysize, int rotation, glm::vec4 colour);
 	~Sprite();
+
+	int GetXPosition();
+	int GetYPosition();
+	int GetXSize();
+	int GetYSize();
 
 	void SetXPosition(int xpos);
 	void SetYPosition(int ypos);
@@ -35,6 +42,7 @@ public:
 	void SetXSize(int xsize);
 	void SetYSize(int ysize);
 	void SetSize(int xsize, int ysize);
+	void SetRotation(int rotation);
 	void SetColour(glm::vec4 colour);
 	void LoadTexture(int texture_id);
 
@@ -42,5 +50,4 @@ public:
 
 	void Draw();
 	void Draw(int x_translate, int y_translate);
-	void Draw(int x_translate, int y_translate, float rotation_angle);
 };

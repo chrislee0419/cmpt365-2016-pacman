@@ -19,12 +19,12 @@ Scoreboard::Scoreboard()
 	m_livesnum = Text(EMULOGIC, 0.68f, "", 230, 755);
 	m_lives = Sprite(IMG_PLAYER4, 200, 752, 18, 18);
 
-	printf("widths: (%f, %f, %f, %f)\n",
+	/*printf("widths: (%f, %f, %f, %f)\n",
 		m_scoretext.GetWidth(), m_highscoretext.GetWidth(),
 		m_score.GetWidth(), m_highscore.GetWidth());
 	printf("heights: (%f, %f, %f, %f)\n",
 		m_scoretext.GetHeight(), m_highscoretext.GetHeight(),
-		m_score.GetHeight(), m_highscore.GetHeight());
+		m_score.GetHeight(), m_highscore.GetHeight());*/
 }
 
 // destructor
