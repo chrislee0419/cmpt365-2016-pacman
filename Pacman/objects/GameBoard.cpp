@@ -4,7 +4,7 @@
 // constructor
 GameBoard::GameBoard()
 {
-	m_wallsprites = (Sprite*)malloc(sizeof(Sprite)* 482);
+	m_wallsprites = (Sprite*)malloc(sizeof(Sprite)* 480);
 	m_CreateWallSprites();
 
 	m_pelletsprites = (Sprite*)malloc(sizeof(Sprite)* 240);
@@ -28,17 +28,17 @@ void GameBoard::m_CreateWallSprites()
 
 	int tilenum = -1;
 
-	// row 1
+	// row 1 (28)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_INV_L, 120, 65, 20, 20, 270);
 	for (int i = 0; i < 26; ++i)
 		m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 140 + (i * 20), 65, 20, 20, 90);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_INV_L, 660, 65, 20, 20);
 
-	// row 2
+	// row 2 (2)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 85, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 85, 20, 20, 180);
 
-	// row 3
+	// row 3 (24)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 105, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 160, 105, 20, 20, 270);
 	for (int i = 0; i < 8; ++i)
@@ -52,7 +52,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 620, 105, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 105, 20, 20, 180);
 
-	// row 4
+	// row 4 (24)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 125, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 160, 125, 20, 20, 180);
 	for (int i = 0; i < 4; ++i)
@@ -74,7 +74,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 620, 125, 20, 20, 90);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 125, 20, 20, 180);
 
-	// row 5
+	// row 5 (8)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 145, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 260, 145, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 280, 145, 20, 20);
@@ -84,7 +84,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 520, 145, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 145, 20, 20, 180);
 
-	// row 6
+	// row 6 (22)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_JUNC1, 120, 165, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 140, 165, 20, 20, 270);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 160, 165, 20, 20);
@@ -108,7 +108,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 640, 165, 20, 20, 270);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_JUNC2, 660, 165, 20, 20, 180);
 
-	// row 7
+	// row 7 (22)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_JUNC2, 120, 185, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 140, 185, 20, 20, 90);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 160, 185, 20, 20, 90);
@@ -128,7 +128,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 640, 185, 20, 20, 90);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_JUNC1, 660, 185, 20, 20, 180);
 
-	// row 8
+	// row 8 (6)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 205, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 200, 205, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 220, 205, 20, 20);
@@ -136,7 +136,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 580, 205, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 205, 20, 20, 180);
 
-	// row 9
+	// row 9 (22)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 225, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 160, 225, 20, 20, 270);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 180, 225, 20, 20, 270);
@@ -158,7 +158,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 620, 225, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 225, 20, 20, 180);
 
-	// row 10
+	// row 10 (22)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 245, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 160, 245, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 180, 245, 20, 20, 90);
@@ -180,13 +180,13 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 620, 245, 20, 20, 90);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 245, 20, 20, 180);
 
-	// row 11
+	// row 11 (4)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 265, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 380, 265, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 400, 265, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 265, 20, 20, 180);
 
-	// row 12
+	// row 12 (24)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_INV_L, 120, 285, 20, 20, 180);
 	for (int i = 0; i < 4; ++i)
 		m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 140 + (i * 20), 285, 20, 20, 270);
@@ -208,7 +208,7 @@ void GameBoard::m_CreateWallSprites()
 		m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 580 + (i * 20), 285, 20, 20, 270);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_INV_L, 660, 285, 20, 20, 90);
 
-	// row 13
+	// row 13 (14)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 220, 305, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 260, 305, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 280, 305, 20, 20);
@@ -220,7 +220,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 520, 305, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 560, 305, 20, 20, 180);
 
-	// row 14
+	// row 14 (6)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 220, 325, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 260, 325, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 280, 325, 20, 20);
@@ -228,7 +228,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 520, 325, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 560, 325, 20, 20, 180);
 
-	// row 15
+	// row 15 (14)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 220, 345, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 260, 345, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 280, 345, 20, 20);
@@ -240,7 +240,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 520, 345, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 560, 345, 20, 20, 180);
 
-	// row 16
+	// row 16 (18)
 	for (int i = 0; i < 5; ++i)
 		m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120 + (i * 20), 365, 20, 20, 90);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_L, 220, 365, 20, 20, 90);
@@ -254,11 +254,11 @@ void GameBoard::m_CreateWallSprites()
 	for (int i = 0; i < 5; ++i)
 		m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 580 + (i * 20), 365, 20, 20, 90);
 
-	// row 17
+	// row 17 (2)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_GHOST, 320, 385, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_GHOST, 460, 385, 20, 20);
 
-	// row 18
+	// row 18 (18)
 	for (int i = 0; i < 5; ++i)
 		m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120 + (i * 20), 405, 20, 20, 270);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_L, 220, 405, 20, 20);
@@ -272,7 +272,7 @@ void GameBoard::m_CreateWallSprites()
 	for (int i = 0; i < 5; ++i)
 		m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 580 + (i * 20), 405, 20, 20, 270);
 
-	// row 19
+	// row 19 (14)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 220, 425, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 260, 425, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 280, 425, 20, 20);
@@ -288,7 +288,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 520, 425, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 560, 425, 20, 20, 180);
 
-	// row 20
+	// row 20 (6)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 220, 445, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 260, 445, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 280, 445, 20, 20);
@@ -296,7 +296,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 520, 445, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 560, 445, 20, 20, 180);
 
-	// row 21
+	// row 21 (14)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 220, 465, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 260, 465, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_INV_L, 280, 465, 20, 20, 180);
@@ -312,7 +312,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 520, 465, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 560, 465, 20, 20, 180);
 
-	// row 22
+	// row 22 (24)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_INV_L, 120, 485, 20, 20, 270);
 	for (int i = 0; i < 4; ++i)
 		m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 140 + (i * 20), 485, 20, 20, 90);
@@ -334,7 +334,7 @@ void GameBoard::m_CreateWallSprites()
 		m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 580 + (i * 20), 485, 20, 20, 90);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_INV_L, 660, 485, 20, 20);
 
-	// row 23
+	// row 23 (8)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 505, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 260, 505, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 280, 505, 20, 20);
@@ -344,7 +344,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 520, 505, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 505, 20, 20, 180);
 
-	// row 24
+	// row 24 (22)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 525, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 160, 525, 20, 20, 270);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 180, 525, 20, 20, 270);
@@ -368,7 +368,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 620, 525, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 525, 20, 20, 180);
 
-	// row 25
+	// row 25 (22)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 545, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 160, 545, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 180, 545, 20, 20, 90);
@@ -388,11 +388,11 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 620, 545, 20, 20, 90);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 545, 20, 20, 180);
 	
-	// row 26
+	// row 26 (2)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 565, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 565, 20, 20, 180);
 
-	// row 27
+	// row 27 (22)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 585, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 160, 585, 20, 20, 270);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 180, 585, 20, 20, 270);
@@ -414,7 +414,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 620, 585, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 585, 20, 20, 180);
 
-	// row 28
+	// row 28 (12)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 605, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 160, 605, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 220, 605, 20, 20);
@@ -428,7 +428,7 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 620, 605, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 605, 20, 20, 180);
 
-	// row 29
+	// row 29 (22)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 625, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 160, 625, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 180, 625, 20, 20, 90);
@@ -450,13 +450,13 @@ void GameBoard::m_CreateWallSprites()
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_L, 620, 625, 20, 20, 90);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 625, 20, 20, 180);
 
-	// row 30
+	// row 30 (4)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 120, 645, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 380, 645, 20, 20, 180);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL, 400, 645, 20, 20);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 660, 645, 20, 20, 180);
 
-	// row 31
+	// row 31 (28)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_INV_L, 120, 665, 20, 20, 180);
 	for (int i = 0; i < 12; ++i)
 		m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 140 + (i * 20), 665, 20, 20, 270);
@@ -466,7 +466,8 @@ void GameBoard::m_CreateWallSprites()
 		m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER, 420 + (i * 20), 665, 20, 20, 270);
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_INV_L, 660, 665, 20, 20, 90);
 
-	printf("tilenum = %d\n", tilenum);
+	// 480 total
+	//printf("tilenum = %d\n", tilenum);
 
 }
 
@@ -478,6 +479,6 @@ void GameBoard::m_CreatePelletSprites()
 // rendering method
 void GameBoard::Draw()
 {
-	for (int i = 0; i < 482; ++i)
+	for (int i = 0; i < 480; ++i)
 		m_wallsprites[i].Draw();
 }

@@ -16,7 +16,7 @@
 		65 pixels on top and bottom sides
 
 	240 tiles for pellets
-	482 tiles for walls + doors
+	480 tiles for walls + doors
 
 	player size of 40
 */
