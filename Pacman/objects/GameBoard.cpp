@@ -4,19 +4,26 @@
 // constructor
 GameBoard::GameBoard()
 {
-	m_wallsprites = (Sprite*)malloc(sizeof(Sprite)* 480);
+	// wall preparation
 	m_CreateWallSprites();
 
-	m_pelletsprites = (Sprite*)malloc(sizeof(Sprite)* 240);
-	m_CreatePelletSprites();
+	// pellet preparation
+	//m_pelletmap = new int*[BOARD_WIDTH];
+	//for (int i = 0; i < BOARD_WIDTH; ++i)
+	//	m_pelletmap[i] = new int[BOARD_HEIGHT];
+	//m_pelletsprites = (Sprite*)malloc(sizeof(Sprite)* NUM_OF_PELLET);
+	//m_CreatePelletSprites();
 
 }
 
 // destructor
 GameBoard::~GameBoard()
 {
-	free(m_wallsprites);
+	delete[] m_wallsprites;
 	free(m_pelletsprites);
+	for (int i = 0; i < BOARD_WIDTH; ++i)
+		delete[] m_pelletmap[i];
+	delete[] m_pelletmap;
 }
 
 // helper methods
@@ -27,6 +34,8 @@ void GameBoard::m_CreateWallSprites()
 	// finish at top right corner (660, 665)
 
 	int tilenum = -1;
+	//m_wallsprites = (Sprite*)malloc(sizeof(Sprite)* NUM_OF_WALLS);
+	m_wallsprites = new Sprite[NUM_OF_WALLS]();
 
 	// row 1 (28)
 	m_wallsprites[++tilenum] = Sprite(IMG_WALL_OUTER_INV_L, 120, 65, 20, 20, 270);
@@ -473,6 +482,50 @@ void GameBoard::m_CreateWallSprites()
 
 void GameBoard::m_CreatePelletSprites()
 {
+	int tilenum = -1;
+
+	// starts at bottom left, goes to top right, row by row
+	// does not include super pellets
+
+	// 1
+	for (int i = 0; i < 26; ++i)
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 140 + (i * 20), 85, 20, 20);
+
+	// 2-3
+	for (int i = 0; i < 2; ++i)
+	{
+		int h = 105 + (i * 20);
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 140, h, 20, 20);
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 360, h, 20, 20);
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 420, h, 20, 20);
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 640, h, 20, 20);
+	}
+
+	// 4
+	for (int i = 0; i < 6; ++i)
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 140 + (i * 20), 145, 20, 20);
+	for (int i = 0; i < 4; ++i)
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 300 + (i * 20), 145, 20, 20);
+	for (int i = 0; i < 4; ++i)
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 420 + (i * 20), 145, 20, 20);
+	for (int i = 0; i < 6; ++i)
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 540 + (i * 20), 145, 20, 20);
+
+	// 5-6
+	for (int i = 0; i < 2; ++i)
+	{
+		int h = 165 + (i * 20);
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 180, h, 20, 20);
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 240, h, 20, 20);
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 300, h, 20, 20);
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 480, h, 20, 20);
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 540, h, 20, 20);
+		m_pelletsprites[++tilenum] = Sprite(IMG_PELLET, 600, h, 20, 20);
+	}
+
+	// 7
+	m_pelletsprites[++tilenum] = Sprite(IMG_SPELLET, 140, 205, 20, 20);
+
 
 }
 

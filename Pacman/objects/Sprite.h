@@ -4,15 +4,16 @@
 #include "..\managers\ImageManager.h"
 #include "..\shaders\Shader.h"
 #include "..\depend\glm\vec4.hpp"
+#include "BaseObject.h"
 
-class Sprite
+class Sprite : public BaseObject
 {
 private:
 	static Shader _shader;
 	static GLuint _vao;
 	static GLuint _vbo;
 	static bool _ready;
-	int _xpos, _ypos, _xsize, _ysize, _rotation;
+	int _xsize, _ysize, _rotation;
 	glm::vec4 _colour;
 	GLuint _tex;
 

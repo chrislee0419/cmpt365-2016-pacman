@@ -11,6 +11,7 @@
 #include "..\shaders\Shader.h"
 #include "..\depend\glm\vec2.hpp"
 #include "..\depend\glm\vec4.hpp"
+#include "BaseObject.h"
 
 #define ROBOTO 0
 #define UBUNTU 1
@@ -24,7 +25,7 @@ struct Character
 	GLuint Advance;
 };
 
-class Text
+class Text : public BaseObject
 {
 private:
 	static Shader _shader;
@@ -36,8 +37,6 @@ private:
 	static bool _ready;
 	char _text[200];
 	glm::vec4 _colour;
-	int _xpos;
-	int _ypos;
 	float _size;
 	int _font;
 

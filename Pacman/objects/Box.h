@@ -5,11 +5,12 @@
 #include "..\shaders\Shader.h"
 #include "..\depend\glm\vec4.hpp"
 #include "_colours.h"
+#include "BaseObject.h"
 
-class Box
+class Box : public BaseObject
 {
 private:
-	int _xsize, _ysize, _xpos, _ypos, _border;
+	int _xsize, _ysize, _border;
 	glm::vec4 _outer_colour, _inner_colour;
 	static GLuint vao;
 	static GLuint position_vbo, colour_vbo;

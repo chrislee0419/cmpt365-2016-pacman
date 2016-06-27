@@ -86,6 +86,7 @@
   <ItemGroup>
     <ClInclude Include="managers\GameManager.h" />
     <ClInclude Include="managers\ImageManager.h" />
+    <ClInclude Include="objects\BaseObject.h" />
     <ClInclude Include="objects\Box.h" />
     <ClInclude Include="objects\Button.h" />
     <ClInclude Include="objects\GameBoard.h" />

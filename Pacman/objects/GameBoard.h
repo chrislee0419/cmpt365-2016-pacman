@@ -21,13 +21,20 @@
 	player size of 40
 */
 
+#define BOARD_WIDTH 28
+#define BOARD_HEIGHT 31
+
+#define NUM_OF_WALLS 480
+#define NUM_OF_PELLET 240
+
 class GameBoard
 {
 private:
-	bool m_walls;
+	bool m_walls[BOARD_WIDTH][BOARD_HEIGHT];
 	Sprite *m_wallsprites;
 
-	bool m_pellets;
+	int **m_pelletmap;
+	bool m_pellets[NUM_OF_PELLET];
 	Sprite *m_pelletsprites;
 
 	void m_CreateWallSprites();
